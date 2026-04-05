@@ -12,6 +12,7 @@ ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 COMPOSE_FILE="${ROOT_DIR}/docker-compose.yml"
 VERSION_FILE="${SCRIPT_DIR}/VERSION"
 PREFIX="ghcr.io/husainf4l"
+PORTAINER_WEBHOOK="https://docker.aqlaan.com/api/stacks/webhooks/9fb9d21d-4500-4139-b262-e39b145236c0"
 
 PUSH=false
 ONLY=""
@@ -133,13 +134,9 @@ if [[ "${PUSH}" == "true" ]]; then
   push_images "${VERSION}"
 
   # Step 5: trigger Portainer webhook
-  if [[ -n "${PORTAINER_WEBHOOK:-}" ]]; then
-    echo "▶ Triggering Portainer webhook …"
-    STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${PORTAINER_WEBHOOK}")
-    echo "   Portainer responded: ${STATUS}"
-  else
-    echo "⚠  PORTAINER_WEBHOOK not set — skipping redeploy trigger."
-  fi
+  echo "▶ Triggering Portainer webhook …"
+  STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${PORTAINER_WEBHOOK}")
+  echo "   Portainer responded: ${STATUS}"
 
   echo "✅ Released v${VERSION}"
 else
