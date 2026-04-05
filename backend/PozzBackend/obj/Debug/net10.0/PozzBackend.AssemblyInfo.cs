@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PozzBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5b5cb93c109dde354f0839e0bcc37f4599bff2a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c778eb9c31caffd13af9ff342c39c3137d23c53")]
 [assembly: System.Reflection.AssemblyProductAttribute("PozzBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PozzBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

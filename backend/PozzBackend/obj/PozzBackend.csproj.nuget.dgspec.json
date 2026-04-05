@@ -1,26 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "/Users/alhussein/repos/pozz/backend/PozzBackend/PozzBackend.csproj": {}
+    "/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/PozzBackend.csproj": {}
   },
   "projects": {
-    "/Users/alhussein/repos/pozz/backend/PozzBackend/PozzBackend.csproj": {
+    "/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/PozzBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/alhussein/repos/pozz/backend/PozzBackend/PozzBackend.csproj",
+        "projectUniqueName": "/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/PozzBackend.csproj",
         "projectName": "PozzBackend",
-        "projectPath": "/Users/alhussein/repos/pozz/backend/PozzBackend/PozzBackend.csproj",
-        "packagesPath": "/Users/alhussein/.nuget/packages/",
-        "outputPath": "/Users/alhussein/repos/pozz/backend/PozzBackend/obj/",
+        "projectPath": "/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/PozzBackend.csproj",
+        "packagesPath": "/Users/shadi/.nuget/packages/",
+        "outputPath": "/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/alhussein/.nuget/NuGet/NuGet.Config"
+          "/Users/shadi/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "/Users/alhussein/.dotnet/library-packs": {},
+          "/opt/homebrew/Cellar/dotnet/10.0.102/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -87,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/alhussein/.dotnet/sdk/10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.102/libexec/sdk/10.0.102/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
