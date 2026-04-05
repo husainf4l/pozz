@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/husainf4l/pozz-backend:0.1.2
+    image: ghcr.io/husainf4l/pozz-backend:0.1.3
     ports:
       - "5000:8080"
     environment:
@@ -8,13 +8,13 @@ services:
     restart: unless-stopped
 
   pozz-app:
-    image: ghcr.io/husainf4l/pozz-app:0.1.2
+    image: ghcr.io/husainf4l/pozz-app:0.1.3
     ports:
       - "4201:80"
     restart: unless-stopped
 
   pozz-public:
-    image: ghcr.io/husainf4l/pozz-public:0.1.2
+    image: ghcr.io/husainf4l/pozz-public:0.1.3
     ports:
       - "3000:3000"
     environment:
