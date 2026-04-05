@@ -11,12 +11,13 @@ import {
   OnboardingSummary,
 } from '../models/auth.models';
 import { TranslateService } from './translate.service';
+import { environment } from '../../../environments/environment';
 
 const ACCESS_TOKEN_KEY = 'pozz_access_token';
 const REFRESH_TOKEN_KEY = 'pozz_refresh_token';
 const USER_KEY = 'pozz_user';
 const ONBOARDING_KEY = 'pozz_onboarding';
-const API_BASE = 'http://localhost:5197/api/auth';
+const API_BASE = `${environment.apiUrl}/auth`;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

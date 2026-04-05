@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { OnboardingService } from '../core/services/onboarding.service';
 import { TranslateService } from '../core/services/translate.service';
-import { TranslatePipe } from '../core/pipes/translate.pipe';
 import { OnboardingStatus } from '../core/models/onboarding.models';
 
 @Component({
@@ -21,6 +20,7 @@ export class OnboardingComponent implements OnInit {
   private readonly onboardingService = inject(OnboardingService);
   readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  readonly translate = inject(TranslateService);
 
   status = signal<OnboardingStatus | null>(null);
   loadingStatus = signal(true);
@@ -92,7 +92,7 @@ export class OnboardingComponent implements OnInit {
         this.status.set(s);
         this.loadingStatus.set(false);
         if (s.isComplete) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate([`/${this.translate.currentLocale()}/dashboard`]);
         }
       },
       error: () => {
@@ -205,7 +205,7 @@ export class OnboardingComponent implements OnInit {
             currentStep: null,
             currentStepLabel: null,
           });
-          this.router.navigate(['/dashboard']);
+          this.router.navigate([`/${this.translate.currentLocale()}/dashboard`]);
         }
       },
       error: (err) => {

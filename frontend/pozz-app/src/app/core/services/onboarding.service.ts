@@ -8,8 +8,9 @@ import {
   CompanySetupRequest,
   CompanyDetailsRequest,
 } from '../models/onboarding.models';
+import { environment } from '../../../environments/environment';
 
-const API_BASE = 'http://localhost:5197/api/onboarding';
+const API_BASE = `${environment.apiUrl}/onboarding`;
 
 @Injectable({ providedIn: 'root' })
 export class OnboardingService {

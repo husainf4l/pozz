@@ -20,23 +20,30 @@
 
     <!-- Brand watermark bottom-left -->
     <div class="absolute bottom-8 left-8">
-      <span class="text-2xl font-extrabold tracking-tight text-white drop-shadow">Pozz</span>
-      <p class="mt-1 text-sm text-white/60">Your platform, your pace.</p>
+      <span class="text-2xl font-extrabold tracking-tight text-white drop-shadow">{{ 'common.appName' | t }}</span>
+      <p class="mt-1 text-sm text-white/60">{{ 'common.tagline' | t }}</p>
     </div>
   </div>
 
   <!-- ── Right panel: form ── -->
-  <div class="flex min-h-dvh items-center justify-center bg-background px-6 py-12">
+  <div class="relative flex min-h-dvh items-center justify-center bg-background px-6 py-12">
+
+    <!-- Top-right controls -->
+    <div class="absolute top-4 inset-e-4 flex items-center gap-2">
+      <app-lang-switcher />
+      <app-theme-toggle />
+    </div>
+
     <div class="w-full max-w-sm animate-[fade-up_200ms_cubic-bezier(0.16,1,0.3,1)_both]">
 
       <!-- Mobile-only brand (hidden on lg where the video shows it) -->
       <div class="mb-8 lg:hidden">
-        <span class="text-2xl font-extrabold tracking-tight text-foreground">Pozz</span>
+        <span class="text-2xl font-extrabold tracking-tight text-foreground">{{ 'common.appName' | t }}</span>
       </div>
 
       <div class="mb-7">
-        <h1 class="text-2xl font-bold tracking-tight text-foreground">Welcome back</h1>
-        <p class="mt-1 text-sm text-muted-foreground">Sign in to your Pozz account</p>
+        <h1 class="text-2xl font-bold tracking-tight text-foreground">{{ 'auth.login.title' | t }}</h1>
+        <p class="mt-1 text-sm text-muted-foreground">{{ 'auth.login.subtitle' | t }}</p>
       </div>
 
       <!-- Error banner -->
@@ -65,37 +72,37 @@
 
         <!-- Email -->
         <div class="space-y-1.5">
-          <label for="email" class="text-sm font-medium text-foreground">Email</label>
+          <label for="email" class="text-sm font-medium text-foreground">{{ 'auth.login.emailLabel' | t }}</label>
           <input
             id="email"
             type="email"
             formControlName="email"
-            placeholder="you@example.com"
+            [placeholder]="'auth.login.emailPlaceholder' | t"
             autocomplete="email"
-            class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-all duration-150 focus:border-ring focus:ring-2 focus:ring-ring/20 disabled:opacity-50"
+            class="input-field"
             [class.border-destructive]="emailCtrl.invalid && emailCtrl.touched"
           />
           @if (emailCtrl.invalid && emailCtrl.touched) {
             <p class="text-xs text-destructive">
-              {{ emailCtrl.hasError('required') ? 'Email is required.' : 'Enter a valid email.' }}
+              {{ emailCtrl.hasError('required') ? ('auth.login.emailRequired' | t) : ('auth.login.emailInvalid' | t) }}
             </p>
           }
         </div>
 
         <!-- Password -->
         <div class="space-y-1.5">
-          <label for="password" class="text-sm font-medium text-foreground">Password</label>
+          <label for="password" class="text-sm font-medium text-foreground">{{ 'auth.login.passwordLabel' | t }}</label>
           <input
             id="password"
             type="password"
             formControlName="password"
-            placeholder="••••••••"
+            [placeholder]="'auth.login.passwordPlaceholder' | t"
             autocomplete="current-password"
-            class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-all duration-150 focus:border-ring focus:ring-2 focus:ring-ring/20 disabled:opacity-50"
+            class="input-field"
             [class.border-destructive]="passwordCtrl.invalid && passwordCtrl.touched"
           />
           @if (passwordCtrl.invalid && passwordCtrl.touched) {
-            <p class="text-xs text-destructive">Password must be at least 8 characters.</p>
+            <p class="text-xs text-destructive">{{ 'auth.login.passwordMinLength' | t }}</p>
           }
         </div>
 
@@ -120,21 +127,21 @@
                   d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4Z"
                 />
               </svg>
-              Signing in…
+              {{ 'auth.login.submitting' | t }}
             </span>
           } @else {
-            Sign in
+            {{ 'auth.login.submit' | t }}
           }
         </button>
 
       </form>
 
       <p class="mt-6 text-center text-sm text-muted-foreground">
-        Don't have an account?
+        {{ 'auth.login.noAccount' | t }}
         <a
-          routerLink="/auth/register"
+          [routerLink]="registerRoute"
           class="font-medium text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 rounded-sm"
-        >Create one</a>
+        >{{ 'auth.login.createOne' | t }}</a>
       </p>
 
     </div>

@@ -2,17 +2,22 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { TranslatePipe } from '../../core/pipes/translate.pipe';
+import { TranslateService } from '../../core/services/translate.service';
+import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle';
+import { LangSwitcherComponent } from '../../shared/lang-switcher/lang-switcher';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, ThemeToggleComponent, LangSwitcherComponent],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  readonly translate = inject(TranslateService);
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -34,9 +39,10 @@ export class LoginComponent {
     const { email, password } = this.form.getRawValue();
 
     this.authService.login({ email: email!, password: password! }).subscribe({
-      next: () => this.loading.set(false), // AuthService.navigateAfterAuth() handles routing
       error: (err) => {
-        this.errorMessage.set(err?.error?.error ?? 'Login failed. Please try again.');
+        this.errorMessage.set(
+          err?.error?.error ?? this.translate.t('auth.login.loginFailed'),
+        );
         this.loading.set(false);
       },
     });
@@ -47,5 +53,9 @@ export class LoginComponent {
   }
   get passwordCtrl() {
     return this.form.controls.password;
+  }
+
+  get registerRoute(): string {
+    return `/${this.translate.currentLocale()}/auth/register`;
   }
 }
