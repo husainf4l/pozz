@@ -132,6 +132,13 @@
       "body4": "These terms are effective immediately upon acceptance and govern your use of the platform going forward.",
       "accept": "I accept the terms & complete setup",
       "completing": "Completing setup…"
+    },
+    "steps": {
+      "personal_info": "Personal information",
+      "investor_profile": "Investor profile",
+      "company_setup": "Company setup",
+      "company_details": "Company details",
+      "terms_accepted": "Terms & Conditions"
     }
   }
 }

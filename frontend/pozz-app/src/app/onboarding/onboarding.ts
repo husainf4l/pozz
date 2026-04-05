@@ -6,12 +6,15 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { OnboardingService } from '../core/services/onboarding.service';
 import { TranslateService } from '../core/services/translate.service';
+import { TranslatePipe } from '../core/pipes/translate.pipe';
+import { LangSwitcherComponent } from '../shared/lang-switcher/lang-switcher';
+import { ThemeToggleComponent } from '../shared/theme-toggle/theme-toggle';
 import { OnboardingStatus } from '../core/models/onboarding.models';
 
 @Component({
   selector: 'app-onboarding',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TranslatePipe, LangSwitcherComponent, ThemeToggleComponent],
   templateUrl: './onboarding.html',
   styleUrl: './onboarding.css',
 })

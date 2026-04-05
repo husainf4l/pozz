@@ -54,6 +54,7 @@ export class RegisterComponent {
         role: this.selectedRole(),
       })
       .subscribe({
+        next: () => this.loading.set(false), // AuthService.navigateAfterAuth() handles routing
         error: (err) => {
           this.errorMessage.set(
             err?.error?.error ?? this.translate.t('auth.register.registrationFailed'),

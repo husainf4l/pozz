@@ -39,6 +39,7 @@ export class LoginComponent {
     const { email, password } = this.form.getRawValue();
 
     this.authService.login({ email: email!, password: password! }).subscribe({
+      next: () => this.loading.set(false), // AuthService.navigateAfterAuth() handles routing
       error: (err) => {
         this.errorMessage.set(
           err?.error?.error ?? this.translate.t('auth.login.loginFailed'),
