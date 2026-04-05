@@ -119,16 +119,6 @@ export function Hero({
         [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"
       />
 
-      {/* Radial Accent */}
-      <div
-        className="absolute left-1/2 top-[calc(100%-90px)] lg:top-[calc(100%-150px)] 
-        h-[500px] w-[700px] md:h-[500px] md:w-[1100px] lg:h-[750px] lg:w-[140%] 
-        -translate-x-1/2 rounded-[100%] border-[#B48CDE] bg-white dark:bg-black 
-        bg-[radial-gradient(closest-side,#fff_82%,#000000)] 
-        dark:bg-[radial-gradient(closest-side,#000_82%,#ffffff)] 
-        animate-fade-up"
-      />
-
       {/* Main Grid Layout */}
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         {/* Left Content */}
@@ -199,13 +189,6 @@ export function Hero({
           />
         </div>
       </div>
-
-      {/* Bottom Fade */}
-      <div
-        className="animate-fade-up relative mt-32 opacity-0 [perspective:2000px] 
-        after:absolute after:inset-0 after:z-50 
-        after:[background:linear-gradient(to_top,hsl(var(--background))_10%,transparent)]"
-      />
     </section>
   )
 }
