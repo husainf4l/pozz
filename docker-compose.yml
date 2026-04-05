@@ -10,7 +10,7 @@ services:
   pozz-app:
     image: ghcr.io/husainf4l/pozz-app:0.1.2
     ports:
-      - "4200:80"
+      - "4201:80"
     restart: unless-stopped
 
   pozz-public:
