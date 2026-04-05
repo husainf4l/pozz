@@ -1,0 +1,51 @@
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service';
+import { TranslatePipe } from '../../core/pipes/translate.pipe';
+
+@Component({
+  selector: 'app-overview',
+  standalone: true,
+  imports: [TranslatePipe],
+  template: `
+    <div class="animate-[fade-up_200ms_cubic-bezier(0.16,1,0.3,1)_both]">
+
+      <!-- Heading -->
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold tracking-tight text-foreground">
+          {{ 'dashboard.welcome' | t: { name: auth.currentUser()?.firstName ?? '' } }}
+        </h1>
+        <p class="mt-1 text-sm text-muted-foreground">{{ 'dashboard.subtitle' | t }}</p>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-8">
+        @for (card of statCards; track card.key) {
+          <div class="rounded-xl border border-border bg-card p-5">
+            <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{{ card.key | t }}</p>
+            <p class="mt-2 text-2xl font-bold text-foreground font-mono tabular-nums">—</p>
+          </div>
+        }
+      </div>
+
+      <!-- Placeholder -->
+      <div class="rounded-xl border border-dashed border-border bg-muted/30 p-12 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mx-auto mb-4 size-10 text-muted-foreground/50">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/>
+        </svg>
+        <p class="text-sm font-medium text-muted-foreground">{{ 'dashboard.comingSoon' | t }}</p>
+        <p class="mt-1 text-xs text-muted-foreground/70">{{ 'dashboard.comingSoonSub' | t }}</p>
+      </div>
+
+    </div>
+  `,
+})
+export class OverviewComponent {
+  readonly auth = inject(AuthService);
+
+  readonly statCards = [
+    { key: 'dashboard.stats.users' },
+    { key: 'dashboard.stats.companies' },
+    { key: 'dashboard.stats.projects' },
+    { key: 'dashboard.stats.investments' },
+  ];
+}

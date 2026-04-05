@@ -1,0 +1,48 @@
+{
+  "common": {
+    "appName": "بوز",
+    "adminPanel": "إدارة",
+    "loading": "جارٍ التحميل…",
+    "saving": "جارٍ الحفظ…",
+    "signOut": "تسجيل الخروج",
+    "required": "مطلوب."
+  },
+  "nav": {
+    "overview": "نظرة عامة",
+    "users": "المستخدمون",
+    "companies": "الشركات",
+    "projects": "المشاريع",
+    "investments": "الاستثمارات",
+    "settings": "الإعدادات"
+  },
+  "auth": {
+    "login": {
+      "title": "بوابة الإدارة",
+      "subtitle": "سجّل دخولك بحساب مدير بوز",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "admin@pozz.io",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "submit": "تسجيل الدخول",
+      "submitting": "جارٍ تسجيل الدخول…",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "emailInvalid": "أدخل بريداً إلكترونياً صحيحاً.",
+      "passwordMinLength": "كلمة المرور يجب أن تكون 8 أحرف على الأقل.",
+      "loginFailed": "فشل تسجيل الدخول. حاول مرة أخرى.",
+      "accessDenied": "الوصول مرفوض. صلاحيات المدير مطلوبة.",
+      "adminOnly": "هذه البوابة مخصصة لمدراء المنصة فقط."
+    }
+  },
+  "dashboard": {
+    "welcome": "أهلاً، {{name}} 👋",
+    "subtitle": "إليك نظرة عامة على منصة بوز.",
+    "stats": {
+      "users": "إجمالي المستخدمين",
+      "companies": "الشركات",
+      "projects": "المشاريع",
+      "investments": "الاستثمارات"
+    },
+    "comingSoon": "المحتوى قادم قريباً.",
+    "comingSoonSub": "هذا القسم قيد التطوير النشط."
+  }
+}

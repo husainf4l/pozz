@@ -1,0 +1,48 @@
+{
+  "common": {
+    "appName": "Pozz",
+    "adminPanel": "Admin",
+    "loading": "Loading…",
+    "saving": "Saving…",
+    "signOut": "Sign out",
+    "required": "Required."
+  },
+  "nav": {
+    "overview": "Overview",
+    "users": "Users",
+    "companies": "Companies",
+    "projects": "Projects",
+    "investments": "Investments",
+    "settings": "Settings"
+  },
+  "auth": {
+    "login": {
+      "title": "Admin Portal",
+      "subtitle": "Sign in with your Pozz admin account",
+      "emailLabel": "Email",
+      "emailPlaceholder": "admin@pozz.io",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Enter a valid email.",
+      "passwordMinLength": "Password must be at least 8 characters.",
+      "loginFailed": "Login failed. Please try again.",
+      "accessDenied": "Access denied. Admin privileges required.",
+      "adminOnly": "This portal is restricted to platform administrators."
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome, {{name}} 👋",
+    "subtitle": "Here's an overview of the Pozz platform.",
+    "stats": {
+      "users": "Total Users",
+      "companies": "Companies",
+      "projects": "Projects",
+      "investments": "Investments"
+    },
+    "comingSoon": "Content coming soon.",
+    "comingSoonSub": "This section is under active development."
+  }
+}
