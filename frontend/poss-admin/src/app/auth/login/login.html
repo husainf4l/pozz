@@ -1,0 +1,94 @@
+<div class="min-h-dvh flex items-center justify-center bg-background px-6 py-12">
+
+  <!-- Top-right controls -->
+  <div class="absolute top-4 right-4 flex items-center gap-2">
+    <app-lang-switcher />
+    <app-theme-toggle />
+  </div>
+
+  <div class="w-full max-w-sm animate-[fade-up_200ms_cubic-bezier(0.16,1,0.3,1)_both]">
+
+    <!-- Brand -->
+    <div class="mb-8 text-center">
+      <div class="mx-auto mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-primary">
+          <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground">{{ 'auth.login.title' | t }}</h1>
+      <p class="mt-1 text-sm text-muted-foreground">{{ 'auth.login.subtitle' | t }}</p>
+    </div>
+
+    <!-- Error banner -->
+    @if (errorMessage()) {
+      <div role="alert" class="mb-5 flex items-start gap-2 rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mt-0.5 size-4 shrink-0">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+        </svg>
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="space-y-4">
+
+      <!-- Email -->
+      <div class="space-y-1.5">
+        <label for="email" class="text-sm font-medium text-foreground">{{ 'auth.login.emailLabel' | t }}</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          [placeholder]="'auth.login.emailPlaceholder' | t"
+          autocomplete="email"
+          class="input-field"
+          [class.border-destructive]="emailCtrl.invalid && emailCtrl.touched"
+        />
+        @if (emailCtrl.invalid && emailCtrl.touched) {
+          <p class="text-xs text-destructive">
+            {{ emailCtrl.hasError('required') ? ('auth.login.emailRequired' | t) : ('auth.login.emailInvalid' | t) }}
+          </p>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="space-y-1.5">
+        <label for="password" class="text-sm font-medium text-foreground">{{ 'auth.login.passwordLabel' | t }}</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          [placeholder]="'auth.login.passwordPlaceholder' | t"
+          autocomplete="current-password"
+          class="input-field"
+          [class.border-destructive]="passwordCtrl.invalid && passwordCtrl.touched"
+        />
+        @if (passwordCtrl.invalid && passwordCtrl.touched) {
+          <p class="text-xs text-destructive">{{ 'auth.login.passwordMinLength' | t }}</p>
+        }
+      </div>
+
+      <!-- Submit -->
+      <button
+        type="submit"
+        [disabled]="loading()"
+        class="mt-2 w-full rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-150 hover:bg-primary/90 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
+      >
+        @if (loading()) {
+          <span class="inline-flex items-center gap-2">
+            <svg class="size-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4Z" />
+            </svg>
+            {{ 'auth.login.submitting' | t }}
+          </span>
+        } @else {
+          {{ 'auth.login.submit' | t }}
+        }
+      </button>
+
+    </form>
+
+    <p class="mt-8 text-center text-xs text-muted-foreground">{{ 'auth.login.adminOnly' | t }}</p>
+
+  </div>
+</div>
