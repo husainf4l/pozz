@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -13,7 +13,6 @@ import { AuthService } from '../../core/services/auth.service';
 export class RegisterComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
 
   form = this.fb.group({
     firstName: ['', [Validators.required]],
@@ -22,8 +21,13 @@ export class RegisterComponent {
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
 
+  selectedRole = signal<'Investor' | 'ProjectOwner'>('Investor');
   loading = signal(false);
   errorMessage = signal<string | null>(null);
+
+  setRole(role: 'Investor' | 'ProjectOwner'): void {
+    this.selectedRole.set(role);
+  }
 
   onSubmit(): void {
     if (this.form.invalid) {
@@ -42,9 +46,10 @@ export class RegisterComponent {
         lastName: lastName!,
         email: email!,
         password: password!,
+        role: this.selectedRole(),
       })
       .subscribe({
-        next: () => this.router.navigate(['/']),
+        // Navigation is handled by AuthService.navigateAfterAuth()
         error: (err) => {
           this.errorMessage.set(err?.error?.error ?? 'Registration failed. Please try again.');
           this.loading.set(false);

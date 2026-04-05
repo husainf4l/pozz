@@ -1,14 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { AuthResponse, LoginRequest, RegisterRequest, UserInfo } from '../models/auth.models';
+import { tap } from 'rxjs/operators';
+import {
+  AuthResponse,
+  LoginRequest,
+  RegisterRequest,
+  UserInfo,
+  OnboardingSummary,
+} from '../models/auth.models';
 
 const ACCESS_TOKEN_KEY = 'pozz_access_token';
 const REFRESH_TOKEN_KEY = 'pozz_refresh_token';
 const USER_KEY = 'pozz_user';
-const API_BASE = 'http://localhost:5000/api/auth';
+const ONBOARDING_KEY = 'pozz_onboarding';
+const API_BASE = 'http://localhost:5197/api/auth';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,54 +23,88 @@ export class AuthService {
   private readonly router = inject(Router);
 
   private readonly _currentUser = signal<UserInfo | null>(this.loadUser());
+  private readonly _onboarding = signal<OnboardingSummary | null>(this.loadOnboarding());
+
   readonly currentUser = this._currentUser.asReadonly();
+  readonly onboarding = this._onboarding.asReadonly();
   readonly isLoggedIn = computed(() => this._currentUser() !== null);
 
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${API_BASE}/login`, request).pipe(
-      tap((res) => this.persistSession(res)),
+      tap((res) => {
+        this.persistSession(res);
+        this.navigateAfterAuth(res.onboarding);
+      }),
     );
   }
 
   register(request: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${API_BASE}/register`, request).pipe(
-      tap((res) => this.persistSession(res)),
+      tap((res) => {
+        this.persistSession(res);
+        this.navigateAfterAuth(res.onboarding);
+      }),
     );
   }
 
   logout(): void {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
     if (refreshToken) {
-      this.http
-        .post(`${API_BASE}/logout`, { refreshToken })
-        .subscribe({ error: () => {} });
+      this.http.post(`${API_BASE}/logout`, { refreshToken }).subscribe({ error: () => {} });
     }
     this.clearSession();
     this.router.navigate(['/auth/login']);
+  }
+
+  /** Called after completing an onboarding step so guards/redirects stay in sync. */
+  updateOnboarding(summary: OnboardingSummary): void {
+    localStorage.setItem(ONBOARDING_KEY, JSON.stringify(summary));
+    this._onboarding.set(summary);
   }
 
   getAccessToken(): string | null {
     return localStorage.getItem(ACCESS_TOKEN_KEY);
   }
 
+  private navigateAfterAuth(onboarding: OnboardingSummary): void {
+    if (onboarding.role === 'Unknown' || onboarding.isComplete) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/onboarding']);
+    }
+  }
+
   private persistSession(res: AuthResponse): void {
     localStorage.setItem(ACCESS_TOKEN_KEY, res.accessToken);
     localStorage.setItem(REFRESH_TOKEN_KEY, res.refreshToken);
     localStorage.setItem(USER_KEY, JSON.stringify(res.user));
+    localStorage.setItem(ONBOARDING_KEY, JSON.stringify(res.onboarding));
     this._currentUser.set(res.user);
+    this._onboarding.set(res.onboarding);
   }
 
   private clearSession(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    localStorage.removeItem(ONBOARDING_KEY);
     this._currentUser.set(null);
+    this._onboarding.set(null);
   }
 
   private loadUser(): UserInfo | null {
     try {
       const raw = localStorage.getItem(USER_KEY);
       return raw ? (JSON.parse(raw) as UserInfo) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private loadOnboarding(): OnboardingSummary | null {
+    try {
+      const raw = localStorage.getItem(ONBOARDING_KEY);
+      return raw ? (JSON.parse(raw) as OnboardingSummary) : null;
     } catch {
       return null;
     }

@@ -1,0 +1,14 @@
+/* Onboarding wizard — scoped styles */
+
+.input-field {
+  @apply w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground
+    placeholder:text-muted-foreground/60 outline-none transition-all duration-150
+    focus:border-ring focus:ring-2 focus:ring-ring/20 disabled:opacity-50;
+}
+
+.btn-primary {
+  @apply rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground
+    transition-all duration-150 hover:bg-primary/90 active:scale-[0.98]
+    focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+    disabled:opacity-50 disabled:pointer-events-none;
+}
