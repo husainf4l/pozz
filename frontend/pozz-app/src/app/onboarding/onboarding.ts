@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 
 import { AuthService } from '../core/services/auth.service';
 import { OnboardingService } from '../core/services/onboarding.service';
+import { TranslateService } from '../core/services/translate.service';
+import { TranslatePipe } from '../core/pipes/translate.pipe';
 import { OnboardingStatus } from '../core/models/onboarding.models';
 
 @Component({

@@ -49,7 +49,7 @@ export class RegisterComponent {
         role: this.selectedRole(),
       })
       .subscribe({
-        // Navigation is handled by AuthService.navigateAfterAuth()
+        next: () => this.loading.set(false), // AuthService.navigateAfterAuth() handles routing
         error: (err) => {
           this.errorMessage.set(err?.error?.error ?? 'Registration failed. Please try again.');
           this.loading.set(false);

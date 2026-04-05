@@ -1,0 +1,137 @@
+{
+  "common": {
+    "appName": "Pozz",
+    "tagline": "Your platform, your pace.",
+    "loading": "Loading…",
+    "saving": "Saving…",
+    "continue": "Continue",
+    "retry": "Retry",
+    "signOut": "Sign out",
+    "required": "Required.",
+    "loggedInAs": "Logged in as"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "messages": "Messages",
+    "settings": "Settings"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your Pozz account",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "noAccount": "Don't have an account?",
+      "createOne": "Create one",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Enter a valid email.",
+      "passwordMinLength": "Password must be at least 8 characters.",
+      "loginFailed": "Login failed. Please try again."
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Join Pozz today",
+      "firstNameLabel": "First name",
+      "firstNamePlaceholder": "Alice",
+      "lastNameLabel": "Last name",
+      "lastNamePlaceholder": "Smith",
+      "roleLabel": "I am a…",
+      "roleInvestor": "Investor",
+      "roleProjectOwner": "Project Owner",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Min. 8 characters",
+      "submit": "Create account",
+      "submitting": "Creating account…",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "firstNameRequired": "Required.",
+      "lastNameRequired": "Required.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Enter a valid email.",
+      "passwordMinLength": "Password must be at least 8 characters.",
+      "registrationFailed": "Registration failed. Please try again."
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {{name}}! 👋",
+    "welcomeSubtitle": "Your Pozz workspace is ready. Here's what's happening today.",
+    "stats": {
+      "projects": "Projects",
+      "connections": "Connections",
+      "messages": "Messages"
+    },
+    "comingSoon": "Dashboard content coming soon.",
+    "comingSoonSub": "Check back once the platform features are live."
+  },
+  "onboarding": {
+    "setupChecklist": "Setup checklist",
+    "loadingProfile": "Loading your profile…",
+    "personalInfo": {
+      "title": "Personal information",
+      "subtitle": "Help us get to know you a little better.",
+      "firstNameLabel": "First name",
+      "lastNameLabel": "Last name",
+      "phoneLabel": "Phone number",
+      "phonePlaceholder": "+1 555 000 0000",
+      "dobLabel": "Date of birth",
+      "nationalityLabel": "Nationality",
+      "nationalityPlaceholder": "e.g. American",
+      "countryLabel": "Country of residence",
+      "countryPlaceholder": "e.g. United States",
+      "required": "*"
+    },
+    "investorProfile": {
+      "title": "Investor profile",
+      "subtitle": "Tell us about your investment preferences.",
+      "investorTypeLabel": "Investor type",
+      "individual": "Individual",
+      "institutional": "Institutional",
+      "budgetLabel": "Investment budget range",
+      "budgetPlaceholder": "Select a range…",
+      "interestsLabel": "Investment interests",
+      "linkedInLabel": "LinkedIn profile",
+      "linkedInPlaceholder": "https://linkedin.com/in/yourname"
+    },
+    "companySetup": {
+      "title": "Company setup",
+      "subtitle": "Tell us about the company behind your project.",
+      "nameLabel": "Company name",
+      "namePlaceholder": "Acme Inc.",
+      "nameRequired": "Company name is required.",
+      "industryLabel": "Industry",
+      "industryPlaceholder": "Select an industry…",
+      "registrationLabel": "Registration number",
+      "registrationPlaceholder": "Optional",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Brief description of your company…"
+    },
+    "companyDetails": {
+      "title": "Company details",
+      "subtitle": "Add your company's contact information.",
+      "websiteLabel": "Website",
+      "websitePlaceholder": "https://example.com",
+      "emailLabel": "Company email",
+      "emailPlaceholder": "hello@example.com",
+      "phoneLabel": "Company phone",
+      "phonePlaceholder": "+1 555 000 0000"
+    },
+    "terms": {
+      "title": "Terms & Conditions",
+      "subtitle": "Please read and accept the terms to complete your setup.",
+      "heading": "Pozz Platform Terms of Service",
+      "body1": "By using the Pozz platform you agree to provide accurate and up-to-date information, use the service in compliance with all applicable laws and regulations, and respect the rights and privacy of other users.",
+      "body2": "Pozz reserves the right to suspend or terminate accounts that violate these terms. Investment-related content on the platform is for informational purposes only and does not constitute financial advice.",
+      "body3": "Your data will be handled in accordance with our Privacy Policy. By accepting, you consent to the processing of your personal data as described therein.",
+      "body4": "These terms are effective immediately upon acceptance and govern your use of the platform going forward.",
+      "accept": "I accept the terms & complete setup",
+      "completing": "Completing setup…"
+    }
+  }
+}

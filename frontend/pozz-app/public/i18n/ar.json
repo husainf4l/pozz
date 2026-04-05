@@ -1,0 +1,137 @@
+{
+  "common": {
+    "appName": "بوز",
+    "tagline": "منصتك، بوتيرتك.",
+    "loading": "جار التحميل…",
+    "saving": "جار الحفظ…",
+    "continue": "متابعة",
+    "retry": "إعادة المحاولة",
+    "signOut": "تسجيل الخروج",
+    "required": "مطلوب.",
+    "loggedInAs": "مسجّل الدخول كـ"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "projects": "المشاريع",
+    "messages": "الرسائل",
+    "settings": "الإعدادات"
+  },
+  "auth": {
+    "login": {
+      "title": "أهلاً بعودتك",
+      "subtitle": "سجّل دخولك إلى حساب بوز",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "submit": "تسجيل الدخول",
+      "submitting": "جار تسجيل الدخول…",
+      "noAccount": "ليس لديك حساب؟",
+      "createOne": "أنشئ حساباً",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "emailInvalid": "أدخل بريداً إلكترونياً صحيحاً.",
+      "passwordMinLength": "يجب أن تتكوّن كلمة المرور من 8 أحرف على الأقل.",
+      "loginFailed": "فشل تسجيل الدخول. حاول مجدداً."
+    },
+    "register": {
+      "title": "إنشاء حسابك",
+      "subtitle": "انضم إلى بوز اليوم",
+      "firstNameLabel": "الاسم الأول",
+      "firstNamePlaceholder": "أحمد",
+      "lastNameLabel": "اسم العائلة",
+      "lastNamePlaceholder": "العلي",
+      "roleLabel": "أنا…",
+      "roleInvestor": "مستثمر",
+      "roleProjectOwner": "صاحب مشروع",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "8 أحرف على الأقل",
+      "submit": "إنشاء الحساب",
+      "submitting": "جار إنشاء الحساب…",
+      "haveAccount": "لديك حساب بالفعل؟",
+      "signIn": "تسجيل الدخول",
+      "firstNameRequired": "مطلوب.",
+      "lastNameRequired": "مطلوب.",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "emailInvalid": "أدخل بريداً إلكترونياً صحيحاً.",
+      "passwordMinLength": "يجب أن تتكوّن كلمة المرور من 8 أحرف على الأقل.",
+      "registrationFailed": "فشل إنشاء الحساب. حاول مجدداً."
+    }
+  },
+  "dashboard": {
+    "welcome": "أهلاً بعودتك، {{name}}! 👋",
+    "welcomeSubtitle": "مساحة عملك في بوز جاهزة. إليك ما يحدث اليوم.",
+    "stats": {
+      "projects": "المشاريع",
+      "connections": "التواصلات",
+      "messages": "الرسائل"
+    },
+    "comingSoon": "محتوى لوحة التحكم قادم قريباً.",
+    "comingSoonSub": "تابع حين تصبح ميزات المنصة متاحة."
+  },
+  "onboarding": {
+    "setupChecklist": "قائمة الإعداد",
+    "loadingProfile": "جار تحميل ملفك الشخصي…",
+    "personalInfo": {
+      "title": "المعلومات الشخصية",
+      "subtitle": "ساعدنا على التعرف عليك أكثر.",
+      "firstNameLabel": "الاسم الأول",
+      "lastNameLabel": "اسم العائلة",
+      "phoneLabel": "رقم الهاتف",
+      "phonePlaceholder": "+966 5X XXX XXXX",
+      "dobLabel": "تاريخ الميلاد",
+      "nationalityLabel": "الجنسية",
+      "nationalityPlaceholder": "مثال: سعودي",
+      "countryLabel": "بلد الإقامة",
+      "countryPlaceholder": "مثال: المملكة العربية السعودية",
+      "required": "*"
+    },
+    "investorProfile": {
+      "title": "ملف المستثمر",
+      "subtitle": "أخبرنا عن تفضيلاتك الاستثمارية.",
+      "investorTypeLabel": "نوع المستثمر",
+      "individual": "فردي",
+      "institutional": "مؤسسي",
+      "budgetLabel": "نطاق الميزانية الاستثمارية",
+      "budgetPlaceholder": "اختر نطاقاً…",
+      "interestsLabel": "الاهتمامات الاستثمارية",
+      "linkedInLabel": "ملف LinkedIn",
+      "linkedInPlaceholder": "https://linkedin.com/in/yourname"
+    },
+    "companySetup": {
+      "title": "إعداد الشركة",
+      "subtitle": "أخبرنا عن الشركة وراء مشروعك.",
+      "nameLabel": "اسم الشركة",
+      "namePlaceholder": "شركة المثال",
+      "nameRequired": "اسم الشركة مطلوب.",
+      "industryLabel": "القطاع",
+      "industryPlaceholder": "اختر قطاعاً…",
+      "registrationLabel": "رقم التسجيل",
+      "registrationPlaceholder": "اختياري",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "وصف موجز لشركتك…"
+    },
+    "companyDetails": {
+      "title": "تفاصيل الشركة",
+      "subtitle": "أضف معلومات التواصل الخاصة بشركتك.",
+      "websiteLabel": "الموقع الإلكتروني",
+      "websitePlaceholder": "https://example.com",
+      "emailLabel": "بريد الشركة",
+      "emailPlaceholder": "hello@example.com",
+      "phoneLabel": "هاتف الشركة",
+      "phonePlaceholder": "+966 5X XXX XXXX"
+    },
+    "terms": {
+      "title": "الشروط والأحكام",
+      "subtitle": "يرجى قراءة الشروط والموافقة عليها لإتمام إعدادك.",
+      "heading": "شروط خدمة منصة بوز",
+      "body1": "باستخدامك منصة بوز، فأنت توافق على تقديم معلومات دقيقة ومحدّثة، واستخدام الخدمة وفق جميع القوانين والأنظمة المعمول بها، واحترام حقوق وخصوصية المستخدمين الآخرين.",
+      "body2": "تحتفظ بوز بالحق في تعليق الحسابات أو إنهائها في حال انتهاك هذه الشروط. المحتوى المتعلق بالاستثمار على المنصة هو لأغراض إعلامية فقط ولا يُعدّ نصيحة مالية.",
+      "body3": "ستُعالَج بياناتك وفقاً لسياسة الخصوصية لدينا. بالموافقة، تمنح موافقتك على معالجة بياناتك الشخصية كما هو موضّح فيها.",
+      "body4": "تسري هذه الشروط فور الموافقة عليها وتحكم استخدامك للمنصة من تلك اللحظة فصاعداً.",
+      "accept": "أوافق على الشروط وأُكمل الإعداد",
+      "completing": "جار إتمام الإعداد…"
+    }
+  }
+}

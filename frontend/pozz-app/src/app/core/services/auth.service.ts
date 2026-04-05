@@ -10,6 +10,7 @@ import {
   UserInfo,
   OnboardingSummary,
 } from '../models/auth.models';
+import { TranslateService } from './translate.service';
 
 const ACCESS_TOKEN_KEY = 'pozz_access_token';
 const REFRESH_TOKEN_KEY = 'pozz_refresh_token';
@@ -21,6 +22,7 @@ const API_BASE = 'http://localhost:5197/api/auth';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
 
   private readonly _currentUser = signal<UserInfo | null>(this.loadUser());
   private readonly _onboarding = signal<OnboardingSummary | null>(this.loadOnboarding());
@@ -48,12 +50,13 @@ export class AuthService {
   }
 
   logout(): void {
+    const locale = this.translate.currentLocale();
     const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
     if (refreshToken) {
       this.http.post(`${API_BASE}/logout`, { refreshToken }).subscribe({ error: () => {} });
     }
     this.clearSession();
-    this.router.navigate(['/auth/login']);
+    this.router.navigate([`/${locale}/auth/login`]);
   }
 
   /** Called after completing an onboarding step so guards/redirects stay in sync. */
@@ -67,10 +70,11 @@ export class AuthService {
   }
 
   private navigateAfterAuth(onboarding: OnboardingSummary): void {
+    const locale = this.translate.currentLocale();
     if (onboarding.role === 'Unknown' || onboarding.isComplete) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate([`/${locale}/dashboard`]);
     } else {
-      this.router.navigate(['/onboarding']);
+      this.router.navigate([`/${locale}/onboarding`]);
     }
   }
 

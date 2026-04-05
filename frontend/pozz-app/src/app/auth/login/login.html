@@ -3,13 +3,15 @@
   <!-- ── Left panel: video ── -->
   <div class="relative hidden lg:block overflow-hidden bg-zinc-950">
     <video
-      src="video/pozz_bg.mp4"
       autoplay
       muted
       loop
       playsinline
+      preload="auto"
       class="absolute inset-0 size-full object-cover opacity-90"
-    ></video>
+    >
+      <source src="video/pozz_bg.mp4" type="video/mp4" />
+    </video>
 
     <!-- Dark gradient for brand text legibility -->
     <div
