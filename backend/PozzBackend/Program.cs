@@ -112,7 +112,18 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+        policy
+            .WithOrigins(
+                "https://app.pozz.io",
+                "https://admin.pozz.io",
+                "http://localhost:4200",
+                "http://localhost:4201",
+                "http://localhost:4202",
+                "http://localhost:4203"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
