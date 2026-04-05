@@ -1,0 +1,141 @@
+<div class="min-h-dvh grid grid-cols-1 lg:grid-cols-[4fr_2fr]">
+
+  <!-- ── Left panel: video ── -->
+  <div class="relative hidden lg:block overflow-hidden bg-zinc-950">
+    <video
+      src="video/pozz_bg.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute inset-0 size-full object-cover opacity-90"
+    ></video>
+
+    <!-- Dark gradient for brand text legibility -->
+    <div
+      class="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent pointer-events-none"
+    ></div>
+
+    <!-- Brand watermark bottom-left -->
+    <div class="absolute bottom-8 left-8">
+      <span class="text-2xl font-extrabold tracking-tight text-white drop-shadow">Pozz</span>
+      <p class="mt-1 text-sm text-white/60">Your platform, your pace.</p>
+    </div>
+  </div>
+
+  <!-- ── Right panel: form ── -->
+  <div class="flex min-h-dvh items-center justify-center bg-background px-6 py-12">
+    <div class="w-full max-w-sm animate-[fade-up_200ms_cubic-bezier(0.16,1,0.3,1)_both]">
+
+      <!-- Mobile-only brand (hidden on lg where the video shows it) -->
+      <div class="mb-8 lg:hidden">
+        <span class="text-2xl font-extrabold tracking-tight text-foreground">Pozz</span>
+      </div>
+
+      <div class="mb-7">
+        <h1 class="text-2xl font-bold tracking-tight text-foreground">Welcome back</h1>
+        <p class="mt-1 text-sm text-muted-foreground">Sign in to your Pozz account</p>
+      </div>
+
+      <!-- Error banner -->
+      @if (errorMessage()) {
+        <div
+          role="alert"
+          class="mb-5 flex items-start gap-2 rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="mt-0.5 size-4 shrink-0"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="space-y-4">
+
+        <!-- Email -->
+        <div class="space-y-1.5">
+          <label for="email" class="text-sm font-medium text-foreground">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-all duration-150 focus:border-ring focus:ring-2 focus:ring-ring/20 disabled:opacity-50"
+            [class.border-destructive]="emailCtrl.invalid && emailCtrl.touched"
+          />
+          @if (emailCtrl.invalid && emailCtrl.touched) {
+            <p class="text-xs text-destructive">
+              {{ emailCtrl.hasError('required') ? 'Email is required.' : 'Enter a valid email.' }}
+            </p>
+          }
+        </div>
+
+        <!-- Password -->
+        <div class="space-y-1.5">
+          <label for="password" class="text-sm font-medium text-foreground">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-all duration-150 focus:border-ring focus:ring-2 focus:ring-ring/20 disabled:opacity-50"
+            [class.border-destructive]="passwordCtrl.invalid && passwordCtrl.touched"
+          />
+          @if (passwordCtrl.invalid && passwordCtrl.touched) {
+            <p class="text-xs text-destructive">Password must be at least 8 characters.</p>
+          }
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          [disabled]="loading()"
+          class="mt-2 w-full rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-150 hover:bg-primary/90 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
+        >
+          @if (loading()) {
+            <span class="inline-flex items-center gap-2">
+              <svg
+                class="size-4 animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4Z"
+                />
+              </svg>
+              Signing in…
+            </span>
+          } @else {
+            Sign in
+          }
+        </button>
+
+      </form>
+
+      <p class="mt-6 text-center text-sm text-muted-foreground">
+        Don't have an account?
+        <a
+          routerLink="/auth/register"
+          class="font-medium text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 rounded-sm"
+        >Create one</a>
+      </p>
+
+    </div>
+  </div>
+
+</div>

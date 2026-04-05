@@ -20,3 +20,9 @@ services:
     environment:
       - NODE_ENV=production
     restart: unless-stopped
+
+  poss-admin:
+    image: ghcr.io/husainf4l/poss-admin:0.1.4
+    ports:
+      - "4202:80"
+    restart: unless-stopped
