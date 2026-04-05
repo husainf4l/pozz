@@ -1,0 +1,6 @@
+@PozzBackend_HostAddress = http://localhost:5197
+
+GET {{PozzBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
