@@ -116,6 +116,9 @@ builder.Services.AddCors(options =>
             .WithOrigins(
                 "https://app.pozz.io",
                 "https://admin.pozz.io",
+                "http://localhost:3401",
+                "http://localhost:3402",
+                "http://localhost:3403",
                 "http://localhost:4200",
                 "http://localhost:4201",
                 "http://localhost:4202",

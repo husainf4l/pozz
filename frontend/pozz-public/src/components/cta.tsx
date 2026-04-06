@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { AUTH_CONFIG } from "@/lib/config"
 
 export function CTA() {
   return (
@@ -8,13 +9,13 @@ export function CTA() {
       <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black dark:from-black dark:via-gray-950 dark:to-black" />
       
       {/* Animated Gradient Orbs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-600/30 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-500/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00688b]/30 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00688b]/20 rounded-full blur-3xl animate-pulse" />
       
       {/* Grid Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(rgba(220, 38, 38, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(220, 38, 38, 0.3) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(0, 104, 139, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 104, 139, 0.3) 1px, transparent 1px)`,
           backgroundSize: '50px 50px'
         }} />
       </div>
@@ -23,7 +24,7 @@ export function CTA() {
         {/* Content */}
         <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-8">
           Stop Guessing.{" "}
-          <span className="bg-gradient-to-r from-red-500 to-red-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#0088b3] to-[#00a8d8] bg-clip-text text-transparent">
             Start Tracking.
           </span>
         </h2>
@@ -34,8 +35,8 @@ export function CTA() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-          <Button asChild size="lg" className="text-lg px-10 py-7 shadow-2xl shadow-red-600/50 hover:shadow-red-600/70 transition-all hover:scale-105">
-            <a href="/signup" className="flex items-center">
+          <Button asChild size="lg" className="text-lg px-10 py-7 shadow-2xl shadow-[#00688b]/50 hover:shadow-[#00688b]/70 transition-all hover:scale-105">
+            <a href={AUTH_CONFIG.SIGNUP_URL} className="flex items-center">
               Get Started Free
               <ArrowRight className="ml-2 w-5 h-5" />
             </a>

@@ -28,20 +28,20 @@ export function Testimonials() {
   return (
     <section className="relative py-32 overflow-hidden bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-black dark:to-gray-950">
       {/* Gradient Orbs */}
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-red-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-red-500/5 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-[#00688b]/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-[#00688b]/5 rounded-full blur-3xl" />
       
       <div className="relative max-w-7xl mx-auto px-6 md:px-8">
         {/* Header */}
         <div className="text-center mb-20">
           <div className="inline-block mb-4">
-            <span className="text-sm font-semibold text-red-600 dark:text-red-500 bg-red-50 dark:bg-red-950/30 px-4 py-2 rounded-full">
+            <span className="text-sm font-semibold text-[#00688b] dark:text-[#0088b3] bg-[#e6f4f8] dark:bg-[#00344a]/30 px-4 py-2 rounded-full">
               Testimonials
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white mb-6">
             Trusted by{" "}
-            <span className="bg-gradient-to-r from-red-600 to-red-500 dark:from-red-500 dark:to-red-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#00688b] to-[#0088b3] dark:from-[#0088b3] dark:to-[#00a8d8] bg-clip-text text-transparent">
               Founders
             </span>
           </h2>
@@ -60,18 +60,18 @@ export function Testimonials() {
               <div className="relative h-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm
                 border border-gray-200/50 dark:border-gray-800/50
                 rounded-2xl p-8
-                hover:border-red-500/50 dark:hover:border-red-500/50
-                hover:shadow-2xl hover:shadow-red-500/10 dark:hover:shadow-red-500/20
+                hover:border-[#00688b]/50 dark:hover:border-[#00688b]/50
+                hover:shadow-2xl hover:shadow-[#00688b]/10 dark:hover:shadow-[#00688b]/20
                 transition-all duration-500 hover:-translate-y-2">
                 
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-red-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#00688b]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 {/* Quote Icon */}
                 <div className="absolute -top-5 left-8">
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-red-500
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#00688b] to-[#005570]
                     rounded-full flex items-center justify-center
-                    shadow-lg group-hover:shadow-red-500/50 group-hover:scale-110
+                    shadow-lg group-hover:shadow-[#00688b]/50 group-hover:scale-110
                     transition-all duration-500">
                     <Quote className="w-6 h-6 text-white" />
                   </div>
@@ -89,7 +89,7 @@ export function Testimonials() {
                   <img
                     src={testimonial.image}
                     alt={testimonial.author}
-                    className="w-14 h-14 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-red-500/50 transition-all"
+                    className="w-14 h-14 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-[#00688b]/50 transition-all"
                   />
                   <div>
                     <div className="font-bold text-gray-900 dark:text-white">
@@ -120,7 +120,7 @@ export function Testimonials() {
               <div
                 key={index}
                 className="text-gray-400 dark:text-gray-600 font-bold text-lg
-                  tracking-wider hover:text-red-600 dark:hover:text-red-500
+                  tracking-wider hover:text-[#00688b] dark:hover:text-[#0088b3]
                   transition-all duration-300 hover:scale-110 cursor-default"
               >
                 {accelerator.logo}

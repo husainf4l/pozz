@@ -128,10 +128,10 @@ export function Hero({
             <a href="#" className="group inline-block">
               <span
                 className="text-sm text-gray-600 dark:text-gray-400 font-geist px-5 py-2 
-                bg-gradient-to-tr from-red-500/10 via-gray-400/5 to-transparent  
-                border-[2px] border-red-500/20 dark:border-red-500/30 
+                bg-gradient-to-tr from-[#00688b]/10 via-gray-400/5 to-transparent  
+                border-[2px] border-[#00688b]/20 dark:border-[#00688b]/30 
                 rounded-3xl w-fit tracking-tight uppercase inline-flex items-center justify-center
-                hover:border-red-500/40 dark:hover:border-red-500/50 transition-colors"
+                hover:border-[#00688b]/40 dark:hover:border-[#00688b]/50 transition-colors"
               >
                 {eyebrow}
                 <ChevronRight className="inline w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />

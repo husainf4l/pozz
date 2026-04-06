@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.pozz.io/api',
+  apiUrl: 'http://localhost:3400/api',
 };
