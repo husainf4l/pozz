@@ -1,11 +1,333 @@
-<div>
-  <h1 class="text-3xl font-bold tracking-tight text-foreground mb-6">{{ 'nav.projects' | t }}</h1>
-  
-  <div class="rounded-xl border border-dashed border-border bg-muted/30 p-12 text-center">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mx-auto mb-4 size-12 text-muted-foreground/50">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
-    </svg>
-    <p class="text-sm font-medium text-muted-foreground">Projects Coming Soon</p>
-    <p class="mt-1 text-xs text-muted-foreground/70">Manage and track your investment projects</p>
+<div class="min-h-screen">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold tracking-tight text-foreground">{{ 'nav.projects' | t }}</h1>
+    <button
+      (click)="openCreateForm()"
+      class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+        <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+      </svg>
+      Create Project
+    </button>
   </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="flex items-center justify-center py-12">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @else if (projects().length === 0) {
+    <div class="rounded-xl border border-dashed border-border bg-muted/30 p-12 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mx-auto mb-4 size-12 text-muted-foreground/50">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
+      </svg>
+      <p class="text-lg font-medium text-muted-foreground mb-2">No projects yet</p>
+      <p class="text-sm text-muted-foreground/70 mb-4">Create your first project to start raising funds</p>
+      <button
+        (click)="openCreateForm()"
+        class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+        </svg>
+        Create Your First Project
+      </button>
+    </div>
+  }
+
+  <!-- Projects Grid -->
+  @else {
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      @for (project of projects(); track project.id) {
+        <div class="group relative overflow-hidden rounded-xl border border-border bg-card transition-all hover:shadow-lg">
+          <!-- Project Image -->
+          @if (project.imageUrl) {
+            <div class="aspect-video w-full overflow-hidden bg-muted">
+              <img [src]="project.imageUrl" [alt]="project.title" class="h-full w-full object-cover transition-transform group-hover:scale-105" />
+            </div>
+          } @else {
+            <div class="aspect-video w-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="size-12 text-muted-foreground/30">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" />
+              </svg>
+            </div>
+          }
+
+          <!-- Project Content -->
+          <div class="p-6">
+            <!-- Status Badge -->
+            <div class="mb-3 flex items-center justify-between">
+              <span [class]="'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ' + getStatusColor(project.status)">
+                {{ getStatusLabel(project.status) }}
+              </span>
+              @if (project.industry) {
+                <span class="text-xs text-muted-foreground">{{ project.industry }}</span>
+              }
+            </div>
+
+            <!-- Title & Summary -->
+            <h3 class="mb-2 text-lg font-semibold text-foreground line-clamp-1">{{ project.title }}</h3>
+            @if (project.summary) {
+              <p class="mb-4 text-sm text-muted-foreground line-clamp-2">{{ project.summary }}</p>
+            }
+
+            <!-- Funding Progress -->
+            <div class="mb-4">
+              <div class="mb-2 flex items-center justify-between text-sm">
+                <span class="font-medium text-foreground">${{ project.currentFunding.toLocaleString() }}</span>
+                <span class="text-muted-foreground">of ${{ project.fundingGoal.toLocaleString() }}</span>
+              </div>
+              <div class="h-2 w-full overflow-hidden rounded-full bg-muted">
+                <div 
+                  class="h-full rounded-full bg-primary transition-all"
+                  [style.width.%]="getFundingProgress(project)"
+                ></div>
+              </div>
+              <div class="mt-1 text-xs text-muted-foreground">
+                {{ getFundingProgress(project).toFixed(0) }}% funded
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="mb-4 grid grid-cols-2 gap-4 border-t border-border pt-4">
+              <div>
+                <p class="text-xs text-muted-foreground">Min. Investment</p>
+                <p class="text-sm font-medium text-foreground">${{ project.minimumInvestment.toLocaleString() }}</p>
+              </div>
+              @if (project.expectedReturn) {
+                <div>
+                  <p class="text-xs text-muted-foreground">Expected Return</p>
+                  <p class="text-sm font-medium text-foreground">{{ project.expectedReturn }}%</p>
+                </div>
+              }
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-2">
+              <button
+                (click)="openEditForm(project)"
+                class="flex-1 rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors"
+              >
+                Edit
+              </button>
+              <button
+                (click)="deleteProject(project)"
+                class="rounded-lg border border-destructive/30 bg-background px-3 py-2 text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Create/Edit Form Modal -->
+  @if (showForm()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" (click)="closeForm()">
+      <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-card shadow-xl" (click)="$event.stopPropagation()">
+        <!-- Modal Header -->
+        <div class="sticky top-0 flex items-center justify-between border-b border-border bg-card px-6 py-4">
+          <h2 class="text-xl font-semibold text-foreground">
+            {{ editingProject() ? 'Edit Project' : 'Create New Project' }}
+          </h2>
+          <button (click)="closeForm()" class="rounded-lg p-2 hover:bg-muted transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+              <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Error Message -->
+        @if (error()) {
+          <div class="mx-6 mt-4 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            {{ error() }}
+          </div>
+        }
+
+        <!-- Form -->
+        <form [formGroup]="projectForm" (ngSubmit)="submitProject()" class="space-y-6 p-6">
+          <!-- Title -->
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">
+              Project Title <span class="text-destructive">*</span>
+            </label>
+            <input
+              formControlName="title"
+              type="text"
+              class="w-full rounded-lg border border-input bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              placeholder="e.g., AI-Powered Marketing Platform"
+            />
+          </div>
+
+          <!-- Summary -->
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">
+              Short Summary
+            </label>
+            <textarea
+              formControlName="summary"
+              rows="2"
+              class="w-full rounded-lg border border-input bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              placeholder="Brief one-liner about your project"
+            ></textarea>
+            <p class="mt-1 text-xs text-muted-foreground">Max 500 characters</p>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">
+              Description
+            </label>
+            <textarea
+              formControlName="description"
+              rows="4"
+              class="w-full rounded-lg border border-input bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              placeholder="Detailed description of your project, vision, and goals"
+            ></textarea>
+            <p class="mt-1 text-xs text-muted-foreground">Max 5000 characters</p>
+          </div>
+
+          <!-- Industry & Location -->
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">
+                Industry
+              </label>
+              <select
+                formControlName="industry"
+                class="w-full rounded-lg border border-input bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              >
+                <option value="">Select industry</option>
+                @for (industry of industries; track industry) {
+                  <option [value]="industry">{{ industry }}</option>
+                }
+              </select>
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">
+                Location
+              </label>
+              <input
+                formControlName="location"
+                type="text"
+                class="w-full rounded-lg border border-input bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                placeholder="e.g., San Francisco, CA"
+              />
+            </div>
+          </div>
+
+          <!-- Funding Goal & Min Investment -->
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">
+                Funding Goal <span class="text-destructive">*</span>
+              </label>
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                <input
+                  formControlName="fundingGoal"
+                  type="number"
+                  min="1"
+                  class="w-full rounded-lg border border-input bg-background pl-8 pr-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  placeholder="100000"
+                />
+              </div>
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">
+                Minimum Investment <span class="text-destructive">*</span>
+              </label>
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                <input
+                  formControlName="minimumInvestment"
+                  type="number"
+                  min="1"
+                  class="w-full rounded-lg border border-input bg-background pl-8 pr-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  placeholder="1000"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Deadline, Return, Duration -->
+          <div class="grid gap-4 md:grid-cols-3">
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">
+                Funding Deadline
+              </label>
+              <input
+                formControlName="fundingDeadline"
+                type="date"
+                class="w-full rounded-lg border border-input bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              />
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">
+                Expected Return (%)
+              </label>
+              <input
+                formControlName="expectedReturn"
+                type="number"
+                min="0"
+                step="0.1"
+                class="w-full rounded-lg border border-input bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                placeholder="15"
+              />
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">
+                Duration (months)
+              </label>
+              <input
+                formControlName="durationMonths"
+                type="number"
+                min="1"
+                class="w-full rounded-lg border border-input bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                placeholder="12"
+              />
+            </div>
+          </div>
+
+          <!-- Image URL -->
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">
+              Project Image URL
+            </label>
+            <input
+              formControlName="imageUrl"
+              type="url"
+              class="w-full rounded-lg border border-input bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+
+          <!-- Form Actions -->
+          <div class="flex items-center justify-end gap-3 border-t border-border pt-6">
+            <button
+              type="button"
+              (click)="closeForm()"
+              class="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              [disabled]="projectForm.invalid || submitting()"
+              class="rounded-lg bg-primary px-6 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {{ submitting() ? 'Saving...' : (editingProject() ? 'Update Project' : 'Create Project') }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
 </div>
