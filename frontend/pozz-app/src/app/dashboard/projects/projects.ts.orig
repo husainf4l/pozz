@@ -50,10 +50,10 @@ export class ProjectsComponent implements OnInit {
     durationMonths: [null as number | null],
     imageUrl: [''],
     // Enhanced fields
-    stage: [null as ProjectStage | null, Validators.required],
-    primaryGoal: [null as ProjectGoal | null, Validators.required],
-    websiteUrl: ['', [Validators.required, Validators.maxLength(500)]],
-    pitchDeckUrl: ['', [Validators.required, Validators.maxLength(500)]],
+    stage: [null as ProjectStage | null],
+    primaryGoal: [null as ProjectGoal | null],
+    websiteUrl: ['', Validators.maxLength(500)],
+    pitchDeckUrl: ['', Validators.maxLength(500)],
     internalNotes: ['', Validators.maxLength(2000)],
     tags: ['', Validators.maxLength(500)],
     targetMarket: ['', Validators.maxLength(200)],
@@ -156,16 +156,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   submitProject(): void {
-    if (this.projectForm.invalid) {
-      this.projectForm.markAllAsTouched();
-      const invalidControls = [];
-      const controls = this.projectForm.controls;
-      for (const name in controls) {
-        if (controls[name as keyof typeof controls].invalid) invalidControls.push(name);
-      }
-      this.error.set(`Please fill all required fields correctly. Invalid fields: ${invalidControls.join(', ')}`);
-      return;
-    }
+    if (this.projectForm.invalid) return;
 
     this.submitting.set(true);
     this.error.set(null);
