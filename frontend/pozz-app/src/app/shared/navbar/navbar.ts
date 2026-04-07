@@ -6,7 +6,7 @@ import { LangSwitcherComponent } from '../lang-switcher/lang-switcher';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, ThemeToggleComponent, LangSwitcherComponent],
+  imports: [ThemeToggleComponent, LangSwitcherComponent],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })

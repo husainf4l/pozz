@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
   pozz-app:
-    image: ghcr.io/husainf4l/pozz-app:0.1.33
+    image: ghcr.io/husainf4l/pozz-app:0.1.34
     ports:
       - "3401:80"
     restart: unless-stopped

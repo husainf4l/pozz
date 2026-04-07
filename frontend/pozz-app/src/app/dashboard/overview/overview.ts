@@ -9,7 +9,7 @@ import { ProjectStatus } from '../../core/models/project.models';
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslatePipe],
+  imports: [CommonModule, RouterLink],
   templateUrl: './overview.html',
 })
 export class OverviewComponent implements OnInit {

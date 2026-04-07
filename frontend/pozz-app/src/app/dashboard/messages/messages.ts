@@ -25,7 +25,7 @@ interface Message {
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslatePipe],
+  imports: [CommonModule, FormsModule],
   templateUrl: './messages.html',
 })
 export class MessagesComponent {
