@@ -83,7 +83,7 @@ public class DataSeeder
             PermissionConstants.Onboarding.Update,
         ]);
 
-        // ProjectOwner — can manage their own company + onboarding
+        // ProjectOwner — can manage their own company + onboarding + projects
         await EnsureRoleAsync("ProjectOwner", "Project owner access",
         [
             PermissionConstants.Companies.Read,
@@ -92,6 +92,10 @@ public class DataSeeder
             PermissionConstants.Investors.Read,
             PermissionConstants.Onboarding.Read,
             PermissionConstants.Onboarding.Update,
+            PermissionConstants.Projects.Read,
+            PermissionConstants.Projects.Create,
+            PermissionConstants.Projects.Update,
+            PermissionConstants.Projects.Delete,
         ]);
     }
 

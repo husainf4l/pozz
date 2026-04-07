@@ -206,10 +206,18 @@ export class ProjectsComponent implements OnInit {
         this.closeForm();
       },
       error: (err) => {
-        let errorMessage = err.error?.message || 'Failed to save project';
-        if (err.error?.errors) {
+        console.error('Project creation error:', err);
+        console.error('Error status:', err.status);
+        console.error('Error response:', err.error);
+        
+        let errorMessage = err.error?.message || err.error?.error || 'Failed to save project';
+        if (err.status === 401 || err.status === 403) {
+          errorMessage = 'You do not have permission to create projects. Please contact an administrator.';
+        } else if (err.error?.errors) {
           const validationErrors = Object.values(err.error.errors).flat().join(', ');
           errorMessage = `Validation failed: ${validationErrors}`;
+        } else if (err.error?.title) {
+          errorMessage = err.error.title;
         }
         this.error.set(errorMessage);
         this.submitting.set(false);
