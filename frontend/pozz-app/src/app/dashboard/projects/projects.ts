@@ -184,14 +184,14 @@ export class ProjectsComponent implements OnInit {
       durationMonths: formValue.durationMonths || undefined,
       imageUrl: formValue.imageUrl || undefined,
       // Enhanced fields
-      stage: formValue.stage || undefined,
-      primaryGoal: formValue.primaryGoal || undefined,
+      stage: formValue.stage !== null && formValue.stage !== undefined ? formValue.stage : undefined,
+      primaryGoal: formValue.primaryGoal !== null && formValue.primaryGoal !== undefined ? formValue.primaryGoal : undefined,
       websiteUrl: formValue.websiteUrl || undefined,
       pitchDeckUrl: formValue.pitchDeckUrl || undefined,
       internalNotes: formValue.internalNotes || undefined,
       tags: formValue.tags || undefined,
       targetMarket: formValue.targetMarket || undefined,
-      businessModel: formValue.businessModel || undefined,
+      businessModel: formValue.businessModel !== null && formValue.businessModel !== undefined ? formValue.businessModel : undefined,
       currentStatusSummary: formValue.currentStatusSummary || undefined,
     };
 
@@ -206,7 +206,12 @@ export class ProjectsComponent implements OnInit {
         this.closeForm();
       },
       error: (err) => {
-        this.error.set(err.error?.message || 'Failed to save project');
+        let errorMessage = err.error?.message || 'Failed to save project';
+        if (err.error?.errors) {
+          const validationErrors = Object.values(err.error.errors).flat().join(', ');
+          errorMessage = `Validation failed: ${validationErrors}`;
+        }
+        this.error.set(errorMessage);
         this.submitting.set(false);
       },
     });
