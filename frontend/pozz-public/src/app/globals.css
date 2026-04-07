@@ -6,15 +6,15 @@
 :root {
   --background: #ffffff;
   --foreground: #0a0a0a;
-  --primary: #dc2626;
+  --primary: #00688b;
   --primary-foreground: #ffffff;
   --secondary: #0a0a0a;
   --secondary-foreground: #fafafa;
   --destructive: #ef4444;
   --destructive-foreground: #fafafa;
-  --accent: #dc2626;
+  --accent: #00688b;
   --accent-foreground: #ffffff;
-  --ring: #dc2626;
+  --ring: #00688b;
   --input: #e5e5e5;
   --border: #262626;
   --radius: 0.5rem;
@@ -44,11 +44,11 @@
   :root {
     --background: #000000;
     --foreground: #fafafa;
-    --primary: #dc2626;
+    --primary: #00688b;
     --primary-foreground: #ffffff;
     --secondary: #171717;
     --secondary-foreground: #fafafa;
-    --accent: #dc2626;
+    --accent: #00688b;
     --accent-foreground: #ffffff;
     --border: #262626;
   }
@@ -95,8 +95,8 @@ html {
 
 /* Selection color */
 ::selection {
-  background-color: rgba(220, 38, 38, 0.2);
-  color: #dc2626;
+  background-color: rgba(0, 104, 139, 0.2);
+  color: #00688b;
 }
 
 /* Custom scrollbar */

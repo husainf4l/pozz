@@ -13,6 +13,7 @@ using PozzBackend.Modules.Auth.Domain;
 using PozzBackend.Modules.Companies;
 using PozzBackend.Modules.Investors;
 using PozzBackend.Modules.Onboarding;
+using PozzBackend.Modules.Projects;
 using PozzBackend.Modules.Roles;
 using PozzBackend.Modules.Users;
 
@@ -74,7 +75,8 @@ builder.Services
     .AddRolesModule()
     .AddCompaniesModule()
     .AddInvestorsModule()
-    .AddOnboardingModule();
+    .AddOnboardingModule()
+    .AddProjectsModule();
 
 // ── Data Seeder ───────────────────────────────────────────────────────────────
 builder.Services.AddScoped<DataSeeder>();
@@ -116,6 +118,9 @@ builder.Services.AddCors(options =>
             .WithOrigins(
                 "https://app.pozz.io",
                 "https://admin.pozz.io",
+                "http://localhost:3401",
+                "http://localhost:3402",
+                "http://localhost:3403",
                 "http://localhost:4200",
                 "http://localhost:4201",
                 "http://localhost:4202",

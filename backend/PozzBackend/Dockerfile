@@ -2,10 +2,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS builder
 WORKDIR /app
 
-COPY *.csproj ./
+COPY backend/PozzBackend/*.csproj ./
 RUN dotnet restore
 
-COPY . .
+COPY backend/PozzBackend/ ./
 RUN dotnet publish -c Release -o /out
 
 # ── Runtime stage ─────────────────────────────────────────────────────────────

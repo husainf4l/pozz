@@ -27,7 +27,32 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./dashboard/dashboard').then((m) => m.DashboardComponent),
         canActivate: [onboardingCompleteGuard],
-        title: 'Dashboard – Pozz',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./dashboard/overview/overview').then((m) => m.OverviewComponent),
+            title: 'Dashboard – Pozz',
+          },
+          {
+            path: 'projects',
+            loadComponent: () =>
+              import('./dashboard/projects/projects').then((m) => m.ProjectsComponent),
+            title: 'Projects – Pozz',
+          },
+          {
+            path: 'messages',
+            loadComponent: () =>
+              import('./dashboard/messages/messages').then((m) => m.MessagesComponent),
+            title: 'Messages – Pozz',
+          },
+          {
+            path: 'settings',
+            loadComponent: () =>
+              import('./dashboard/settings/settings').then((m) => m.SettingsComponent),
+            title: 'Settings – Pozz',
+          },
+        ],
       },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],

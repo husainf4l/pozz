@@ -33,14 +33,21 @@ export interface InvestorProfileRequest {
 }
 
 export interface CompanySetupRequest {
-  name: string;
-  industry?: string;
+  companyName: string;
   registrationNumber?: string;
+  industry?: string;
+  taxNumber?: string;
+  website?: string;
+  email?: string;
+  phone?: string;
   description?: string;
 }
 
 export interface CompanyDetailsRequest {
+  description?: string;
+  industry?: string;
   website?: string;
   email?: string;
   phone?: string;
+  taxNumber?: string;
 }

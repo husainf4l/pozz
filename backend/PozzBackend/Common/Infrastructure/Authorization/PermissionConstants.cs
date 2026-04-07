@@ -42,6 +42,14 @@ public static class PermissionConstants
         public const string Update = "onboarding.update";
     }
 
+    public static class Projects
+    {
+        public const string Read    = "projects.read";
+        public const string Create  = "projects.create";
+        public const string Update  = "projects.update";
+        public const string Delete  = "projects.delete";
+    }
+
     /// <summary>Returns all permission (Name, Module) pairs for seeding.</summary>
     public static IEnumerable<(string Name, string Module, string Description)> GetAll() =>
     [
@@ -69,5 +77,10 @@ public static class PermissionConstants
 
         (Onboarding.Read,          "Onboarding",  "View own onboarding status"),
         (Onboarding.Update,        "Onboarding",  "Complete onboarding steps"),
+
+        (Projects.Read,            "Projects",    "View own projects"),
+        (Projects.Create,          "Projects",    "Create projects"),
+        (Projects.Update,          "Projects",    "Update projects"),
+        (Projects.Delete,          "Projects",    "Delete projects"),
     ];
 }

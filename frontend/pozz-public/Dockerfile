@@ -2,6 +2,10 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
+# Build arguments
+ARG NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+
 COPY package*.json ./
 RUN npm ci
 

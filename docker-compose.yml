@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/husainf4l/pozz-backend:0.1.15
+    image: ghcr.io/husainf4l/pozz-backend:0.1.21
     ports:
       - "3400:8080"
     environment:
@@ -14,21 +14,21 @@ services:
     restart: unless-stopped
 
   pozz-app:
-    image: ghcr.io/husainf4l/pozz-app:0.1.15
+    image: ghcr.io/husainf4l/pozz-app:0.1.28
     ports:
       - "3401:80"
     restart: unless-stopped
 
   pozz-public:
-    image: ghcr.io/husainf4l/pozz-public:0.1.15
+    image: ghcr.io/husainf4l/pozz-public:0.1.16
     ports:
       - "3402:3000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     restart: unless-stopped
 
   poss-admin:
-    image: ghcr.io/husainf4l/poss-admin:0.1.15
+    image: ghcr.io/husainf4l/poss-admin:0.1.14
     ports:
       - "3403:80"
     restart: unless-stopped

@@ -1,11 +1,10 @@
 import { Hero } from "@/components/ui/hero-1";
 import { Features } from "@/components/features";
 import { Benefits } from "@/components/benefits";
-import { HowItWorks } from "@/components/how-it-works";
 import { Stats } from "@/components/stats";
-import { Testimonials } from "@/components/testimonials";
 import { CTA } from "@/components/cta";
 import { Footer } from "@/components/footer";
+import { AUTH_CONFIG } from "@/lib/config";
 
 export default function Home() {
   return (
@@ -15,13 +14,11 @@ export default function Home() {
         subtitle="Track investors, measure outreach, and close deals—all in one place."
         eyebrow="For Startups"
         ctaLabel="Get Started"
-        ctaHref="/signup"
+        ctaHref={AUTH_CONFIG.SIGNUP_URL}
       />
       <Features />
       <Benefits />
-      <HowItWorks />
       <Stats />
-      <Testimonials />
       <CTA />
       <Footer />
     </>

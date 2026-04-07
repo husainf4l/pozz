@@ -2,17 +2,19 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { AUTH_CONFIG } from "@/lib/config"
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navigation = [
     { name: "Features", href: "#features" },
-    { name: "How It Works", href: "#how-it-works" },
-    { name: "Pricing", href: "#pricing" },
-    { name: "About", href: "#about" },
+    { name: "How It Works", href: "/how-it-works" },
+    { name: "Pricing", href: "/pricing" },
+    { name: "About", href: "/about" },
   ]
 
   return (
@@ -20,16 +22,18 @@ export function Navbar() {
       {/* Glassmorphic background */}
       <div className="absolute inset-0 bg-white/70 dark:bg-black/70 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50" />
       
-      {/* Gradient line at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/50 to-transparent" />
-      
       <nav className="relative mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         {/* Logo */}
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 group">
-            <span className="text-2xl font-bold bg-gradient-to-r from-black via-red-600 to-black dark:from-white dark:via-red-500 dark:to-white bg-clip-text text-transparent group-hover:scale-105 transition-transform inline-block">
-              Pozz.io
-            </span>
+            <Image 
+              src="/pozz-logo.png" 
+              alt="Pozz.io Logo" 
+              width={120} 
+              height={40}
+              className="h-10 w-auto group-hover:scale-105 transition-transform"
+              priority
+            />
           </Link>
         </div>
 
@@ -55,7 +59,7 @@ export function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className="relative text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 hover:text-red-600 dark:hover:text-red-500 transition-colors px-3 py-2 rounded-lg hover:bg-gray-100/50 dark:hover:bg-gray-900/50"
+              className="relative text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 hover:text-[#00688b] dark:hover:text-[#0088b3] transition-colors px-3 py-2 rounded-lg hover:bg-gray-100/50 dark:hover:bg-gray-900/50"
             >
               {item.name}
             </Link>
@@ -65,10 +69,10 @@ export function Navbar() {
         {/* Desktop CTA buttons */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
           <Button variant="ghost" asChild className="hover:bg-gray-100 dark:hover:bg-gray-900">
-            <Link href="/login">Log in</Link>
+            <a href={AUTH_CONFIG.LOGIN_URL}>Log in</a>
           </Button>
-          <Button asChild className="shadow-lg shadow-red-600/20 hover:shadow-red-600/40 transition-all hover:scale-105">
-            <Link href="/signup">Get Started</Link>
+          <Button asChild className="shadow-lg shadow-[#00688b]/20 hover:shadow-[#00688b]/40 transition-all hover:scale-105">
+            <a href={AUTH_CONFIG.SIGNUP_URL}>Get Started</a>
           </Button>
         </div>
       </nav>
@@ -82,7 +86,7 @@ export function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="block rounded-xl px-4 py-3 text-base font-semibold leading-7 text-gray-900 dark:text-gray-100 hover:bg-red-50 dark:hover:bg-red-950/20 hover:text-red-600 dark:hover:text-red-500 transition-all"
+                className="block rounded-xl px-4 py-3 text-base font-semibold leading-7 text-gray-900 dark:text-gray-100 hover:bg-[#e6f4f8] dark:hover:bg-[#00344a]/20 hover:text-[#00688b] dark:hover:text-[#0088b3] transition-all"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.name}
@@ -90,10 +94,10 @@ export function Navbar() {
             ))}
             <div className="mt-6 space-y-3">
               <Button variant="outline" className="w-full" asChild>
-                <Link href="/login">Log in</Link>
+                <a href={AUTH_CONFIG.LOGIN_URL}>Log in</a>
               </Button>
-              <Button className="w-full shadow-lg shadow-red-600/20" asChild>
-                <Link href="/signup">Get Started</Link>
+              <Button className="w-full shadow-lg shadow-[#00688b]/20" asChild>
+                <a href={AUTH_CONFIG.SIGNUP_URL}>Get Started</a>
               </Button>
             </div>
           </div>

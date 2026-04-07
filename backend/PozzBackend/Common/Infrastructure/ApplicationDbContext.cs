@@ -5,6 +5,7 @@ using PozzBackend.Modules.Auth.Domain;
 using PozzBackend.Modules.Companies.Domain;
 using PozzBackend.Modules.Investors.Domain;
 using PozzBackend.Modules.Onboarding.Domain;
+using PozzBackend.Modules.Projects.Domain;
 
 namespace PozzBackend.Common.Infrastructure;
 
@@ -21,6 +22,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Investor>         Investors         => Set<Investor>();
     public DbSet<UserOnboarding>   UserOnboardings   => Set<UserOnboarding>();
     public DbSet<InvestorProfile>  InvestorProfiles  => Set<InvestorProfile>();
+    public DbSet<Project>          Projects          => Set<Project>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -169,6 +171,35 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
              .HasForeignKey(p => p.UserId)
              .OnDelete(DeleteBehavior.Cascade);
             e.HasIndex(p => p.UserId).IsUnique();                   // one profile per user
+        });
+
+        // ── Project ───────────────────────────────────────────────────────
+        builder.Entity<Project>(e =>
+        {
+            e.ToTable("projects");
+            e.HasKey(p => p.Id);
+            e.Property(p => p.Title).IsRequired().HasMaxLength(200);
+            e.Property(p => p.Description).HasMaxLength(5000);
+            e.Property(p => p.Summary).HasMaxLength(500);
+            e.Property(p => p.Industry).HasMaxLength(100);
+            e.Property(p => p.Location).HasMaxLength(200);
+            e.Property(p => p.FundingGoal).IsRequired().HasPrecision(18, 2);
+            e.Property(p => p.MinimumInvestment).IsRequired().HasPrecision(18, 2);
+            e.Property(p => p.CurrentFunding).IsRequired().HasPrecision(18, 2).HasDefaultValue(0);
+            e.Property(p => p.Status).IsRequired().HasConversion<int>();
+            e.Property(p => p.ExpectedReturn).HasPrecision(5, 2);
+            e.Property(p => p.ImageUrl).HasMaxLength(500);
+            e.Property(p => p.Documents).HasMaxLength(2000);
+            e.Property(p => p.ViewCount).IsRequired().HasDefaultValue(0);
+            e.Property(p => p.IsActive).IsRequired().HasDefaultValue(true);
+            e.Property(p => p.CreatedAt).IsRequired();
+            e.Property(p => p.UpdatedAt).IsRequired();
+            e.HasOne(p => p.Company)
+             .WithMany()
+             .HasForeignKey(p => p.CompanyId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasIndex(p => p.CompanyId);
+            e.HasIndex(p => p.Status);
         });
     }
 }

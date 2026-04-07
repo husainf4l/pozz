@@ -4,13 +4,12 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TranslatePipe } from '../../core/pipes/translate.pipe';
 import { TranslateService } from '../../core/services/translate.service';
-import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle';
-import { LangSwitcherComponent } from '../../shared/lang-switcher/lang-switcher';
+import { NavbarComponent } from '../../shared/navbar/navbar';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, ThemeToggleComponent, LangSwitcherComponent],
+  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, NavbarComponent],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })

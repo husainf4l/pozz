@@ -98,9 +98,14 @@ export class OnboardingComponent implements OnInit {
           this.router.navigate([`/${this.translate.currentLocale()}/dashboard`]);
         }
       },
-      error: () => {
-        this.error.set('Could not load onboarding status. Please refresh.');
+      error: (err) => {
         this.loadingStatus.set(false);
+        // If unauthorized (401), clear session and redirect to login
+        if (err.status === 401) {
+          this.authService.logout();
+          return;
+        }
+        this.error.set('Could not load onboarding status. Please refresh.');
       },
     });
   }
@@ -170,7 +175,7 @@ export class OnboardingComponent implements OnInit {
     const v = this.companySetupForm.getRawValue();
     this.submit(
       this.onboardingService.completeCompanySetup({
-        name: v.name!,
+        companyName: v.name!,
         industry: v.industry || undefined,
         registrationNumber: v.registrationNumber || undefined,
         description: v.description || undefined,
@@ -180,9 +185,14 @@ export class OnboardingComponent implements OnInit {
 
   submitCompanyDetails(): void {
     const v = this.companyDetailsForm.getRawValue();
+    // Normalize website URL
+    let website = v.website?.trim() || undefined;
+    if (website && !website.match(/^https?:\/\//i)) {
+      website = 'https://' + website;
+    }
     this.submit(
       this.onboardingService.completeCompanyDetails({
-        website: v.website || undefined,
+        website: website,
         email: v.email || undefined,
         phone: v.phone || undefined,
       }),
@@ -212,7 +222,15 @@ export class OnboardingComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.error.set(err?.error?.error ?? 'Something went wrong. Please try again.');
+        // Extract validation errors or use generic message
+        let errorMsg = 'Something went wrong. Please try again.';
+        if (err?.error?.errors) {
+          const errors = Object.values(err.error.errors).flat();
+          errorMsg = errors.join(' ');
+        } else if (err?.error?.error) {
+          errorMsg = err.error.error;
+        }
+        this.error.set(errorMsg);
         this.submitting.set(false);
       },
     });

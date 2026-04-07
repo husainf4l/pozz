@@ -1,20 +1,19 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { TranslatePipe } from '../../core/pipes/translate.pipe';
 import { TranslateService } from '../../core/services/translate.service';
-import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle';
-import { LangSwitcherComponent } from '../../shared/lang-switcher/lang-switcher';
+import { NavbarComponent } from '../../shared/navbar/navbar';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, ThemeToggleComponent, LangSwitcherComponent],
+  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, NavbarComponent],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   readonly translate = inject(TranslateService);
@@ -26,6 +25,14 @@ export class LoginComponent {
 
   loading = signal(false);
   errorMessage = signal<string | null>(null);
+
+  ngOnInit(): void {
+    // Clear any stale onboarding error messages from previous sessions
+    if (this.authService.isLoggedIn()) {
+      // Already logged in, guards should handle redirect
+      return;
+    }
+  }
 
   onSubmit(): void {
     if (this.form.invalid) {

@@ -21,13 +21,13 @@ export function Footer() {
   return (
     <footer className="relative bg-gradient-to-br from-gray-950 via-black to-gray-950 dark:from-white dark:via-gray-50 dark:to-white border-t border-gray-800/50 dark:border-gray-200/50 overflow-hidden">
       {/* Gradient Orbs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00688b]/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00688b]/5 rounded-full blur-3xl" />
       
       {/* Grid Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(rgba(220, 38, 38, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(220, 38, 38, 0.2) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(0, 104, 139, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 104, 139, 0.2) 1px, transparent 1px)`,
           backgroundSize: '40px 40px'
         }} />
       </div>
@@ -37,7 +37,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <Link href="/" className="inline-block group">
-              <span className="text-3xl font-bold bg-gradient-to-r from-white via-red-500 to-white dark:from-black dark:via-red-600 dark:to-black bg-clip-text text-transparent group-hover:scale-105 transition-transform inline-block">
+              <span className="text-3xl font-bold bg-gradient-to-r from-white via-[#0088b3] to-white dark:from-black dark:via-[#00688b] dark:to-black bg-clip-text text-transparent group-hover:scale-105 transition-transform inline-block">
                 Pozz.io
               </span>
             </Link>
@@ -56,7 +56,7 @@ export function Footer() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-400 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-600 transition-all text-sm hover:translate-x-1 inline-block"
+                    className="text-gray-400 dark:text-gray-600 hover:text-[#0088b3] dark:hover:text-[#00688b] transition-all text-sm hover:translate-x-1 inline-block"
                   >
                     {item.name}
                   </Link>
@@ -75,7 +75,7 @@ export function Footer() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-400 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-600 transition-all text-sm hover:translate-x-1 inline-block"
+                    className="text-gray-400 dark:text-gray-600 hover:text-[#0088b3] dark:hover:text-[#00688b] transition-all text-sm hover:translate-x-1 inline-block"
                   >
                     {item.name}
                   </Link>
@@ -94,7 +94,7 @@ export function Footer() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-400 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-600 transition-all text-sm hover:translate-x-1 inline-block"
+                    className="text-gray-400 dark:text-gray-600 hover:text-[#0088b3] dark:hover:text-[#00688b] transition-all text-sm hover:translate-x-1 inline-block"
                   >
                     {item.name}
                   </Link>
