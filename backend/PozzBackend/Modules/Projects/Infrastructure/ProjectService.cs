@@ -39,7 +39,7 @@ public class ProjectService : IProjectService
             DurationMonths = request.DurationMonths,
             ImageUrl = request.ImageUrl,
             CompanyId = company.Id,
-            Status = ProjectStatus.Draft,
+            Status = ProjectStatus.Active,
             // Enhanced fields
             Stage = request.Stage,
             PrimaryGoal = request.PrimaryGoal,

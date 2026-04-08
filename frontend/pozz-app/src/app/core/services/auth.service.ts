@@ -66,6 +66,12 @@ export class AuthService {
     this._onboarding.set(summary);
   }
 
+  /** Update the current user info (e.g., after profile update) */
+  updateCurrentUser(user: UserInfo): void {
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    this._currentUser.set(user);
+  }
+
   getAccessToken(): string | null {
     return localStorage.getItem(ACCESS_TOKEN_KEY);
   }

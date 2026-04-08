@@ -26,6 +26,14 @@ public class InvestorsController : ControllerBase
         return Ok(result.Data);
     }
 
+    [HttpGet("search")]
+    [HasPermission(PermissionConstants.Investors.Read)]
+    public async Task<IActionResult> Search([FromQuery] InvestorSearchRequest request, CancellationToken ct)
+    {
+        var result = await _investorService.SearchAsync(request, ct);
+        return Ok(result.Data);
+    }
+
     [HttpGet("{id:long}")]
     [HasPermission(PermissionConstants.Investors.Read)]
     public async Task<IActionResult> GetById(long id, CancellationToken ct)

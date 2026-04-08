@@ -1,0 +1,308 @@
+<!-- Loading State -->
+@if (loading()) {
+  <div class="flex h-64 items-center justify-center">
+    <div class="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+  </div>
+}
+
+<!-- Error State -->
+@if (error() && !loading()) {
+  <div class="rounded-xl border border-red-200 bg-red-50 p-6 text-center">
+    <p class="text-red-600">{{ error() }}</p>
+    <button
+      (click)="onBack()"
+      class="mt-4 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+    >
+      Back to Investments
+    </button>
+  </div>
+}
+
+<!-- Investment Detail -->
+@if (investment() && !loading()) {
+  <!-- Header -->
+  <div class="mb-6 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <button
+        (click)="onBack()"
+        class="rounded-lg border border-border bg-card p-2 hover:bg-muted transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+          <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
+        </svg>
+      </button>
+      <div>
+        <h1 class="text-2xl font-bold text-foreground">Investment Details</h1>
+        <p class="text-sm text-muted-foreground">
+          {{ investment()!.investorName }}
+          @if (investment()!.projectName) {
+            → {{ investment()!.projectName }}
+          }
+        </p>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <button
+        (click)="onEdit()"
+        class="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
+      >
+        Edit
+      </button>
+      <button
+        (click)="onDelete()"
+        class="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-100 transition-colors"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
+    <div class="rounded-xl border border-border bg-card p-4">
+      <p class="text-sm font-medium text-muted-foreground">Committed Amount</p>
+      <p class="mt-2 text-2xl font-bold text-foreground">{{ formatCurrency(investment()!.committedAmount) }}</p>
+    </div>
+    <div class="rounded-xl border border-border bg-card p-4">
+      <p class="text-sm font-medium text-muted-foreground">Paid Amount</p>
+      <p class="mt-2 text-2xl font-bold text-green-600">{{ formatCurrency(investment()!.paidAmount) }}</p>
+    </div>
+    <div class="rounded-xl border border-border bg-card p-4">
+      <p class="text-sm font-medium text-muted-foreground">Outstanding</p>
+      <p class="mt-2 text-2xl font-bold text-orange-600">{{ formatCurrency(outstanding()) }}</p>
+    </div>
+    <div class="rounded-xl border border-border bg-card p-4">
+      <p class="text-sm font-medium text-muted-foreground">Payment Progress</p>
+      <p class="mt-2 text-2xl font-bold text-foreground">{{ paymentProgress().toFixed(0) }}%</p>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="mb-6 border-b border-border">
+    <nav class="-mb-px flex space-x-8">
+      <button
+        (click)="setActiveTab('overview')"
+        [class]="activeTab() === 'overview' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:border-gray-300 hover:text-foreground'"
+        class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium transition-colors"
+      >
+        Overview
+      </button>
+      <button
+        (click)="setActiveTab('payments')"
+        [class]="activeTab() === 'payments' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:border-gray-300 hover:text-foreground'"
+        class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium transition-colors"
+      >
+        Payment Schedule
+      </button>
+      <button
+        (click)="setActiveTab('documents')"
+        [class]="activeTab() === 'documents' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:border-gray-300 hover:text-foreground'"
+        class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium transition-colors"
+      >
+        Documents
+      </button>
+      <button
+        (click)="setActiveTab('activity')"
+        [class]="activeTab() === 'activity' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:border-gray-300 hover:text-foreground'"
+        class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium transition-colors"
+      >
+        Activity
+      </button>
+    </nav>
+  </div>
+
+  <!-- Overview Tab -->
+  @if (activeTab() === 'overview') {
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- Investment Information -->
+      <div class="rounded-xl border border-border bg-card p-6">
+        <h3 class="mb-4 text-lg font-semibold text-foreground">Investment Information</h3>
+        <dl class="space-y-3">
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Instrument Type</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ getInstrumentLabel(investment()!.instrument) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Status</dt>
+            <dd class="mt-1">
+              <span [class]="'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ' + getInvestmentStatusBadgeColor(investment()!.status)">
+                {{ getInvestmentStatusLabel(investment()!.status) }}
+              </span>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Payment Status</dt>
+            <dd class="mt-1">
+              <span [class]="'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ' + getPaymentStatusBadgeColor(investment()!.paymentStatus)">
+                {{ getPaymentStatusLabel(investment()!.paymentStatus) }}
+              </span>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Equity Percentage</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ formatPercent(investment()!.equityPercentage) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Valuation Cap</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ formatCurrency(investment()!.valuationCap || 0) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Discount Rate</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ formatPercent(investment()!.discountRate) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Interest Rate</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ formatPercent(investment()!.interestRate) }}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Investor Information -->
+      <div class="rounded-xl border border-border bg-card p-6">
+        <div class="mb-4 flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-foreground">Investor Information</h3>
+          <button
+            (click)="onViewInvestor()"
+            class="text-sm font-medium text-primary hover:underline"
+          >
+            View Profile
+          </button>
+        </div>
+        <dl class="space-y-3">
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Name</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ investment()!.investorName || 'N/A' }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Email</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ investment()!.investorEmail || 'N/A' }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Internal Reference</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ investment()!.internalReference || 'N/A' }}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Project Information -->
+      <div class="rounded-xl border border-border bg-card p-6">
+        <h3 class="mb-4 text-lg font-semibold text-foreground">Project Information</h3>
+        <dl class="space-y-3">
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Project Name</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ investment()!.projectName || 'N/A' }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Share Certificate Number</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ investment()!.shareCertificateNumber || 'N/A' }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Share Certificate</dt>
+            <dd class="mt-1 text-sm text-foreground">
+              @if (investment()!.shareCertificateUrl) {
+                <a [href]="investment()!.shareCertificateUrl" target="_blank" class="text-primary hover:underline">
+                  View Document
+                </a>
+              } @else {
+                <span class="text-muted-foreground">N/A</span>
+              }
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Dates & Rights -->
+      <div class="rounded-xl border border-border bg-card p-6">
+        <h3 class="mb-4 text-lg font-semibold text-foreground">Dates & Rights</h3>
+        <dl class="space-y-3">
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Commitment Date</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ formatDate(investment()!.commitmentDate) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Closing Date</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ formatDate(investment()!.closingDate) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">First Payment</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ formatDate(investment()!.firstPaymentDate) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Final Payment</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ formatDate(investment()!.finalPaymentDate) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Maturity Date</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ formatDate(investment()!.maturityDate) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Board Seat</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ investment()!.hasBoardSeat ? 'Yes' : 'No' }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Veto Rights</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ investment()!.hasVetoRights ? 'Yes' : 'No' }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-muted-foreground">Information Rights</dt>
+            <dd class="mt-1 text-sm text-foreground">{{ investment()!.hasInformationRights ? 'Yes' : 'No' }}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Additional Details -->
+      @if (investment()!.notes) {
+        <div class="rounded-xl border border-border bg-card p-6 lg:col-span-2">
+          <h3 class="mb-4 text-lg font-semibold text-foreground">Notes</h3>
+          <p class="whitespace-pre-wrap text-sm text-foreground">{{ investment()!.notes }}</p>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Payment Schedule Tab -->
+  @if (activeTab() === 'payments') {
+    <div class="rounded-xl border border-border bg-card p-12 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mx-auto h-12 w-12 text-muted-foreground/50">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+      </svg>
+      <h3 class="mt-4 text-lg font-semibold text-foreground">Payment Schedule</h3>
+      <p class="mt-2 text-sm text-muted-foreground">Payment tracking and schedules coming soon in Phase 2</p>
+      <div class="mt-6 rounded-lg bg-muted p-4">
+        <div class="flex items-center justify-between text-sm">
+          <span class="font-medium text-foreground">Current Payment Progress</span>
+          <span class="font-semibold text-foreground">{{ paymentProgress().toFixed(0) }}%</span>
+        </div>
+        <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-background">
+          <div 
+            class="h-full rounded-full bg-green-600 transition-all"
+            [style.width.%]="paymentProgress()"
+          ></div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Documents Tab -->
+  @if (activeTab() === 'documents') {
+    <div class="rounded-xl border border-border bg-card p-12 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mx-auto h-12 w-12 text-muted-foreground/50">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+      </svg>
+      <h3 class="mt-4 text-lg font-semibold text-foreground">Investment Documents</h3>
+      <p class="mt-2 text-sm text-muted-foreground">Document management coming soon in Phase 2</p>
+      <p class="mt-1 text-xs text-muted-foreground">Term sheets, agreements, certificates, and more</p>
+    </div>
+  }
+
+  <!-- Activity Tab -->
+  @if (activeTab() === 'activity') {
+    <div class="rounded-xl border border-border bg-card p-12 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mx-auto h-12 w-12 text-muted-foreground/50">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      </svg>
+      <h3 class="mt-4 text-lg font-semibold text-foreground">Activity Timeline</h3>
+      <p class="mt-2 text-sm text-muted-foreground">Investment activity tracking coming soon in Phase 2</p>
+    </div>
+  }
+}

@@ -12,6 +12,8 @@
   },
   "nav": {
     "dashboard": "لوحة التحكم",
+    "investors": "المستثمرون",
+    "investments": "الاستثمارات",
     "projects": "المشاريع",
     "messages": "الرسائل",
     "settings": "الإعدادات"
@@ -140,5 +142,21 @@
       "company_details": "تفاصيل الشركة",
       "terms_accepted": "الشروط والأحكام"
     }
+  },
+  "investors": {
+    "title": "المستثمرون",
+    "subtitle": "إدارة علاقاتك مع المستثمرين وتتبع مسار التمويل",
+    "addInvestor": "إضافة مستثمر",
+    "noInvestors": "لا يوجد مستثمرون بعد",
+    "viewDetails": "عرض التفاصيل"
+  },
+  "investments": {
+    "title": "الاستثمارات",
+    "subtitle": "تتبع التزامات الاستثمار والمدفوعات وجدول رأس المال",
+    "recordInvestment": "تسجيل استثمار",
+    "noInvestments": "لم يتم تسجيل استثمارات",
+    "totalRaised": "إجمالي المبلغ المُجمّع",
+    "commitments": "الالتزامات",
+    "capTable": "جدول رأس المال"
   }
 }

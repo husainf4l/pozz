@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
+import { UserService } from '../../core/services/user.service';
 import { TranslatePipe } from '../../core/pipes/translate.pipe';
 
 @Component({
@@ -13,6 +14,7 @@ import { TranslatePipe } from '../../core/pipes/translate.pipe';
 export class SettingsComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   readonly authService = inject(AuthService);
+  private readonly userService = inject(UserService);
 
   readonly activeTab = signal<'profile' | 'security' | 'notifications' | 'preferences'>('profile');
   readonly saving = signal(false);
@@ -62,15 +64,33 @@ export class SettingsComponent implements OnInit {
   saveProfile(): void {
     if (this.profileForm.invalid) return;
 
+    const { firstName, lastName } = this.profileForm.value;
+    if (!firstName || !lastName) return;
+
     this.saving.set(true);
     this.clearMessages();
 
-    // Simulate API call
-    setTimeout(() => {
-      this.saving.set(false);
-      this.successMessage.set('Profile updated successfully!');
-      setTimeout(() => this.clearMessages(), 3000);
-    }, 1000);
+    this.userService.updateProfile({ firstName, lastName }).subscribe({
+      next: (updated) => {
+        // Update the current user in AuthService
+        const currentUser = this.authService.currentUser();
+        if (currentUser) {
+          this.authService.updateCurrentUser({
+            ...currentUser,
+            firstName: updated.firstName,
+            lastName: updated.lastName,
+          });
+        }
+        this.saving.set(false);
+        this.successMessage.set('Profile updated successfully!');
+        setTimeout(() => this.clearMessages(), 3000);
+      },
+      error: (err) => {
+        this.saving.set(false);
+        this.errorMessage.set(err.error?.error || 'Failed to update profile. Please try again.');
+        console.error('Error updating profile:', err);
+      },
+    });
   }
 
   changePassword(): void {

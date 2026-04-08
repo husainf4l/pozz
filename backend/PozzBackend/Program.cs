@@ -8,14 +8,31 @@ using Microsoft.OpenApi.Models;
 using PozzBackend.Common.Application;
 using PozzBackend.Common.Infrastructure;
 using PozzBackend.Common.Infrastructure.Authorization;
+using PozzBackend.Modules.Activities;
 using PozzBackend.Modules.Auth;
 using PozzBackend.Modules.Auth.Domain;
 using PozzBackend.Modules.Companies;
+using PozzBackend.Modules.Files;
 using PozzBackend.Modules.Investors;
+using PozzBackend.Modules.Investments;
 using PozzBackend.Modules.Onboarding;
 using PozzBackend.Modules.Projects;
 using PozzBackend.Modules.Roles;
 using PozzBackend.Modules.Users;
+
+// ── Load .env file before builder ─────────────────────────────────────────────
+var envFile = Path.Combine(Directory.GetCurrentDirectory(), ".env");
+if (File.Exists(envFile))
+{
+    foreach (var line in File.ReadAllLines(envFile))
+    {
+        var trimmed = line.Trim();
+        if (string.IsNullOrEmpty(trimmed) || trimmed.StartsWith('#')) continue;
+        var idx = trimmed.IndexOf('=');
+        if (idx < 0) continue;
+        Environment.SetEnvironmentVariable(trimmed[..idx].Trim(), trimmed[(idx + 1)..].Trim());
+    }
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +82,25 @@ builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProv
 builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddAuthorization();
 
+// ── AWS S3 Storage ────────────────────────────────────────────────────────────
+var awsAccessKey = builder.Configuration["AWS_ACCESS_KEY_ID"];
+var awsSecretKey = builder.Configuration["AWS_SECRET_ACCESS_KEY"];
+var awsRegion = builder.Configuration["AWS_REGION"] ?? builder.Configuration["Storage:Region"] ?? "me-central-1";
+
+Amazon.Runtime.AWSCredentials awsCredentials =
+    !string.IsNullOrEmpty(awsAccessKey) && !string.IsNullOrEmpty(awsSecretKey)
+    ? new Amazon.Runtime.BasicAWSCredentials(awsAccessKey, awsSecretKey)
+    : new Amazon.Runtime.EnvironmentVariablesAWSCredentials();
+
+var s3Config = new Amazon.S3.AmazonS3Config
+{
+    RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName(awsRegion)
+};
+
+builder.Services.AddSingleton<Amazon.S3.IAmazonS3>(
+    _ => new Amazon.S3.AmazonS3Client(awsCredentials, s3Config));
+builder.Services.AddScoped<IStorageService, S3StorageService>();
+
 // ── Unit of Work ──────────────────────────────────────────────────────────────
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -75,8 +111,11 @@ builder.Services
     .AddRolesModule()
     .AddCompaniesModule()
     .AddInvestorsModule()
+    .AddInvestmentsModule()
+    .AddActivitiesModule()
     .AddOnboardingModule()
-    .AddProjectsModule();
+    .AddProjectsModule()
+    .AddFilesModule();
 
 // ── Data Seeder ───────────────────────────────────────────────────────────────
 builder.Services.AddScoped<DataSeeder>();

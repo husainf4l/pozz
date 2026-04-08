@@ -36,6 +36,14 @@ public static class PermissionConstants
         public const string Delete  = "investors.delete";
     }
 
+    public static class Investments
+    {
+        public const string Read    = "investments.read";
+        public const string Create  = "investments.create";
+        public const string Update  = "investments.update";
+        public const string Delete  = "investments.delete";
+    }
+
     public static class Onboarding
     {
         public const string Read   = "onboarding.read";
@@ -74,6 +82,11 @@ public static class PermissionConstants
         (Investors.Create,         "Investors",   "Create investors"),
         (Investors.Update,         "Investors",   "Update investors"),
         (Investors.Delete,         "Investors",   "Delete investors"),
+
+        (Investments.Read,         "Investments", "View investments"),
+        (Investments.Create,       "Investments", "Create investments"),
+        (Investments.Update,       "Investments", "Update investments"),
+        (Investments.Delete,       "Investments", "Delete investments"),
 
         (Onboarding.Read,          "Onboarding",  "View own onboarding status"),
         (Onboarding.Update,        "Onboarding",  "Complete onboarding steps"),

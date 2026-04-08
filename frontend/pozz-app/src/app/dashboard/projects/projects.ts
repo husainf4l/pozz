@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal, ViewChild, ElementRef } from '@angul
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
 import { ProjectService } from '../../core/services/project.service';
 import { UploadService } from '../../core/services/upload.service';
 import { 
@@ -334,35 +335,34 @@ export class ProjectsComponent implements OnInit {
       return;
     }
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      this.error.set('Image size must be less than 5MB');
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      this.error.set('Image size must be less than 10MB');
       console.log('File too large:', file.size);
       return;
     }
 
-    console.log('File validated, converting to base64...');
+    console.log('File validated, uploading to S3...');
 
     this.uploadingImage.set(true);
     this.error.set(null);
 
     try {
-      // Convert to base64
-      const base64 = await this.uploadService.convertToBase64(file);
-      console.log('Base64 conversion success, length:', base64.length);
+      // Upload to S3 via backend
+      const response = await firstValueFrom(this.uploadService.uploadImage(file));
+      console.log('S3 upload success:', response);
       
-      // Update form control
-      this.projectForm.patchValue({ imageUrl: base64 });
+      // Store the S3 URL in the form
+      this.projectForm.patchValue({ imageUrl: response.url });
       
-      // Update preview - sanitize the base64 string for display
-      const safeUrl = this.sanitizer.bypassSecurityTrustUrl(base64);
-      this.selectedImage.set(safeUrl);
+      // Update preview with the CDN URL (no need to sanitize external URLs)
+      this.imagePreview.set(response.url);
       
-      console.log('Image preview updated');
+      console.log('Image uploaded and preview updated');
       this.uploadingImage.set(false);
-    } catch (error) {
-      console.error('Failed to process image:', error);
-      this.error.set('Failed to process image');
+    } catch (error: any) {
+      console.error('Failed to upload image:', error);
+      this.error.set(error?.error?.error || 'Failed to upload image');
       this.uploadingImage.set(false);
     }
   }
@@ -374,13 +374,8 @@ export class ProjectsComponent implements OnInit {
   async onImageSelect(event: Event): Promise<void> {
     console.log('=== onImageSelect CALLED ===');
     console.log('Event type:', event.type);
-    console.log('Event:', event);
     
     const input = event.target as HTMLInputElement;
-    console.log('Input element:', input);
-    console.log('Input files:', input.files);
-    console.log('Input value:', input.value);
-    
     const file = input.files?.[0];
     
     console.log('File extracted:', file);
@@ -397,14 +392,14 @@ export class ProjectsComponent implements OnInit {
       return;
     }
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      this.error.set('Image size must be less than 5MB');
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      this.error.set('Image size must be less than 10MB');
       console.log('File too large:', file.size);
       return;
     }
 
-    console.log('File validated, converting to base64...', {
+    console.log('File validated, uploading to S3...', {
       name: file.name,
       size: file.size,
       type: file.type
@@ -414,23 +409,19 @@ export class ProjectsComponent implements OnInit {
     this.error.set(null);
 
     try {
-      // Convert to base64 for now (temporary solution)
-      const base64 = await this.uploadService.convertToBase64(file);
-      console.log('Base64 conversion success, length:', base64.length);
-      console.log('Base64 preview:', base64.substring(0, 100));
+      // Upload to S3 via backend
+      const response = await firstValueFrom(this.uploadService.uploadImage(file));
+      console.log('S3 upload success:', response);
       
-      this.imagePreview.set(this.sanitizer.bypassSecurityTrustUrl(base64));
-      this.projectForm.patchValue({ imageUrl: base64 });
+      // Store the S3 URL in the form
+      this.projectForm.patchValue({ imageUrl: response.url });
       
-      console.log('Image preview set, form updated');
-      console.log('Current imagePreview value:', this.imagePreview());
-      console.log('Form imageUrl value:', this.projectForm.get('imageUrl')?.value?.substring(0, 100));
+      // Update preview with the CDN URL
+      this.imagePreview.set(response.url);
       
-      // TODO: Implement actual file upload to server
-      // const response = await firstValueFrom(this.uploadService.uploadImage(file));
-      // this.projectForm.patchValue({ imageUrl: response.url });
-    } catch (error) {
-      this.error.set('Failed to process image');
+      console.log('Image uploaded successfully, URL:', response.url);
+    } catch (error: any) {
+      this.error.set(error?.error?.error || 'Failed to upload image');
       console.error('Image upload error:', error);
     } finally {
       this.uploadingImage.set(false);
@@ -443,9 +434,11 @@ export class ProjectsComponent implements OnInit {
   }
 
   getSafeImageUrl(imageUrl: string): SafeUrl | string {
+    // Support legacy base64 images (for old data)
     if (imageUrl && imageUrl.startsWith('data:image')) {
       return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
     }
+    // CDN URLs can be used directly
     return imageUrl;
   }
 }

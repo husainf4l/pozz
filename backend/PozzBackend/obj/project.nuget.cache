@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "2MtQxD2bhag=",
+  "dgSpecHash": "wyimFuOJbcI=",
   "success": true,
   "projectFilePath": "/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/PozzBackend.csproj",
   "expectedPackageFiles": [
+    "/Users/shadi/.nuget/packages/awssdk.core/3.7.400.28/awssdk.core.3.7.400.28.nupkg.sha512",
+    "/Users/shadi/.nuget/packages/awssdk.s3/3.7.404/awssdk.s3.3.7.404.nupkg.sha512",
     "/Users/shadi/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/shadi/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/10.0.5/microsoft.aspnetcore.authentication.jwtbearer.10.0.5.nupkg.sha512",
     "/Users/shadi/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/10.0.5/microsoft.aspnetcore.identity.entityframeworkcore.10.0.5.nupkg.sha512",
@@ -48,13 +50,16 @@
   ],
   "logs": [
     {
-      "code": "Undefined",
+      "code": "NU1603",
       "level": "Warning",
-      "message": "Problem reading the cache file /Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/obj/project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
+      "message": "PozzBackend depends on AWSSDK.S3 (>= 3.7.403.8) but AWSSDK.S3 3.7.403.8 was not found. AWSSDK.S3 3.7.404 was resolved instead.",
       "projectPath": "/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/PozzBackend.csproj",
       "warningLevel": 1,
       "filePath": "/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/PozzBackend.csproj",
-      "targetGraphs": []
+      "libraryId": "AWSSDK.S3",
+      "targetGraphs": [
+        "net10.0"
+      ]
     }
   ]
 }

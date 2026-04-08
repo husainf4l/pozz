@@ -266,3 +266,5 @@
 /Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/obj/Debug/net10.0/PozzBackend.pdb
 /Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/obj/Debug/net10.0/PozzBackend.genruntimeconfig.cache
 /Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/obj/Debug/net10.0/ref/PozzBackend.dll
+/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/bin/Debug/net10.0/AWSSDK.Core.dll
+/Users/shadi/Desktop/pozz/pozz/backend/PozzBackend/bin/Debug/net10.0/AWSSDK.S3.dll

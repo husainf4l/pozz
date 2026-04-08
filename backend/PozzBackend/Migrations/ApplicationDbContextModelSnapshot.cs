@@ -125,6 +125,115 @@ namespace PozzBackend.Migrations
                     b.ToTable("user_tokens", (string)null);
                 });
 
+            modelBuilder.Entity("PozzBackend.Modules.Activities.Domain.Activity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("ActivityDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("CallDurationMinutes")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("CompanyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(5000)
+                        .HasColumnType("character varying(5000)");
+
+                    b.Property<string>("DocumentName")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("DocumentUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("EmailRecipients")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<string>("EmailSubject")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateOnly?>("FollowUpDate")
+                        .HasColumnType("date");
+
+                    b.Property<long?>("InvestmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("InvestorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsPrivate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<long?>("LastModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("MeetingAttendees")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<string>("MeetingLocation")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("NextSteps")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("Outcome")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<long?>("ProjectId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityDate");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("InvestmentId");
+
+                    b.HasIndex("InvestorId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("Type");
+
+                    b.ToTable("activities", (string)null);
+                });
+
             modelBuilder.Entity("PozzBackend.Modules.Auth.Domain.ApplicationRole", b =>
                 {
                     b.Property<long>("Id")
@@ -402,6 +511,152 @@ namespace PozzBackend.Migrations
                     b.ToTable("companies", (string)null);
                 });
 
+            modelBuilder.Entity("PozzBackend.Modules.Investments.Domain.Investment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("AgreementUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("AntiDilutionType")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateOnly?>("ClosingDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("CommitmentDate")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("CommittedAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<long>("CompanyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal?>("DiscountRate")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
+
+                    b.Property<decimal>("EquityPercentage")
+                        .HasPrecision(10, 4)
+                        .HasColumnType("numeric(10,4)");
+
+                    b.Property<DateOnly?>("FinalPaymentDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("FirstPaymentDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("HasAntiDilution")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HasBoardSeat")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HasInformationRights")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HasVetoRights")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Instrument")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
+
+                    b.Property<decimal?>("InterestRate")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
+
+                    b.Property<string>("InternalReference")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<long>("InvestorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsParticipating")
+                        .HasColumnType("boolean");
+
+                    b.Property<long?>("LastModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("LiquidationPreferenceMultiple")
+                        .HasColumnType("integer");
+
+                    b.Property<DateOnly?>("MaturityDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("PaidAmount")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0m);
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<long?>("ProjectId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ShareCertificateNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ShareCertificateUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("TermSheetUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal?>("ValuationCap")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommitmentDate");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("InvestorId");
+
+                    b.HasIndex("PaymentStatus");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("Status");
+
+                    b.ToTable("investments", (string)null);
+                });
+
             modelBuilder.Entity("PozzBackend.Modules.Investors.Domain.Investor", b =>
                 {
                     b.Property<long>("Id")
@@ -410,11 +665,37 @@ namespace PozzBackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("AddressLine1")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("AddressLine2")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
                     b.Property<long?>("CompanyId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Country")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.PrimitiveCollection<string[]>("InvestmentFocus")
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("InvestmentRange")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("InvestorType")
                         .IsRequired()
@@ -426,8 +707,91 @@ namespace PozzBackend.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
 
+                    b.Property<DateTimeOffset?>("LastContactDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("LastModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("LinkedInUrl")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<DateTimeOffset?>("NextFollowUpDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NotableInvestments")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<string>("PipelineStage")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("PortfolioCompanies")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<string>("Position")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("PostalCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<decimal?>("PotentialInvestmentAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<string>("PreferredInvestmentInstrument")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("PreviousExits")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("PrimaryEmail")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("PrimaryPhone")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int>("Priority")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(3);
+
+                    b.Property<string>("SecondaryEmail")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("SecondaryPhone")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("State")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Tags")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("TwitterHandle")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -435,9 +799,22 @@ namespace PozzBackend.Migrations
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Website")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<int?>("YearsOfExperience")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("LastContactDate");
+
+                    b.HasIndex("PipelineStage");
+
+                    b.HasIndex("PrimaryEmail");
 
                     b.HasIndex("UserId");
 
@@ -703,6 +1080,24 @@ namespace PozzBackend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PozzBackend.Modules.Activities.Domain.Activity", b =>
+                {
+                    b.HasOne("PozzBackend.Modules.Investments.Domain.Investment", null)
+                        .WithMany()
+                        .HasForeignKey("InvestmentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("PozzBackend.Modules.Investors.Domain.Investor", null)
+                        .WithMany()
+                        .HasForeignKey("InvestorId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("PozzBackend.Modules.Projects.Domain.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
             modelBuilder.Entity("PozzBackend.Modules.Auth.Domain.RefreshToken", b =>
                 {
                     b.HasOne("PozzBackend.Modules.Auth.Domain.ApplicationUser", "User")
@@ -741,6 +1136,24 @@ namespace PozzBackend.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("PozzBackend.Modules.Investments.Domain.Investment", b =>
+                {
+                    b.HasOne("PozzBackend.Modules.Investors.Domain.Investor", "Investor")
+                        .WithMany()
+                        .HasForeignKey("InvestorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PozzBackend.Modules.Projects.Domain.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Investor");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("PozzBackend.Modules.Investors.Domain.Investor", b =>

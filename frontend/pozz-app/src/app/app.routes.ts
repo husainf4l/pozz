@@ -35,6 +35,30 @@ export const routes: Routes = [
             title: 'Dashboard – Pozz',
           },
           {
+            path: 'investors',
+            loadComponent: () =>
+              import('./dashboard/investors/investors').then((m) => m.InvestorsComponent),
+            title: 'Investors – Pozz',
+          },
+          {
+            path: 'investors/:id',
+            loadComponent: () =>
+              import('./dashboard/investors/investor-detail').then((m) => m.InvestorDetailComponent),
+            title: 'Investor Details – Pozz',
+          },
+          {
+            path: 'investments',
+            loadComponent: () =>
+              import('./dashboard/investments/investments').then((m) => m.InvestmentsComponent),
+            title: 'Investments – Pozz',
+          },
+          {
+            path: 'investments/:id',
+            loadComponent: () =>
+              import('./dashboard/investments/investment-detail').then((m) => m.InvestmentDetailComponent),
+            title: 'Investment Details – Pozz',
+          },
+          {
             path: 'projects',
             loadComponent: () =>
               import('./dashboard/projects/projects').then((m) => m.ProjectsComponent),

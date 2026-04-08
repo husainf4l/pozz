@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PozzBackend.Modules.Activities.Domain;
 using PozzBackend.Modules.Auth.Domain;
 using PozzBackend.Modules.Companies.Domain;
 using PozzBackend.Modules.Investors.Domain;
+using PozzBackend.Modules.Investments.Domain;
 using PozzBackend.Modules.Onboarding.Domain;
 using PozzBackend.Modules.Projects.Domain;
 
@@ -20,6 +22,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<RefreshToken>     RefreshTokens     => Set<RefreshToken>();
     public DbSet<Company>          Companies         => Set<Company>();
     public DbSet<Investor>         Investors         => Set<Investor>();
+    public DbSet<Investment>       Investments       => Set<Investment>();
+    public DbSet<Activity>         Activities        => Set<Activity>();
     public DbSet<UserOnboarding>   UserOnboardings   => Set<UserOnboarding>();
     public DbSet<InvestorProfile>  InvestorProfiles  => Set<InvestorProfile>();
     public DbSet<Project>          Projects          => Set<Project>();
@@ -121,10 +125,55 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         {
             e.ToTable("investors");
             e.HasKey(i => i.Id);
+            
+            // ── Basic Info ──────────────────────────────────────────────────
             e.Property(i => i.InvestorType).IsRequired()
              .HasConversion<string>()
              .HasMaxLength(20);
             e.Property(i => i.IsActive).IsRequired().HasDefaultValue(true);
+            
+            // ── Contact Information ─────────────────────────────────────────
+            e.Property(i => i.PrimaryEmail).HasMaxLength(200);
+            e.Property(i => i.SecondaryEmail).HasMaxLength(200);
+            e.Property(i => i.PrimaryPhone).HasMaxLength(50);
+            e.Property(i => i.SecondaryPhone).HasMaxLength(50);
+            e.Property(i => i.AddressLine1).HasMaxLength(300);
+            e.Property(i => i.AddressLine2).HasMaxLength(300);
+            e.Property(i => i.City).HasMaxLength(100);
+            e.Property(i => i.State).HasMaxLength(100);
+            e.Property(i => i.PostalCode).HasMaxLength(20);
+            e.Property(i => i.Country).HasMaxLength(100);
+            
+            // ── Professional Details ────────────────────────────────────────
+            e.Property(i => i.Position).HasMaxLength(150);
+            e.Property(i => i.LinkedInUrl).HasMaxLength(300);
+            e.Property(i => i.TwitterHandle).HasMaxLength(100);
+            e.Property(i => i.Website).HasMaxLength(300);
+            
+            // ── Investment Profile ──────────────────────────────────────────
+            e.Property(i => i.InvestmentRange).HasMaxLength(100);
+            e.Property(i => i.InvestmentFocus);  // TEXT[] native Npgsql array
+            e.Property(i => i.PortfolioCompanies).HasMaxLength(2000);
+            e.Property(i => i.NotableInvestments).HasMaxLength(2000);
+            e.Property(i => i.PreviousExits).HasMaxLength(1000);
+            
+            // ── Pipeline Tracking ───────────────────────────────────────────
+            e.Property(i => i.PipelineStage).IsRequired()
+             .HasConversion<string>()
+             .HasMaxLength(20);
+            e.Property(i => i.Source).HasMaxLength(200);
+            e.Property(i => i.Priority).IsRequired().HasDefaultValue(3);
+            
+            // ── CRM Data ────────────────────────────────────────────────────
+            e.Property(i => i.Tags).HasMaxLength(500);
+            e.Property(i => i.PotentialInvestmentAmount).HasPrecision(18, 2);
+            e.Property(i => i.PreferredInvestmentInstrument).HasMaxLength(50);
+            
+            // ── Timestamps ──────────────────────────────────────────────────
+            e.Property(i => i.CreatedAt).IsRequired();
+            e.Property(i => i.UpdatedAt).IsRequired();
+            
+            // ── Relationships ───────────────────────────────────────────────
             e.HasOne(i => i.User)
              .WithMany()
              .HasForeignKey(i => i.UserId)
@@ -134,8 +183,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
              .HasForeignKey(i => i.CompanyId)
              .OnDelete(DeleteBehavior.SetNull)
              .IsRequired(false);
+            
+            // ── Indexes ─────────────────────────────────────────────────────
             e.HasIndex(i => i.UserId);
             e.HasIndex(i => i.CompanyId);
+            e.HasIndex(i => i.PipelineStage);
+            e.HasIndex(i => i.PrimaryEmail);
+            e.HasIndex(i => i.LastContactDate);
         });
 
         // ── UserOnboarding ────────────────────────────────────────────────
@@ -200,6 +254,129 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
              .OnDelete(DeleteBehavior.Cascade);
             e.HasIndex(p => p.CompanyId);
             e.HasIndex(p => p.Status);
+        });
+
+        // ── Investment ────────────────────────────────────────────────────
+        builder.Entity<Investment>(e =>
+        {
+            e.ToTable("investments");
+            e.HasKey(i => i.Id);
+            
+            // ── Core Investment Info ─────────────────────────────────────────
+            e.Property(i => i.CommittedAmount).IsRequired().HasPrecision(18, 2);
+            e.Property(i => i.PaidAmount).IsRequired().HasPrecision(18, 2).HasDefaultValue(0);
+            e.Property(i => i.EquityPercentage).IsRequired().HasPrecision(10, 4);
+            e.Property(i => i.Instrument).IsRequired()
+             .HasConversion<string>()
+             .HasMaxLength(30);
+            e.Property(i => i.PaymentStatus).IsRequired()
+             .HasConversion<string>()
+             .HasMaxLength(20);
+            
+            // ── SAFE / Convertible Note Specific ─────────────────────────────
+            e.Property(i => i.ValuationCap).HasPrecision(18, 2);
+            e.Property(i => i.DiscountRate).HasPrecision(5, 2);
+            e.Property(i => i.InterestRate).HasPrecision(5, 2);
+            
+            // ── Legal & Documentation ────────────────────────────────────────
+            e.Property(i => i.TermSheetUrl).HasMaxLength(500);
+            e.Property(i => i.AgreementUrl).HasMaxLength(500);
+            e.Property(i => i.ShareCertificateUrl).HasMaxLength(500);
+            e.Property(i => i.InternalReference).HasMaxLength(100);
+            e.Property(i => i.AntiDilutionType).HasMaxLength(100);
+            
+            // ── Status ────────────────────────────────────────────────────────
+            e.Property(i => i.Status).IsRequired()
+             .HasConversion<string>()
+             .HasMaxLength(20);
+            
+            // ── Timestamps ────────────────────────────────────────────────────
+            e.Property(i => i.CreatedAt).IsRequired();
+            e.Property(i => i.UpdatedAt).IsRequired();
+            
+            // ── Relationships ─────────────────────────────────────────────────
+            e.HasOne(i => i.Investor)
+             .WithMany()
+             .HasForeignKey(i => i.InvestorId)
+             .OnDelete(DeleteBehavior.Restrict);
+            e.HasOne(i => i.Project)
+             .WithMany()
+             .HasForeignKey(i => i.ProjectId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
+            
+            // ── Indexes ───────────────────────────────────────────────────────
+            e.HasIndex(i => i.InvestorId);
+            e.HasIndex(i => i.ProjectId);
+            e.HasIndex(i => i.CompanyId);
+            e.HasIndex(i => i.PaymentStatus);
+            e.HasIndex(i => i.Status);
+            e.HasIndex(i => i.CommitmentDate);
+        });
+
+        // ── Activity ──────────────────────────────────────────────────────
+        builder.Entity<Activity>(e =>
+        {
+            e.ToTable("activities");
+            e.HasKey(a => a.Id);
+            
+            // ── Core Activity Info ────────────────────────────────────────────
+            e.Property(a => a.Type).IsRequired()
+             .HasConversion<int>();
+            e.Property(a => a.Title).IsRequired().HasMaxLength(300);
+            e.Property(a => a.Description).HasMaxLength(5000);
+            e.Property(a => a.ActivityDate).IsRequired();
+            e.Property(a => a.Outcome).HasMaxLength(2000);
+            e.Property(a => a.NextSteps).HasMaxLength(1000);
+            e.Property(a => a.FollowUpDate);
+            e.Property(a => a.IsPrivate).IsRequired().HasDefaultValue(false);
+            
+            // ── Email Specific Fields ──────────────────────────────────────────
+            e.Property(a => a.EmailSubject).HasMaxLength(500);
+            e.Property(a => a.EmailRecipients).HasMaxLength(2000);
+            
+            // ── Call Specific Fields ───────────────────────────────────────────
+            e.Property(a => a.CallDurationMinutes);
+            
+            // ── Meeting Specific Fields ────────────────────────────────────────
+            e.Property(a => a.MeetingLocation).HasMaxLength(300);
+            e.Property(a => a.MeetingAttendees).HasMaxLength(2000);
+            
+            // ── Document Fields ────────────────────────────────────────────────
+            e.Property(a => a.DocumentUrl).HasMaxLength(500);
+            e.Property(a => a.DocumentName).HasMaxLength(300);
+            
+            // ── Timestamps & Audit ─────────────────────────────────────────────
+            e.Property(a => a.CreatedAt).IsRequired();
+            e.Property(a => a.UpdatedAt).IsRequired();
+            e.Property(a => a.CreatedBy).IsRequired();
+            e.Property(a => a.LastModifiedBy);
+            
+            // ── Relationships ──────────────────────────────────────────────────
+            e.HasOne<Investor>()
+             .WithMany()
+             .HasForeignKey(a => a.InvestorId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
+            e.HasOne<Investment>()
+             .WithMany()
+             .HasForeignKey(a => a.InvestmentId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
+            e.HasOne<Project>()
+             .WithMany()
+             .HasForeignKey(a => a.ProjectId)
+             .OnDelete(DeleteBehavior.SetNull)
+             .IsRequired(false);
+            
+            // ── Indexes ────────────────────────────────────────────────────────
+            e.HasIndex(a => a.CompanyId);
+            e.HasIndex(a => a.InvestorId);
+            e.HasIndex(a => a.InvestmentId);
+            e.HasIndex(a => a.ProjectId);
+            e.HasIndex(a => a.Type);
+            e.HasIndex(a => a.ActivityDate);
+            e.HasIndex(a => a.CreatedBy);
         });
     }
 }

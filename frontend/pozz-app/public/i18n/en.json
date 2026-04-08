@@ -12,6 +12,8 @@
   },
   "nav": {
     "dashboard": "Dashboard",
+    "investors": "Investors",
+    "investments": "Investments",
     "projects": "Projects",
     "messages": "Messages",
     "settings": "Settings"
@@ -140,5 +142,21 @@
       "company_details": "Company details",
       "terms_accepted": "Terms & Conditions"
     }
+  },
+  "investors": {
+    "title": "Investors",
+    "subtitle": "Manage your investor relationships and track your fundraising pipeline",
+    "addInvestor": "Add Investor",
+    "noInvestors": "No investors yet",
+    "viewDetails": "View details"
+  },
+  "investments": {
+    "title": "Investments",
+    "subtitle": "Track investment commitments, payments, and your cap table",
+    "recordInvestment": "Record Investment",
+    "noInvestments": "No investments recorded",
+    "totalRaised": "Total Raised",
+    "commitments": "Commitments",
+    "capTable": "Cap Table"
   }
 }

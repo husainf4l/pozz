@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/husainf4l/pozz-backend:0.1.27
+    image: ghcr.io/husainf4l/pozz-backend:0.1.45
     ports:
       - "3400:8080"
     environment:
@@ -11,16 +11,23 @@ services:
       - JwtSettings__Audience=PozzApp
       - JwtSettings__ExpiryMinutes=60
       - JwtSettings__RefreshTokenExpiryDays=7
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=me-central-1
+      - Storage__BucketName=aqlaan
+      - Storage__Region=me-central-1
+      - Storage__CdnBaseUrl=https://media.aqlaan.com
+      - Storage__PresignedExpiryHours=1
     restart: unless-stopped
 
   pozz-app:
-    image: ghcr.io/husainf4l/pozz-app:0.1.44
+    image: ghcr.io/husainf4l/pozz-app:0.1.45
     ports:
       - "3401:80"
     restart: unless-stopped
 
   pozz-public:
-    image: ghcr.io/husainf4l/pozz-public:0.1.16
+    image: ghcr.io/husainf4l/pozz-public:0.1.45
     ports:
       - "3402:3000"
     environment:
@@ -28,7 +35,7 @@ services:
     restart: unless-stopped
 
   poss-admin:
-    image: ghcr.io/husainf4l/poss-admin:0.1.14
+    image: ghcr.io/husainf4l/poss-admin:0.1.45
     ports:
       - "3403:80"
     restart: unless-stopped

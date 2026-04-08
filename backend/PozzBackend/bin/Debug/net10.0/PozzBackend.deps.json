@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v10.0": {
       "PozzBackend/1.0.0": {
         "dependencies": {
+          "AWSSDK.S3": "3.7.404",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "10.0.5",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "10.0.5",
           "Microsoft.EntityFrameworkCore.Design": "10.0.5",
@@ -16,6 +17,25 @@
         },
         "runtime": {
           "PozzBackend.dll": {}
+        }
+      },
+      "AWSSDK.Core/3.7.400.28": {
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.400.28"
+          }
+        }
+      },
+      "AWSSDK.S3/3.7.404": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.400.28"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.404.0"
+          }
         }
       },
       "Humanizer.Core/2.14.1": {
@@ -629,6 +649,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AWSSDK.Core/3.7.400.28": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AUf7bww9kT7LTKOZAmbF/6dtI2JjPRHb7zJYHRV/qHUOkprYyfNn90NF5fwCyZ5BexSzh9y7ru91hPWATkAT+w==",
+      "path": "awssdk.core/3.7.400.28",
+      "hashPath": "awssdk.core.3.7.400.28.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.7.404": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-D6bReizzmgoy2wNwf864V7xMi4TkurNiu32gDOCJJuxjKML1sw7aktLIYp+M5mhv69BWQ5wDODZoTyn9Ch7jXw==",
+      "path": "awssdk.s3/3.7.404",
+      "hashPath": "awssdk.s3.3.7.404.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",
