@@ -40,6 +40,16 @@ public class ProjectService : IProjectService
             ImageUrl = request.ImageUrl,
             CompanyId = company.Id,
             Status = ProjectStatus.Draft,
+            // Enhanced fields
+            Stage = request.Stage,
+            PrimaryGoal = request.PrimaryGoal,
+            WebsiteUrl = request.WebsiteUrl,
+            PitchDeckUrl = request.PitchDeckUrl,
+            InternalNotes = request.InternalNotes,
+            Tags = request.Tags,
+            TargetMarket = request.TargetMarket,
+            BusinessModel = request.BusinessModel,
+            CurrentStatusSummary = request.CurrentStatusSummary,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };
@@ -76,6 +86,16 @@ public class ProjectService : IProjectService
         if (request.DurationMonths.HasValue) project.DurationMonths = request.DurationMonths;
         if (request.ImageUrl is not null) project.ImageUrl = request.ImageUrl;
         if (request.Status.HasValue) project.Status = request.Status.Value;
+        // Enhanced fields
+        if (request.Stage.HasValue) project.Stage = request.Stage;
+        if (request.PrimaryGoal.HasValue) project.PrimaryGoal = request.PrimaryGoal;
+        if (request.WebsiteUrl is not null) project.WebsiteUrl = request.WebsiteUrl;
+        if (request.PitchDeckUrl is not null) project.PitchDeckUrl = request.PitchDeckUrl;
+        if (request.InternalNotes is not null) project.InternalNotes = request.InternalNotes;
+        if (request.Tags is not null) project.Tags = request.Tags;
+        if (request.TargetMarket is not null) project.TargetMarket = request.TargetMarket;
+        if (request.BusinessModel.HasValue) project.BusinessModel = request.BusinessModel;
+        if (request.CurrentStatusSummary is not null) project.CurrentStatusSummary = request.CurrentStatusSummary;
 
         project.UpdatedAt = DateTimeOffset.UtcNow;
         await _repo.UpdateAsync(project, ct);
@@ -155,5 +175,15 @@ public class ProjectService : IProjectService
         p.Company?.Name ?? "",
         p.ViewCount,
         p.CreatedAt,
-        p.UpdatedAt);
+        p.UpdatedAt,
+        // Enhanced fields
+        p.Stage,
+        p.PrimaryGoal,
+        p.WebsiteUrl,
+        p.PitchDeckUrl,
+        p.InternalNotes,
+        p.Tags,
+        p.TargetMarket,
+        p.BusinessModel,
+        p.CurrentStatusSummary);
 }

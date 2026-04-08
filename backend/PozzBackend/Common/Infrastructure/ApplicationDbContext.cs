@@ -187,8 +187,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
             e.Property(p => p.MinimumInvestment).IsRequired().HasPrecision(18, 2);
             e.Property(p => p.CurrentFunding).IsRequired().HasPrecision(18, 2).HasDefaultValue(0);
             e.Property(p => p.Status).IsRequired().HasConversion<int>();
-            e.Property(p => p.ExpectedReturn).HasPrecision(5, 2);
-            e.Property(p => p.ImageUrl).HasMaxLength(500);
+            e.Property(p => p.ExpectedReturn).HasPrecision(10, 2);
+            e.Property(p => p.ImageUrl);
             e.Property(p => p.Documents).HasMaxLength(2000);
             e.Property(p => p.ViewCount).IsRequired().HasDefaultValue(0);
             e.Property(p => p.IsActive).IsRequired().HasDefaultValue(true);

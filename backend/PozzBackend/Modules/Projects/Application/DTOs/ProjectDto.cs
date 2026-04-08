@@ -21,4 +21,14 @@ public record ProjectDto(
     string CompanyName,
     int ViewCount,
     DateTimeOffset CreatedAt,
-    DateTimeOffset UpdatedAt);
+    DateTimeOffset UpdatedAt,
+    // Enhanced fields
+    ProjectStage? Stage,
+    ProjectGoal? PrimaryGoal,
+    string? WebsiteUrl,
+    string? PitchDeckUrl,
+    string? InternalNotes,
+    string? Tags,
+    string? TargetMarket,
+    BusinessModel? BusinessModel,
+    string? CurrentStatusSummary);

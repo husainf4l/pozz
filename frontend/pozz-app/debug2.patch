@@ -1,0 +1,17 @@
+--- /Users/shadi/Desktop/pozz/pozz/frontend/pozz-app/src/app/dashboard/projects/projects.ts
++++ /Users/shadi/Desktop/pozz/pozz/frontend/pozz-app/src/app/dashboard/projects/projects.ts
+@@ -155,7 +155,14 @@
+ 
+   submitProject(): void {
+     if (this.projectForm.invalid) {
++      this.projectForm.markAllAsTouched();
++      const invalidControls = [];
++      const controls = this.projectForm.controls;
++      for (const name in controls) {
++        if (controls[name as keyof typeof controls].invalid) invalidControls.push(name);
++      }
++      this.error.set(`Please fill all required fields correctly. Invalid fields: ${invalidControls.join(', ')}`);
+       return;
+     }
+ 
+     this.submitting.set(true);

@@ -542,6 +542,9 @@ namespace PozzBackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<int?>("BusinessModel")
+                        .HasColumnType("integer");
+
                     b.Property<long>("CompanyId")
                         .HasColumnType("bigint");
 
@@ -553,6 +556,9 @@ namespace PozzBackend.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
                         .HasDefaultValue(0m);
+
+                    b.Property<string>("CurrentStatusSummary")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .HasMaxLength(5000)
@@ -566,8 +572,8 @@ namespace PozzBackend.Migrations
                         .HasColumnType("integer");
 
                     b.Property<decimal?>("ExpectedReturn")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("numeric(5,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
 
                     b.Property<DateTimeOffset?>("FundingDeadline")
                         .HasColumnType("timestamp with time zone");
@@ -577,12 +583,14 @@ namespace PozzBackend.Migrations
                         .HasColumnType("numeric(18,2)");
 
                     b.Property<string>("ImageUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Industry")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<string>("InternalNotes")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -597,12 +605,27 @@ namespace PozzBackend.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)");
 
+                    b.Property<string>("PitchDeckUrl")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("PrimaryGoal")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Stage")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<string>("Summary")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Tags")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TargetMarket")
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -616,6 +639,9 @@ namespace PozzBackend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasDefaultValue(0);
+
+                    b.Property<string>("WebsiteUrl")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

@@ -15,4 +15,14 @@ public record UpdateProjectRequest(
     decimal? ExpectedReturn,
     int? DurationMonths,
     string? ImageUrl,
-    ProjectStatus? Status);
+    ProjectStatus? Status,
+    // Enhanced fields
+    ProjectStage? Stage,
+    ProjectGoal? PrimaryGoal,
+    [MaxLength(500)] string? WebsiteUrl,
+    [MaxLength(500)] string? PitchDeckUrl,
+    [MaxLength(2000)] string? InternalNotes,
+    [MaxLength(500)] string? Tags,
+    [MaxLength(200)] string? TargetMarket,
+    BusinessModel? BusinessModel,
+    [MaxLength(300)] string? CurrentStatusSummary);

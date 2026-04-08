@@ -54,6 +54,34 @@ public class Project : AggregateRoot<long>
     /// <summary>View count</summary>
     public int ViewCount { get; set; } = 0;
 
+    // Enhanced fields
+    /// <summary>Project stage (Idea, MVP, EarlyRevenue, Scaling)</summary>
+    public ProjectStage? Stage { get; set; }
+
+    /// <summary>Primary goal (Raise funding, Sell project, Find partners, etc.)</summary>
+    public ProjectGoal? PrimaryGoal { get; set; }
+
+    /// <summary>Project website URL</summary>
+    public string? WebsiteUrl { get; set; }
+
+    /// <summary>Pitch deck URL or file path</summary>
+    public string? PitchDeckUrl { get; set; }
+
+    /// <summary>Internal notes (only visible to team)</summary>
+    public string? InternalNotes { get; set; }
+
+    /// <summary>Tags for categorization (comma-separated)</summary>
+    public string? Tags { get; set; }
+
+    /// <summary>Target market or region (USA, GCC, Europe, etc.)</summary>
+    public string? TargetMarket { get; set; }
+
+    /// <summary>Business model (SaaS, Marketplace, etc.)</summary>
+    public BusinessModel? BusinessModel { get; set; }
+
+    /// <summary>Short status summary (e.g., "Currently raising seed round")</summary>
+    public string? CurrentStatusSummary { get; set; }
+
     public bool IsActive { get; set; } = true;
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;

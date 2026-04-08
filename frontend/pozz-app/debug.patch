@@ -1,0 +1,9 @@
+--- /Users/shadi/Desktop/pozz/pozz/frontend/pozz-app/src/app/dashboard/projects/projects.html
++++ /Users/shadi/Desktop/pozz/pozz/frontend/pozz-app/src/app/dashboard/projects/projects.html
+@@ -467,6 +467,7 @@
+             >
+               {{ submitting() ? 'Saving...' : (editingProject() ? 'Update Project' : 'Create Project') }}
+             </button>
++            <div *ngIf="projectForm.invalid" class="text-xs text-red-500">Form Invalid: {{projectForm.status}}</div>
+           </div>
+         </form>

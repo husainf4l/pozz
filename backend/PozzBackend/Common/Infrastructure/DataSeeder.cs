@@ -64,6 +64,7 @@ public class DataSeeder
             PermissionConstants.Roles.Read,
             PermissionConstants.Companies.Read, PermissionConstants.Companies.Create, PermissionConstants.Companies.Update,
             PermissionConstants.Investors.Read, PermissionConstants.Investors.Create, PermissionConstants.Investors.Update,
+            PermissionConstants.Projects.Read, PermissionConstants.Projects.Create, PermissionConstants.Projects.Update,
         ]);
 
         // User — read-only
@@ -72,6 +73,7 @@ public class DataSeeder
             PermissionConstants.Users.Read,
             PermissionConstants.Companies.Read,
             PermissionConstants.Investors.Read,
+            PermissionConstants.Projects.Read, PermissionConstants.Projects.Create, PermissionConstants.Projects.Update,
         ]);
 
         // Investor — can view companies/investors + manage their onboarding
