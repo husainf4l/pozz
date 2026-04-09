@@ -1,0 +1,238 @@
+<div class="mb-8">
+  <h1 class="text-3xl font-bold tracking-tight text-foreground">Email Campaigns</h1>
+  <p class="mt-2 text-muted-foreground">Send and track email campaigns to investors</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="rounded-xl border border-border bg-card p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-muted-foreground">Sent</p>
+        <p class="mt-2 text-3xl font-bold text-foreground">{{ stats().sent }}</p>
+      </div>
+      <div class="rounded-full bg-blue-100 p-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-blue-600">
+          <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+          <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-border bg-card p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-muted-foreground">Opened</p>
+        <p class="mt-2 text-3xl font-bold text-foreground">{{ stats().openedPercent }}%</p>
+      </div>
+      <div class="rounded-full bg-yellow-100 p-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-yellow-600">
+          <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+          <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-border bg-card p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-muted-foreground">Clicked</p>
+        <p class="mt-2 text-3xl font-bold text-foreground">{{ stats().clicked }}</p>
+      </div>
+      <div class="rounded-full bg-orange-100 p-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-orange-600">
+          <path fill-rule="evenodd" d="M6.672.514a.75.75 0 0 1 .818.162l4 4a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 1 1-1.06-1.06L9.137 5.95 6.43 3.244a.75.75 0 0 1 .242-1.23ZM2.75 10a.75.75 0 0 1 .75-.75h9.586a.75.75 0 0 1 0 1.5H3.5a.75.75 0 0 1-.75-.75Zm9-3.75a.75.75 0 0 1 .75.75v7.5a.75.75 0 1 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-border bg-card p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-muted-foreground">Replied</p>
+        <p class="mt-2 text-3xl font-bold text-foreground">{{ stats().replied }}</p>
+      </div>
+      <div class="rounded-full bg-green-100 p-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-green-600">
+          <path fill-rule="evenodd" d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902.848.137 1.705.248 2.57.331v3.443a.75.75 0 0 0 1.28.53l3.58-3.579a.78.78 0 0 1 .527-.224 41.202 41.202 0 0 0 5.183-.5c1.437-.232 2.43-1.49 2.43-2.903V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0 0 10 2Zm0 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM8 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm5 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabs & Actions -->
+<div class="mb-6 flex items-center justify-between">
+  <div class="flex gap-2">
+    <button
+      (click)="activeTab.set('sent')"
+      [class.bg-teal-600]="activeTab() === 'sent'"
+      [class.text-white]="activeTab() === 'sent'"
+      [class.bg-background]="activeTab() !== 'sent'"
+      class="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
+    >
+      Sent Emails
+    </button>
+    <button
+      (click)="activeTab.set('templates')"
+      [class.bg-teal-600]="activeTab() === 'templates'"
+      [class.text-white]="activeTab() === 'templates'"
+      [class.bg-background]="activeTab() !== 'templates'"
+      class="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
+    >
+      Templates
+    </button>
+  </div>
+
+  <button
+    (click)="showSendModal.set(true)"
+    class="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+      <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+      <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+    </svg>
+    Send Email
+  </button>
+</div>
+
+<!-- Sent Emails Tab -->
+@if (activeTab() === 'sent') {
+  @if (loading()) {
+    <div class="flex items-center justify-center rounded-xl border border-border bg-card p-12">
+      <div class="text-center">
+        <div class="mx-auto mb-4 size-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+        <p class="text-muted-foreground">Loading emails...</p>
+      </div>
+    </div>
+  } @else if (emails().length === 0) {
+    <div class="rounded-xl border border-border bg-card p-12 text-center">
+      <div class="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8 text-muted-foreground">
+          <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+          <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+        </svg>
+      </div>
+      <h3 class="mb-2 text-lg font-semibold text-foreground">No emails sent yet</h3>
+      <p class="text-muted-foreground">Send your first email campaign to investors</p>
+    </div>
+  } @else {
+    <div class="space-y-3">
+      @for (email of emails(); track email.id) {
+        <div class="rounded-xl border border-border bg-card p-6">
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="flex items-center gap-3">
+                <h3 class="text-lg font-semibold text-foreground">{{ email.subject }}</h3>
+                <span
+                  [class]="'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ' + getStatusBadge(email.status)"
+                >
+                  {{ email.status | titlecase }}
+                </span>
+              </div>
+              <p class="mt-2 line-clamp-2 text-muted-foreground">{{ email.body }}</p>
+              <div class="mt-3 flex items-center gap-4 text-sm text-muted-foreground">
+                <span>{{ email.recipients.length }} recipients</span>
+                @if (email.sentAt) {
+                  <span>• Sent {{ formatDate(email.sentAt) }}</span>
+                }
+                @if (email.openedAt) {
+                  <span>• Opened {{ formatDate(email.openedAt) }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+}
+
+<!-- Templates Tab -->
+@if (activeTab() === 'templates') {
+  @if (templates().length === 0) {
+    <div class="rounded-xl border border-border bg-card p-12 text-center">
+      <p class="text-muted-foreground">No templates available</p>
+    </div>
+  } @else {
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (template of templates(); track template.id) {
+        <div class="rounded-xl border border-border bg-card p-6">
+          <div class="mb-2 flex items-start justify-between">
+            <h3 class="text-lg font-semibold text-foreground">{{ template.name }}</h3>
+            <span class="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+              {{ template.category }}
+            </span>
+          </div>
+          <p class="mb-1 text-sm font-medium text-muted-foreground">{{ template.subject }}</p>
+          <p class="mb-4 line-clamp-2 text-sm text-muted-foreground">{{ template.body }}</p>
+          <button
+            (click)="useTemplate(template)"
+            class="w-full rounded-lg border border-teal-600 px-4 py-2 text-sm font-medium text-teal-600 hover:bg-teal-50"
+          >
+            Use Template
+          </button>
+        </div>
+      }
+    </div>
+  }
+}
+
+<!-- Send Email Modal -->
+@if (showSendModal()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" (click)="showSendModal.set(false)">
+    <div class="w-full max-w-2xl rounded-xl bg-card p-6 shadow-xl" (click)="$event.stopPropagation()">
+      <h3 class="mb-4 text-lg font-semibold text-foreground">Send Email Campaign</h3>
+      <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+        <div class="space-y-4">
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">Recipients * (comma-separated emails)</label>
+            <input
+              type="text"
+              formControlName="recipients"
+              placeholder="investor1@example.com, investor2@example.com"
+              class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">Subject *</label>
+            <input
+              type="text"
+              formControlName="subject"
+              placeholder="Email subject"
+              class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">Body *</label>
+            <textarea
+              formControlName="body"
+              placeholder="Email content"
+              rows="8"
+              class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            ></textarea>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-end gap-3">
+          <button
+            type="button"
+            (click)="showSendModal.set(false); emailForm.reset()"
+            class="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [disabled]="emailForm.invalid || submitting()"
+            class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 disabled:opacity-50"
+          >
+            {{ submitting() ? 'Sending...' : 'Send Email' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

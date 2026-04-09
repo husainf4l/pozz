@@ -6,6 +6,7 @@ import { ProjectService } from '../../core/services/project.service';
 import { InvestmentService } from '../../core/services/investment.service';
 import { InvestorService } from '../../core/services/investor.service';
 import { TranslatePipe } from '../../core/pipes/translate.pipe';
+import { FundraisingProgressComponent } from '../../shared/fundraising-progress/fundraising-progress';
 import { ProjectStatus } from '../../core/models/project.models';
 import { PipelineStage } from '../../core/models/investor.models';
 import { forkJoin } from 'rxjs';
@@ -13,7 +14,7 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FundraisingProgressComponent],
   templateUrl: './overview.html',
 })
 export class OverviewComponent implements OnInit {
@@ -47,6 +48,7 @@ export class OverviewComponent implements OnInit {
       [PipelineStage.TermSheet]: 0,
       [PipelineStage.Committed]: 0,
       [PipelineStage.Invested]: 0,
+      [PipelineStage.Passed]: 0,
       [PipelineStage.Inactive]: 0,
     };
 
@@ -91,7 +93,7 @@ export class OverviewComponent implements OnInit {
       investors: this.investorService.search({ companyId, page: 1, pageSize: 1000 }),
     }).subscribe({
       next: (results) => {
-        this.totalRaised.set(results.totalRaised);
+        this.totalRaised.set(results.totalRaised.totalRaised || 0);
         this.loading.set(false);
       },
       error: () => this.loading.set(false),

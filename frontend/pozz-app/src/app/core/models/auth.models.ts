@@ -17,6 +17,7 @@ export interface UserInfo {
   firstName: string;
   lastName: string;
   roles: string[];
+  companyId?: number;
 }
 
 export interface OnboardingSummary {

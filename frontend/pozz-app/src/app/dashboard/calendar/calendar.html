@@ -1,0 +1,228 @@
+<div class="mb-8">
+  <h1 class="text-3xl font-bold tracking-tight text-foreground">Calendar</h1>
+  <p class="mt-2 text-muted-foreground">Manage your events and schedule</p>
+</div>
+
+<!-- Actions Bar -->
+<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <div class="flex items-center gap-3">
+    <button
+      (click)="previousMonth()"
+      class="rounded-lg border border-border bg-background p-2 hover:bg-accent"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+        <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+    <button
+      (click)="today()"
+      class="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-accent"
+    >
+      Today
+    </button>
+    <button
+      (click)="nextMonth()"
+      class="rounded-lg border border-border bg-background p-2 hover:bg-accent"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+        <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+    <h2 class="ml-2 text-xl font-semibold text-foreground">{{ monthName() }}</h2>
+  </div>
+
+  <button
+    (click)="showCreateModal.set(true)"
+    class="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+      <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+    </svg>
+    New Event
+  </button>
+</div>
+
+<div class="grid gap-6 lg:grid-cols-3">
+  <!-- Calendar Grid -->
+  <div class="lg:col-span-2">
+    <div class="rounded-xl border border-border bg-card p-6">
+      <div class="grid grid-cols-7 gap-2">
+        <!-- Weekday Headers -->
+        @for (day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; track day) {
+          <div class="text-center text-sm font-medium text-muted-foreground">{{ day }}</div>
+        }
+        
+        <!-- Calendar Days -->
+        @for (date of calendarDays(); track date) {
+          @if (date === null) {
+            <div class="aspect-square"></div>
+          } @else {
+            <button
+              (click)="selectDay(date)"
+              [class.bg-teal-600]="isSelected(date)"
+              [class.text-white]="isSelected(date)"
+              [class.ring-2]="isToday(date) && !isSelected(date)"
+              [class.ring-teal-600]="isToday(date) && !isSelected(date)"
+              class="relative aspect-square rounded-lg border border-border hover:bg-accent"
+            >
+              <div class="flex h-full flex-col items-center justify-center">
+                <span class="text-sm font-medium">{{ date.getDate() }}</span>
+                @if (hasEvents(date)) {
+                  <div class="mt-1 size-1.5 rounded-full bg-teal-600"></div>
+                }
+              </div>
+            </button>
+          }
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Events Sidebar -->
+  <div class="lg:col-span-1">
+    <div class="rounded-xl border border-border bg-card p-6">
+      <h3 class="mb-4 text-lg font-semibold text-foreground">
+        {{ selectedDay() ? (selectedDay()!.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })) : 'Select a day' }}
+      </h3>
+
+      @if (loading()) {
+        <div class="flex justify-center py-8">
+          <div class="size-8 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+        </div>
+      } @else if (selectedDay() && selectedDayEvents().length === 0) {
+        <div class="py-8 text-center">
+          <p class="text-sm text-muted-foreground">No events on this day</p>
+        </div>
+      } @else if (selectedDay()) {
+        <div class="space-y-3">
+          @for (event of selectedDayEvents(); track event.id) {
+            <div class="rounded-lg border border-border bg-background p-4">
+              <div class="mb-2 flex items-start justify-between">
+                <h4 class="font-medium text-foreground">{{ event.title }}</h4>
+                <button
+                  (click)="deleteEvent(event.id)"
+                  class="text-muted-foreground hover:text-red-600"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                    <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+              <div class="mb-2 flex items-center gap-2 text-sm text-muted-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-11.25a.75.75 0 0 0-1.5 0v4.59L7.3 13.24a.75.75 0 0 0 1.06 1.06l2.25-2.25a.75.75 0 0 0 .22-.53v-4.77Z" clip-rule="evenodd" />
+                </svg>
+                {{ formatTime(event.startTime) }} - {{ formatTime(event.endTime) }}
+              </div>
+              <span
+                [class]="'inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ' + getEventTypeBadgeColor(event.type)"
+              >
+                {{ event.type | titlecase }}
+              </span>
+              @if (event.description) {
+                <p class="mt-2 text-sm text-muted-foreground">{{ event.description }}</p>
+              }
+              @if (event.location) {
+                <div class="mt-2 flex items-center gap-1 text-sm text-muted-foreground">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                    <path fill-rule="evenodd" d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" clip-rule="evenodd" />
+                  </svg>
+                  {{ event.location }}
+                </div>
+              }
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="py-8 text-center">
+          <p class="text-sm text-muted-foreground">Select a day to view events</p>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Create Event Modal -->
+@if (showCreateModal()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" (click)="showCreateModal.set(false)">
+    <div class="w-full max-w-lg rounded-xl bg-card p-6 shadow-xl" (click)="$event.stopPropagation()">
+      <h3 class="mb-4 text-lg font-semibold text-foreground">Create New Event</h3>
+      <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
+        <div class="space-y-4">
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">Title *</label>
+            <input
+              type="text"
+              formControlName="title"
+              placeholder="Event title"
+              class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">Description</label>
+            <textarea
+              formControlName="description"
+              placeholder="Event description"
+              rows="3"
+              class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            ></textarea>
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">Type *</label>
+            <select
+              formControlName="type"
+              class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            >
+              @for (type of eventTypes; track type) {
+                <option [value]="type">{{ type | titlecase }}</option>
+              }
+            </select>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">Start Time *</label>
+              <input
+                type="datetime-local"
+                formControlName="startTime"
+                class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">End Time *</label>
+              <input
+                type="datetime-local"
+                formControlName="endTime"
+                class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">Location</label>
+            <input
+              type="text"
+              formControlName="location"
+              placeholder="Event location"
+              class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            />
+          </div>
+        </div>
+        <div class="mt-6 flex justify-end gap-3">
+          <button
+            type="button"
+            (click)="showCreateModal.set(false); eventForm.reset({ type: 'meeting' })"
+            class="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [disabled]="eventForm.invalid || submitting()"
+            class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 disabled:opacity-50"
+          >
+            {{ submitting() ? 'Creating...' : 'Create Event' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

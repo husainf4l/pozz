@@ -1,0 +1,102 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div>
+    <h1 class="text-3xl font-bold tracking-tight text-foreground">{{ 'nav.activity' | t }}</h1>
+    <p class="mt-1 text-sm text-muted-foreground">Track all activities across your organization</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="flex flex-wrap gap-2">
+    <button
+      (click)="setFilter('all')"
+      [class]="'rounded-full px-4 py-2 text-sm font-medium transition-colors ' + 
+               (filter() === 'all' ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground hover:bg-muted/80')"
+    >
+      All
+    </button>
+    <button
+      (click)="setFilter('investor')"
+      [class]="'rounded-full px-4 py-2 text-sm font-medium transition-colors ' + 
+               (filter() === 'investor' ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground hover:bg-muted/80')"
+    >
+      Investors
+    </button>
+    <button
+      (click)="setFilter('project')"
+      [class]="'rounded-full px-4 py-2 text-sm font-medium transition-colors ' + 
+               (filter() === 'project' ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground hover:bg-muted/80')"
+    >
+      Projects
+    </button>
+    <button
+      (click)="setFilter('meeting')"
+      [class]="'rounded-full px-4 py-2 text-sm font-medium transition-colors ' + 
+               (filter() === 'meeting' ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground hover:bg-muted/80')"
+    >
+      Meetings
+    </button>
+    <button
+      (click)="setFilter('deal')"
+      [class]="'rounded-full px-4 py-2 text-sm font-medium transition-colors ' + 
+               (filter() === 'deal' ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground hover:bg-muted/80')"
+    >
+      Deals
+    </button>
+    <button
+      (click)="setFilter('note')"
+      [class]="'rounded-full px-4 py-2 text-sm font-medium transition-colors ' + 
+               (filter() === 'note' ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground hover:bg-muted/80')"
+    >
+      Notes
+    </button>
+  </div>
+
+  <!-- Activity feed -->
+  @if (loading()) {
+    <div class="flex items-center justify-center py-12">
+      <div class="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+    </div>
+  } @else if (activities().length === 0) {
+    <div class="rounded-lg border border-border bg-card p-12 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mx-auto size-12 text-muted-foreground">
+        <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+      </svg>
+      <h3 class="mt-4 text-lg font-semibold text-foreground">No activities yet</h3>
+      <p class="mt-1 text-sm text-muted-foreground">Activity will appear here once you start working</p>
+    </div>
+  } @else {
+    <div class="relative">
+      <!-- Timeline line -->
+      <div class="absolute left-8 top-3 bottom-3 w-0.5 bg-border"></div>
+
+      <!-- Activity items -->
+      <div class="space-y-4">
+        @for (activity of activities(); track activity.id) {
+          <div class="relative flex gap-4">
+            <!-- Action icon -->
+            <div [class]="'relative z-10 flex size-16 shrink-0 items-center justify-center rounded-full border-4 border-background text-lg font-bold ' + getActionColor(activity.action)">
+              {{ getActionIcon(activity.action) }}
+            </div>
+            <!-- Content -->
+            <div class="flex-1 rounded-lg border border-border bg-card p-4">
+              <div class="flex items-start justify-between gap-2">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2">
+                    <span class="text-lg">{{ getEntityIcon(activity.entityType) }}</span>
+                    <span class="font-semibold text-foreground">{{ activity.actor.firstName }} {{ activity.actor.lastName }}</span>
+                    <span class="text-sm text-muted-foreground">{{ activity.action }}</span>
+                    <span class="text-sm font-medium text-foreground">{{ activity.entityName }}</span>
+                  </div>
+                  @if (activity.description) {
+                    <p class="mt-2 text-sm text-muted-foreground">{{ activity.description }}</p>
+                  }
+                </div>
+                <span class="shrink-0 text-xs text-muted-foreground">{{ getTimeAgo(activity.createdAt) }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

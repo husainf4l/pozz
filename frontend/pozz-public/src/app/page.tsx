@@ -4,11 +4,13 @@ import { Benefits } from "@/components/benefits";
 import { Stats } from "@/components/stats";
 import { CTA } from "@/components/cta";
 import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
 import { AUTH_CONFIG } from "@/lib/config";
 
 export default function Home() {
   return (
     <>
+      <Navbar />
       <Hero
         title="Fundraising. Simplified."
         subtitle="Track investors, measure outreach, and close deals—all in one place."

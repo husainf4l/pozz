@@ -1,0 +1,97 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-3xl font-bold tracking-tight text-foreground">{{ 'nav.notifications' | t }}</h1>
+    @if (unreadCount() > 0) {
+      <button
+        (click)="markAllAsRead()"
+        class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+      >
+        Mark all as read
+      </button>
+    }
+  </div>
+
+  <!-- Filters -->
+  <div class="flex gap-2 border-b border-border">
+    <button
+      (click)="setFilter('all')"
+      [class]="'border-b-2 px-4 py-2 text-sm font-medium transition-colors ' + 
+               (filter() === 'all' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground')"
+    >
+      All
+    </button>
+    <button
+      (click)="setFilter('unread')"
+      [class]="'border-b-2 px-4 py-2 text-sm font-medium transition-colors ' + 
+               (filter() === 'unread' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground')"
+    >
+      Unread
+      @if (unreadCount() > 0) {
+        <span class="ml-1.5 rounded-full bg-primary px-2 py-0.5 text-xs text-primary-foreground">
+          {{ unreadCount() }}
+        </span>
+      }
+    </button>
+  </div>
+
+  <!-- Notifications list -->
+  @if (loading()) {
+    <div class="flex items-center justify-center py-12">
+      <div class="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+    </div>
+  } @else if (notifications().length === 0) {
+    <div class="rounded-lg border border-border bg-card p-12 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mx-auto size-12 text-muted-foreground">
+        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+      </svg>
+      <h3 class="mt-4 text-lg font-semibold text-foreground">No notifications</h3>
+      <p class="mt-1 text-sm text-muted-foreground">
+        @if (filter() === 'unread') {
+          You don't have any unread notifications
+        } @else {
+          You're all caught up!
+        }
+      </p>
+    </div>
+  } @else {
+    <div class="space-y-2">
+      @for (notif of notifications(); track notif.id) {
+        <div
+          [class]="'flex gap-4 rounded-lg border p-4 transition-colors ' + 
+                   getTypeBg(notif.type) + ' ' + 
+                   (!notif.isRead ? 'border-l-4' : '')"
+        >
+          <div [class]="'flex size-10 shrink-0 items-center justify-center rounded-full text-lg font-bold ' + getTypeBg(notif.type) + ' ' + getTypeColor(notif.type)">
+            {{ getTypeIcon(notif.type) }}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex-1">
+                <h3 class="text-sm font-semibold text-foreground">{{ notif.title }}</h3>
+                <p class="mt-1 text-sm text-muted-foreground">{{ notif.message }}</p>
+                @if (notif.actionUrl) {
+                  <a
+                    [routerLink]="notif.actionUrl"
+                    class="mt-2 inline-block text-sm font-medium text-primary hover:underline"
+                  >
+                    View details →
+                  </a>
+                }
+                <p class="mt-2 text-xs text-muted-foreground">{{ getTimeAgo(notif.createdAt) }}</p>
+              </div>
+              @if (!notif.isRead) {
+                <button
+                  (click)="markAsRead(notif)"
+                  class="shrink-0 rounded-md px-3 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/10"
+                >
+                  Mark as read
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

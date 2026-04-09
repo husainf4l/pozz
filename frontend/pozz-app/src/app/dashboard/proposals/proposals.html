@@ -1,0 +1,342 @@
+<div class="mb-8">
+  <h1 class="text-3xl font-bold tracking-tight text-foreground">Proposals</h1>
+  <p class="mt-2 text-muted-foreground">Create and manage investment proposals</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="rounded-xl border border-border bg-card p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-muted-foreground">Total Proposals</p>
+        <p class="mt-2 text-3xl font-bold text-foreground">{{ stats().total }}</p>
+      </div>
+      <div class="rounded-full bg-blue-100 p-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-blue-600">
+          <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v13A1.5 1.5 0 0 0 4.5 18h11a1.5 1.5 0 0 0 1.5-1.5V7.621a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122A1.5 1.5 0 0 0 11.378 2H4.5Zm2.25 8.5a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5Zm0 3a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5Z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-border bg-card p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-muted-foreground">Drafts</p>
+        <p class="mt-2 text-3xl font-bold text-foreground">{{ stats().drafts }}</p>
+      </div>
+      <div class="rounded-full bg-gray-100 p-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-gray-600">
+          <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+          <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-border bg-card p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-muted-foreground">Accepted</p>
+        <p class="mt-2 text-3xl font-bold text-green-600">{{ stats().accepted }}</p>
+      </div>
+      <div class="rounded-full bg-green-100 p-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-green-600">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-border bg-card p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium text-muted-foreground">Total Committed</p>
+        <p class="mt-2 text-2xl font-bold text-foreground">{{ formatCurrency(stats().totalCommitted) }}</p>
+      </div>
+      <div class="rounded-full bg-teal-100 p-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6 text-teal-600">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.798 7.45c.512-.67 1.135-.95 1.702-.95s1.19.28 1.702.95a.75.75 0 0 0 1.192-.91C12.637 5.55 11.596 5 10.5 5s-2.137.55-2.894 1.54A5.205 5.205 0 0 0 6.83 8H5.75a.75.75 0 0 0 0 1.5h.77a6.333 6.333 0 0 0 0 1h-.77a.75.75 0 0 0 0 1.5h1.08c.183.528.442 1.023.776 1.46.757.99 1.798 1.54 2.894 1.54s2.137-.55 2.894-1.54a.75.75 0 0 0-1.192-.91c-.512.67-1.135.95-1.702.95s-1.19-.28-1.702-.95a3.505 3.505 0 0 1-.343-.55h1.795a.75.75 0 0 0 0-1.5H8.026a4.835 4.835 0 0 1 0-1h2.224a.75.75 0 0 0 0-1.5H8.455c.098-.195.212-.38.343-.55Z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabs & Actions -->
+<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <div class="flex flex-wrap gap-2">
+    <button
+      (click)="statusFilter.set('all')"
+      [class.bg-teal-600]="statusFilter() === 'all'"
+      [class.text-white]="statusFilter() === 'all'"
+      [class.bg-background]="statusFilter() !== 'all'"
+      class="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
+    >
+      All
+    </button>
+    <button
+      (click)="statusFilter.set('draft')"
+      [class.bg-teal-600]="statusFilter() === 'draft'"
+      [class.text-white]="statusFilter() === 'draft'"
+      [class.bg-background]="statusFilter() !== 'draft'"
+      class="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
+    >
+      Draft
+    </button>
+    <button
+      (click)="statusFilter.set('sent')"
+      [class.bg-teal-600]="statusFilter() === 'sent'"
+      [class.text-white]="statusFilter() === 'sent'"
+      [class.bg-background]="statusFilter() !== 'sent'"
+      class="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
+    >
+      Sent
+    </button>
+    <button
+      (click)="statusFilter.set('viewed')"
+      [class.bg-teal-600]="statusFilter() === 'viewed'"
+      [class.text-white]="statusFilter() === 'viewed'"
+      [class.bg-background]="statusFilter() !== 'viewed'"
+      class="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
+    >
+      Viewed
+    </button>
+    <button
+      (click)="statusFilter.set('accepted')"
+      [class.bg-teal-600]="statusFilter() === 'accepted'"
+      [class.text-white]="statusFilter() === 'accepted'"
+      [class.bg-background]="statusFilter() !== 'accepted'"
+      class="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
+    >
+      Accepted
+    </button>
+    <button
+      (click)="statusFilter.set('rejected')"
+      [class.bg-teal-600]="statusFilter() === 'rejected'"
+      [class.text-white]="statusFilter() === 'rejected'"
+      [class.bg-background]="statusFilter() !== 'rejected'"
+      class="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
+    >
+      Rejected
+    </button>
+  </div>
+
+  <button
+    (click)="showCreateModal.set(true)"
+    class="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+      <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+    </svg>
+    Create Proposal
+  </button>
+</div>
+
+<!-- Loading State -->
+@if (loading()) {
+  <div class="flex items-center justify-center rounded-xl border border-border bg-card p-12">
+    <div class="text-center">
+      <div class="mx-auto mb-4 size-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+      <p class="text-muted-foreground">Loading proposals...</p>
+    </div>
+  </div>
+}
+
+<!-- Empty State -->
+@else if (filteredProposals().length === 0) {
+  <div class="rounded-xl border border-border bg-card p-12 text-center">
+    <div class="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-muted">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8 text-muted-foreground">
+        <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v13A1.5 1.5 0 0 0 4.5 18h11a1.5 1.5 0 0 0 1.5-1.5V7.621a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122A1.5 1.5 0 0 0 11.378 2H4.5Z" clip-rule="evenodd" />
+      </svg>
+    </div>
+    <h3 class="mb-2 text-lg font-semibold text-foreground">No proposals found</h3>
+    <p class="text-muted-foreground">
+      {{ statusFilter() === 'all' ? 'Create your first proposal to get started' : 'No proposals in this category' }}
+    </p>
+  </div>
+}
+
+<!-- Proposals List -->
+@else {
+  <div class="space-y-4">
+    @for (proposal of filteredProposals(); track proposal.id) {
+      <div class="rounded-xl border border-border bg-card p-6">
+        <div class="flex items-start justify-between">
+          <div class="flex-1">
+            <div class="flex items-center gap-3">
+              <h3 class="text-lg font-semibold text-foreground">{{ proposal.title }}</h3>
+              <span
+                [class]="'inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ' + getStatusBadge(proposal.status).class"
+              >
+                <span>{{ getStatusBadge(proposal.status).icon }}</span>
+                {{ proposal.status | titlecase }}
+              </span>
+            </div>
+            <p class="mt-2 line-clamp-2 text-muted-foreground">{{ proposal.description }}</p>
+            
+            <!-- Proposal Details -->
+            <div class="mt-4 grid gap-4 sm:grid-cols-3">
+              <div class="rounded-lg border border-border bg-muted/50 p-3">
+                <p class="text-xs text-muted-foreground">Amount</p>
+                <p class="mt-1 text-lg font-semibold text-foreground">{{ formatCurrency(proposal.amount) }}</p>
+              </div>
+              <div class="rounded-lg border border-border bg-muted/50 p-3">
+                <p class="text-xs text-muted-foreground">Equity Offered</p>
+                <p class="mt-1 text-lg font-semibold text-foreground">{{ proposal.equityOffered }}%</p>
+              </div>
+              <div class="rounded-lg border border-border bg-muted/50 p-3">
+                <p class="text-xs text-muted-foreground">Valuation</p>
+                <p class="mt-1 text-lg font-semibold text-foreground">{{ formatCurrency(proposal.valuation) }}</p>
+              </div>
+            </div>
+            
+            <div class="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
+              <div class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                  <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+                </svg>
+                {{ proposal.investorName }}
+              </div>
+              <div class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                  <path d="M3.75 3A1.75 1.75 0 0 0 2 4.75v3.26c.313-.141.65-.22 1-.257V4.75c0-.138.112-.25.25-.25h5.5c.138 0 .25.112.25.25v3.75h4.25c.414 0 .75.336.75.75v5.25c0 .138-.112.25-.25.25H3.25a.25.25 0 0 1-.25-.25V13.5H1.5v.75A1.75 1.75 0 0 0 3.25 16h13.5A1.75 1.75 0 0 0 18.5 14.25V9.25A1.75 1.75 0 0 0 16.75 7.5H10.5V4.75A1.75 1.75 0 0 0 8.75 3h-5Z" />
+                </svg>
+                {{ proposal.projectName }}
+              </div>
+              <span>• Created {{ formatDate(proposal.createdAt) }}</span>
+              @if (proposal.sentAt) {
+                <span>• Sent {{ formatDate(proposal.sentAt) }}</span>
+              }
+              @if (proposal.viewedAt) {
+                <span>• Viewed {{ formatDate(proposal.viewedAt) }}</span>
+              }
+            </div>
+          </div>
+          
+          <div class="ml-4 flex gap-2">
+            @if (proposal.status === 'draft') {
+              <button
+                (click)="sendProposal(proposal.id)"
+                [disabled]="sendingId() === proposal.id"
+                class="rounded-lg bg-teal-600 px-3 py-1 text-sm font-medium text-white hover:bg-teal-700 disabled:opacity-50"
+              >
+                {{ sendingId() === proposal.id ? 'Sending...' : 'Send' }}
+              </button>
+            }
+            <button
+              (click)="deleteProposal(proposal.id)"
+              class="rounded-lg border border-red-600 px-3 py-1 text-sm font-medium text-red-600 hover:bg-red-50"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}
+
+<!-- Create Proposal Modal -->
+@if (showCreateModal()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" (click)="showCreateModal.set(false)">
+    <div class="w-full max-w-2xl rounded-xl bg-card p-6 shadow-xl" (click)="$event.stopPropagation()">
+      <h3 class="mb-4 text-lg font-semibold text-foreground">Create Proposal</h3>
+      <form [formGroup]="proposalForm" (ngSubmit)="createProposal()">
+        <div class="space-y-4">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">Investor ID *</label>
+              <input
+                type="number"
+                formControlName="investorId"
+                placeholder="Investor ID"
+                min="1"
+                class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">Project ID *</label>
+              <input
+                type="number"
+                formControlName="projectId"
+                placeholder="Project ID"
+                min="1"
+                class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">Title *</label>
+            <input
+              type="text"
+              formControlName="title"
+              placeholder="Proposal title"
+              class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-foreground">Description *</label>
+            <textarea
+              formControlName="description"
+              placeholder="Proposal description"
+              rows="4"
+              class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            ></textarea>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-3">
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">Amount *</label>
+              <input
+                type="number"
+                formControlName="amount"
+                placeholder="0"
+                min="0"
+                class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">Equity % *</label>
+              <input
+                type="number"
+                formControlName="equityOffered"
+                placeholder="0"
+                min="0"
+                max="100"
+                step="0.01"
+                class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium text-foreground">Valuation *</label>
+              <input
+                type="number"
+                formControlName="valuation"
+                placeholder="0"
+                min="0"
+                class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-end gap-3">
+          <button
+            type="button"
+            (click)="showCreateModal.set(false); proposalForm.reset()"
+            class="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [disabled]="proposalForm.invalid || submitting()"
+            class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 disabled:opacity-50"
+          >
+            {{ submitting() ? 'Creating...' : 'Create Proposal' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

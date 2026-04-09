@@ -5,11 +5,13 @@ import { TranslatePipe } from '../core/pipes/translate.pipe';
 import { TranslateService } from '../core/services/translate.service';
 import { ThemeToggleComponent } from '../shared/theme-toggle/theme-toggle';
 import { LangSwitcherComponent } from '../shared/lang-switcher/lang-switcher';
+import { NotificationsDropdownComponent } from '../shared/notifications-dropdown/notifications-dropdown';
+import { GlobalSearchComponent } from '../shared/global-search/global-search';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, RouterOutlet, TranslatePipe, ThemeToggleComponent, LangSwitcherComponent],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, TranslatePipe, ThemeToggleComponent, LangSwitcherComponent, NotificationsDropdownComponent, GlobalSearchComponent],
   templateUrl: './dashboard.html',
 })
 export class DashboardComponent {
@@ -44,6 +46,54 @@ export class DashboardComponent {
       route: () => `/${this.locale}/dashboard/projects`,
       exact: false,
       icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M3.75 3A1.75 1.75 0 0 0 2 4.75v3.26c.313-.141.65-.22 1-.257V4.75c0-.138.112-.25.25-.25h5.5c.138 0 .25.112.25.25v3.75h4.25c.414 0 .75.336.75.75v5.25c0 .138-.112.25-.25.25H3.25a.25.25 0 0 1-.25-.25V13.5H1.5v.75A1.75 1.75 0 0 0 3.25 16h13.5A1.75 1.75 0 0 0 18.5 14.25V9.25A1.75 1.75 0 0 0 16.75 7.5H10.5V4.75A1.75 1.75 0 0 0 8.75 3h-5Z"/></svg>',
+    },
+    {
+      labelKey: 'nav.tasks',
+      route: () => `/${this.locale}/dashboard/tasks`,
+      exact: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>',
+    },
+    {
+      labelKey: 'nav.documents',
+      route: () => `/${this.locale}/dashboard/documents`,
+      exact: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>',
+    },
+    {
+      labelKey: 'nav.calendar',
+      route: () => `/${this.locale}/dashboard/calendar`,
+      exact: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 011 1v3a1 1 0 11-2 0V8a1 1 0 011-1z" clip-rule="evenodd"/></svg>',
+    },
+    {
+      labelKey: 'nav.emails',
+      route: () => `/${this.locale}/dashboard/emails`,
+      exact: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>',
+    },
+    {
+      labelKey: 'nav.captable',
+      route: () => `/${this.locale}/dashboard/captable`,
+      exact: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>',
+    },
+    {
+      labelKey: 'nav.workflows',
+      route: () => `/${this.locale}/dashboard/workflows`,
+      exact: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/></svg>',
+    },
+    {
+      labelKey: 'nav.proposals',
+      route: () => `/${this.locale}/dashboard/proposals`,
+      exact: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>',
+    },
+    {
+      labelKey: 'nav.activity',
+      route: () => `/${this.locale}/dashboard/activity`,
+      exact: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>',
     },
     {
       labelKey: 'nav.messages',

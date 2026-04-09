@@ -1,0 +1,171 @@
+<div class="mb-8">
+  <h1 class="text-3xl font-bold tracking-tight text-foreground">Documents</h1>
+  <p class="mt-2 text-muted-foreground">Manage your company's document library</p>
+</div>
+
+<!-- Actions Bar -->
+<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <div class="relative flex-1 max-w-md">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground">
+      <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+    </svg>
+    <input
+      type="text"
+      [value]="searchQuery()"
+      (input)="onSearchChange($any($event.target).value)"
+      placeholder="Search documents..."
+      class="w-full rounded-lg border border-border bg-background py-2 pl-10 pr-4 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+    />
+  </div>
+
+  <div class="flex gap-2">
+    <button
+      (click)="showCreateFolderModal.set(true)"
+      class="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+        <path d="M3.75 3A1.75 1.75 0 0 0 2 4.75v10.5c0 .966.784 1.75 1.75 1.75h12.5A1.75 1.75 0 0 0 18 15.25V6.75A1.75 1.75 0 0 0 16.25 5H9.75a.25.25 0 0 1-.2-.1L8.2 3.3A1.75 1.75 0 0 0 6.85 2.5H3.75Z" />
+      </svg>
+      New Folder
+    </button>
+    <button
+      (click)="triggerFileUpload()"
+      [disabled]="uploading()"
+      class="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 disabled:opacity-50"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+        <path d="M9.25 13.25a.75.75 0 0 0 1.5 0V4.636l2.955 3.129a.75.75 0 0 0 1.09-1.03l-4.25-4.5a.75.75 0 0 0-1.09 0l-4.25 4.5a.75.75 0 1 0 1.09 1.03L9.25 4.636v8.614Z" />
+        <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z" />
+      </svg>
+      {{ uploading() ? 'Uploading...' : 'Upload File' }}
+    </button>
+  </div>
+</div>
+
+<input
+  #fileInput
+  type="file"
+  class="hidden"
+  (change)="onFileSelected($event)"
+/>
+
+<!-- Loading State -->
+@if (loading()) {
+  <div class="flex items-center justify-center rounded-xl border border-border bg-card p-12">
+    <div class="text-center">
+      <div class="mx-auto mb-4 size-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+      <p class="text-muted-foreground">Loading documents...</p>
+    </div>
+  </div>
+}
+
+<!-- Empty State -->
+@else if (filteredDocuments().length === 0 && !searchQuery()) {
+  <div class="rounded-xl border border-border bg-card p-12 text-center">
+    <div class="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-muted">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8 text-muted-foreground">
+        <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z" />
+        <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
+      </svg>
+    </div>
+    <h3 class="mb-2 text-lg font-semibold text-foreground">No documents yet</h3>
+    <p class="mb-6 text-muted-foreground">Upload your first document to get started</p>
+    <button
+      (click)="triggerFileUpload()"
+      class="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+        <path d="M9.25 13.25a.75.75 0 0 0 1.5 0V4.636l2.955 3.129a.75.75 0 0 0 1.09-1.03l-4.25-4.5a.75.75 0 0 0-1.09 0l-4.25 4.5a.75.75 0 1 0 1.09 1.03L9.25 4.636v8.614Z" />
+        <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z" />
+      </svg>
+      Upload Document
+    </button>
+  </div>
+}
+
+<!-- No Search Results -->
+@else if (filteredDocuments().length === 0 && searchQuery()) {
+  <div class="rounded-xl border border-border bg-card p-12 text-center">
+    <p class="text-muted-foreground">No documents found matching "{{ searchQuery() }}"</p>
+  </div>
+}
+
+<!-- Documents List -->
+@else {
+  <div class="rounded-xl border border-border bg-card">
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="border-b border-border bg-muted/50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Name</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Type</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Size</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Uploaded</th>
+            <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border">
+          @for (doc of filteredDocuments(); track doc.id) {
+            <tr class="hover:bg-muted/50">
+              <td class="whitespace-nowrap px-6 py-4">
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">{{ getFileIcon(doc.fileType) }}</span>
+                  <span class="font-medium text-foreground">{{ doc.name }}</span>
+                </div>
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-sm text-muted-foreground">
+                {{ doc.fileType }}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-sm text-muted-foreground">
+                {{ formatFileSize(doc.fileSize) }}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-sm text-muted-foreground">
+                {{ formatDate(doc.uploadedAt) }}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-right text-sm">
+                <button
+                  (click)="deleteDocument(doc.id)"
+                  [disabled]="deletingId() === doc.id"
+                  class="text-red-600 hover:text-red-700 disabled:opacity-50"
+                >
+                  {{ deletingId() === doc.id ? 'Deleting...' : 'Delete' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+<!-- Create Folder Modal -->
+@if (showCreateFolderModal()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50" (click)="showCreateFolderModal.set(false)">
+    <div class="w-full max-w-md rounded-xl bg-card p-6 shadow-xl" (click)="$event.stopPropagation()">
+      <h3 class="mb-4 text-lg font-semibold text-foreground">Create New Folder</h3>
+      <input
+        type="text"
+        [value]="newFolderName()"
+        (input)="newFolderName.set($any($event.target).value)"
+        placeholder="Folder name"
+        class="w-full rounded-lg border border-border bg-background px-4 py-2 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+      />
+      <div class="mt-6 flex justify-end gap-3">
+        <button
+          (click)="showCreateFolderModal.set(false)"
+          class="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
+        >
+          Cancel
+        </button>
+        <button
+          (click)="createFolder()"
+          [disabled]="!newFolderName().trim()"
+          class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 disabled:opacity-50"
+        >
+          Create
+        </button>
+      </div>
+    </div>
+  </div>
+}

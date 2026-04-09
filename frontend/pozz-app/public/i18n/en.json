@@ -15,7 +15,16 @@
     "investors": "Investors",
     "investments": "Investments",
     "projects": "Projects",
+    "tasks": "Tasks",
+    "documents": "Documents",
+    "calendar": "Calendar",
+    "emails": "Emails",
+    "captable": "Cap Table",
+    "workflows": "Workflows",
+    "proposals": "Proposals",
+    "activity": "Activity",
     "messages": "Messages",
+    "notifications": "Notifications",
     "settings": "Settings"
   },
   "auth": {

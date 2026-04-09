@@ -1,0 +1,76 @@
+<div class="relative">
+  <!-- Bell button -->
+  <button
+    (click)="toggleDropdown()"
+    class="relative rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+      <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+    </svg>
+    @if (unreadCount() > 0) {
+      <span class="absolute -top-0.5 -right-0.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+        {{ unreadCount() }}
+      </span>
+    }
+  </button>
+
+  <!-- Dropdown -->
+  @if (isOpen()) {
+    <div class="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-lg border border-border bg-card shadow-lg">
+      <div class="flex items-center justify-between border-b border-border px-4 py-3">
+        <h3 class="text-sm font-semibold text-foreground">Notifications</h3>
+        @if (unreadCount() > 0) {
+          <button
+            (click)="markAllAsRead()"
+            class="text-xs text-primary hover:underline"
+          >
+            Mark all read
+          </button>
+        }
+      </div>
+
+      <div class="max-h-96 overflow-y-auto">
+        @if (loading()) {
+          <div class="flex items-center justify-center py-8">
+            <div class="size-6 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+          </div>
+        } @else if (notifications().length === 0) {
+          <div class="px-4 py-8 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"  class="mx-auto size-8 text-muted-foreground">
+              <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+            </svg>
+            <p class="mt-2 text-sm text-muted-foreground">No notifications</p>
+          </div>
+        } @else {
+          @for (notif of notifications(); track notif.id) {
+            <a
+              [routerLink]="notif.actionUrl || null"
+              (click)="markAsRead(notif, $event)"
+              [class]="'flex border-b border-border px-4 py-3 transition-colors ' + 
+                       (notif.actionUrl ? 'cursor-pointer hover:bg-muted ' : '') + 
+                       (!notif.isRead ? getTypeBg(notif.type) : 'bg-background')"
+            >
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-foreground">{{ notif.title }}</p>
+                <p class="mt-0.5 text-xs text-muted-foreground line-clamp-2">{{ notif.message }}</p>
+                <p class="mt-1 text-xs text-muted-foreground">{{ getTimeAgo(notif.createdAt) }}</p>
+              </div>
+              @if (!notif.isRead) {
+                <div class="ml-2 mt-1 size-2 shrink-0 rounded-full bg-primary"></div>
+              }
+            </a>
+          }
+        }
+      </div>
+
+      <div class="border-t border-border">
+        <a
+          [routerLink]="['/' + locale + '/dashboard/notifications']"
+          class="block px-4 py-2.5 text-center text-xs font-medium text-primary hover:bg-muted"
+        >
+          View all notifications
+        </a>
+      </div>
+    </div>
+  }
+</div>
