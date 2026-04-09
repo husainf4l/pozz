@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { InvestmentService } from '../../core/services/investment.service';
 import { Investment, getInstrumentLabel, getPaymentStatusLabel, getPaymentStatusBadgeColor, getInvestmentStatusLabel, getInvestmentStatusBadgeColor } from '../../core/models/investment.models';
 
@@ -9,7 +9,7 @@ type TabType = 'overview' | 'payments' | 'documents' | 'activity';
 @Component({
   selector: 'app-investment-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './investment-detail.html',
 })
 export class InvestmentDetailComponent implements OnInit {
@@ -69,8 +69,9 @@ export class InvestmentDetailComponent implements OnInit {
   }
 
   onEdit(): void {
-    // TODO: Navigate to edit page or open edit modal
-    console.log('Edit investment:', this.investment()?.id);
+    if (this.investment()?.id) {
+      this.router.navigate(['/dashboard/investments', this.investment()!.id, 'edit']);
+    }
   }
 
   onDelete(): void {

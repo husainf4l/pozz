@@ -36,33 +36,121 @@ export const routes: Routes = [
           },
           {
             path: 'investors',
-            loadComponent: () =>
-              import('./dashboard/investors/investors').then((m) => m.InvestorsComponent),
-            title: 'Investors – Pozz',
-          },
-          {
-            path: 'investors/:id',
-            loadComponent: () =>
-              import('./dashboard/investors/investor-detail').then((m) => m.InvestorDetailComponent),
-            title: 'Investor Details – Pozz',
+            children: [
+              {
+                path: '',
+                loadComponent: () =>
+                  import('./dashboard/investors/investors').then((m) => m.InvestorsComponent),
+                title: 'Investors – Pozz',
+              },
+              {
+                path: 'new',
+                loadComponent: () =>
+                  import('./dashboard/investors/investor-form').then((m) => m.InvestorFormComponent),
+                title: 'Add Investor – Pozz',
+              },
+              {
+                path: ':id/edit',
+                loadComponent: () =>
+                  import('./dashboard/investors/investor-form').then((m) => m.InvestorFormComponent),
+                title: 'Edit Investor – Pozz',
+              },
+              {
+                path: ':id',
+                loadComponent: () =>
+                  import('./dashboard/investors/investor-detail').then((m) => m.InvestorDetailComponent),
+                title: 'Investor Details – Pozz',
+              },
+            ],
           },
           {
             path: 'investments',
-            loadComponent: () =>
-              import('./dashboard/investments/investments').then((m) => m.InvestmentsComponent),
-            title: 'Investments – Pozz',
-          },
-          {
-            path: 'investments/:id',
-            loadComponent: () =>
-              import('./dashboard/investments/investment-detail').then((m) => m.InvestmentDetailComponent),
-            title: 'Investment Details – Pozz',
+            children: [
+              {
+                path: '',
+                loadComponent: () =>
+                  import('./dashboard/investments/investments').then((m) => m.InvestmentsComponent),
+                title: 'Investments – Pozz',
+              },
+              {
+                path: 'new',
+                loadComponent: () =>
+                  import('./dashboard/investments/investment-form').then((m) => m.InvestmentFormComponent),
+                title: 'Record Investment – Pozz',
+              },
+              {
+                path: ':id/edit',
+                loadComponent: () =>
+                  import('./dashboard/investments/investment-form').then((m) => m.InvestmentFormComponent),
+                title: 'Edit Investment – Pozz',
+              },
+              {
+                path: ':id',
+                loadComponent: () =>
+                  import('./dashboard/investments/investment-detail').then((m) => m.InvestmentDetailComponent),
+                title: 'Investment Details – Pozz',
+              },
+            ],
           },
           {
             path: 'projects',
             loadComponent: () =>
               import('./dashboard/projects/projects').then((m) => m.ProjectsComponent),
             title: 'Projects – Pozz',
+          },
+          {
+            path: 'tasks',
+            loadComponent: () =>
+              import('./dashboard/tasks/tasks').then((m) => m.TasksComponent),
+            title: 'Tasks – Pozz',
+          },
+          {
+            path: 'documents',
+            loadComponent: () =>
+              import('./dashboard/documents/documents').then((m) => m.DocumentsComponent),
+            title: 'Documents – Pozz',
+          },
+          {
+            path: 'calendar',
+            loadComponent: () =>
+              import('./dashboard/calendar/calendar').then((m) => m.CalendarComponent),
+            title: 'Calendar – Pozz',
+          },
+          {
+            path: 'emails',
+            loadComponent: () =>
+              import('./dashboard/emails/emails').then((m) => m.EmailsComponent),
+            title: 'Emails – Pozz',
+          },
+          {
+            path: 'captable',
+            loadComponent: () =>
+              import('./dashboard/captable/captable').then((m) => m.CaptableComponent),
+            title: 'Cap Table – Pozz',
+          },
+          {
+            path: 'workflows',
+            loadComponent: () =>
+              import('./dashboard/workflows/workflows').then((m) => m.WorkflowsComponent),
+            title: 'Workflows – Pozz',
+          },
+          {
+            path: 'proposals',
+            loadComponent: () =>
+              import('./dashboard/proposals/proposals').then((m) => m.ProposalsComponent),
+            title: 'Proposals – Pozz',
+          },
+          {
+            path: 'activity',
+            loadComponent: () =>
+              import('./dashboard/activity/activity').then((m) => m.ActivityComponent),
+            title: 'Activity – Pozz',
+          },
+          {
+            path: 'notifications',
+            loadComponent: () =>
+              import('./dashboard/notifications/notifications').then((m) => m.NotificationsComponent),
+            title: 'Notifications – Pozz',
           },
           {
             path: 'messages',

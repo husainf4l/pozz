@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { InvestorService } from '../../core/services/investor.service';
 import { InvestmentService } from '../../core/services/investment.service';
 import { Investor, getPipelineStageLabel, getInvestorTypeLabel, getPriorityLabel, getPriorityColor } from '../../core/models/investor.models';
@@ -11,7 +11,7 @@ type TabType = 'overview' | 'investments' | 'communications' | 'documents';
 @Component({
   selector: 'app-investor-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './investor-detail.html',
 })
 export class InvestorDetailComponent implements OnInit {
@@ -84,8 +84,9 @@ export class InvestorDetailComponent implements OnInit {
   }
 
   onEdit(): void {
-    // TODO: Navigate to edit page or open edit modal
-    console.log('Edit investor:', this.investor()?.id);
+    if (this.investor()?.id) {
+      this.router.navigate(['/dashboard/investors', this.investor()!.id, 'edit']);
+    }
   }
 
   onDelete(): void {

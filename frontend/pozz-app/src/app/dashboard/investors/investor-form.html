@@ -1,0 +1,334 @@
+<div class="mx-auto max-w-4xl">
+  <!-- Header -->
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold tracking-tight text-foreground">
+      {{ isEditMode() ? 'Edit Investor' : 'Add New Investor' }}
+    </h1>
+    <p class="mt-1 text-sm text-muted-foreground">
+      {{ isEditMode() ? 'Update investor information and pipeline status' : 'Enter investor details to add them to your pipeline' }}
+    </p>
+  </div>
+
+  <!-- Error Message -->
+  @if (error()) {
+    <div class="mb-6 rounded-lg border border-destructive/50 bg-destructive/10 p-4">
+      <p class="text-sm text-destructive">{{ error() }}</p>
+    </div>
+  }
+
+  <!-- Loading State -->
+  @if (loading() && isEditMode()) {
+    <div class="flex items-center justify-center py-12">
+      <div class="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+    </div>
+  }
+
+  <!-- Form -->
+  @if (!loading() || !isEditMode()) {
+    <form [formGroup]="investorForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      
+      <!-- Basic Information -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Basic Information</h2>
+        
+        <div class="grid gap-4 md:grid-cols-2">
+          <!-- Investor Type -->
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">
+              Investor Type <span class="text-destructive">*</span>
+            </label>
+            <select
+              formControlName="investorType"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              @for (type of investorTypes; track type) {
+                <option [value]="type">{{ getInvestorTypeLabel(type) }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Pipeline Stage -->
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">
+              Pipeline Stage
+            </label>
+            <select
+              formControlName="pipelineStage"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              @for (stage of pipelineStages; track stage) {
+                <option [value]="stage">{{ getPipelineStageLabel(stage) }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Priority -->
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">
+              Priority
+            </label>
+            <select
+              formControlName="priority"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              @for (p of priorities; track p) {
+                <option [value]="p">{{ getPriorityLabel(p) }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Active Status -->
+          <div class="flex items-center gap-3 pt-7">
+            <input
+              type="checkbox"
+              formControlName="isActive"
+              id="isActive"
+              class="size-4 rounded border-input text-primary focus:ring-2 focus:ring-ring"
+            />
+            <label for="isActive" class="text-sm font-medium text-foreground">
+              Active Investor
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Contact Information</h2>
+        
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Email</label>
+            <input
+              type="email"
+              formControlName="primaryEmail"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="investor@example.com"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Phone</label>
+            <input
+              type="tel"
+              formControlName="primaryPhone"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="+1 (555) 123-4567"
+            />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-foreground mb-2">Address Line 1</label>
+            <input
+              type="text"
+              formControlName="addressLine1"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="123 Main Street"
+            />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-foreground mb-2">Address Line 2</label>
+            <input
+              type="text"
+              formControlName="addressLine2"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="Apartment, suite, etc."
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">City</label>
+            <input
+              type="text"
+              formControlName="city"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="San Francisco"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Country</label>
+            <input
+              type="text"
+              formControlName="country"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="United States"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Postal Code</label>
+            <input
+              type="text"
+              formControlName="postalCode"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="94102"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Professional Details -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Professional Details</h2>
+        
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Position/Title</label>
+            <input
+              type="text"
+              formControlName="position"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="Managing Partner"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Years of Experience</label>
+            <input
+              type="number"
+              formControlName="yearsOfExperience"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="10"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">LinkedIn URL</label>
+            <input
+              type="url"
+              formControlName="linkedInUrl"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="https://linkedin.com/in/..."
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Website</label>
+            <input
+              type="url"
+              formControlName="website"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="https://example.com"
+            />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-foreground mb-2">Bio</label>
+            <textarea
+              formControlName="bio"
+              rows="3"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="Brief background and expertise..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Investment Profile -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Investment Profile</h2>
+        
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Investment Range</label>
+            <input
+              type="text"
+              formControlName="investmentRange"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="$50K - $500K"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Total Investments</label>
+            <input
+              type="number"
+              formControlName="totalInvestments"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="25"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Potential Investment Amount</label>
+            <input
+              type="number"
+              formControlName="potentialInvestmentAmount"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="100000"
+            />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-foreground mb-2">Portfolio Companies</label>
+            <textarea
+              formControlName="portfolioCompanies"
+              rows="2"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="List of portfolio companies..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pipeline Tracking -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Pipeline Tracking</h2>
+        
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Last Contact Date</label>
+            <input
+              type="date"
+              formControlName="lastContactDate"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Next Follow-up Date</label>
+            <input
+              type="date"
+              formControlName="nextFollowUpDate"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-foreground mb-2">Notes</label>
+            <textarea
+              formControlName="notes"
+              rows="4"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="Internal notes about this investor..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex items-center justify-end gap-3">
+        <button
+          type="button"
+          (click)="onCancel()"
+          [disabled]="loading()"
+          class="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-50"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          [disabled]="loading() || investorForm.invalid"
+          class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+        >
+          @if (loading()) {
+            <div class="size-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
+          }
+          {{ isEditMode() ? 'Update Investor' : 'Create Investor' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

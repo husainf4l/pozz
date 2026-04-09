@@ -1,0 +1,415 @@
+<div class="mx-auto max-w-4xl">
+  <!-- Header -->
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold tracking-tight text-foreground">
+      {{ isEditMode() ? 'Edit Investment' : 'Record New Investment' }}
+    </h1>
+    <p class="mt-1 text-sm text-muted-foreground">
+      {{ isEditMode() ? 'Update investment details and payment information' : 'Enter investment details to track commitments and payments' }}
+    </p>
+  </div>
+
+  <!-- Error Message -->
+  @if (error()) {
+    <div class="mb-6 rounded-lg border border-destructive/50 bg-destructive/10 p-4">
+      <p class="text-sm text-destructive">{{ error() }}</p>
+    </div>
+  }
+
+  <!-- Loading State -->
+  @if (loading() && isEditMode()) {
+    <div class="flex items-center justify-center py-12">
+      <div class="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+    </div>
+  }
+
+  <!-- Form -->
+  @if (!loading() || !isEditMode()) {
+    <form [formGroup]="investmentForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      
+      <!-- Basic Information -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Basic Information</h2>
+        
+        <div class="grid gap-4 md:grid-cols-2">
+          <!-- Investor -->
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-foreground mb-2">
+              Investor <span class="text-destructive">*</span>
+            </label>
+            @if (loadingInvestors()) {
+              <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                <div class="size-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+                Loading investors...
+              </div>
+            } @else {
+              <select
+                formControlName="investorId"
+                class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              >
+                <option [value]="null">Select an investor</option>
+                @for (investor of investors(); track investor.id) {
+                  <option [value]="investor.id">{{ investor.userFullName }} ({{ investor.userEmail }})</option>
+                }
+              </select>
+            }
+          </div>
+
+          <!-- Committed Amount -->
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">
+              Committed Amount <span class="text-destructive">*</span>
+            </label>
+            <input
+              type="number"
+              formControlName="committedAmount"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="100000"
+              min="0"
+            />
+          </div>
+
+          <!-- Paid Amount -->
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Paid Amount</label>
+            <input
+              type="number"
+              formControlName="paidAmount"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="50000"
+              min="0"
+            />
+          </div>
+
+          <!-- Equity Percentage -->
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">
+              Equity Percentage <span class="text-destructive">*</span>
+            </label>
+            <input
+              type="number"
+              formControlName="equityPercentage"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="5.0"
+              min="0"
+              max="100"
+              step="0.01"
+            />
+          </div>
+
+          <!-- Instrument -->
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Instrument Type</label>
+            <select
+              formControlName="instrument"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              @for (inst of instruments; track inst) {
+                <option [value]="inst">{{ getInstrumentLabel(inst) }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Payment Status -->
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Payment Status</label>
+            <select
+              formControlName="paymentStatus"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              @for (status of paymentStatuses; track status) {
+                <option [value]="status">{{ getPaymentStatusLabel(status) }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Investment Status -->
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Investment Status</label>
+            <select
+              formControlName="status"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              @for (status of statuses; track status) {
+                <option [value]="status">{{ getInvestmentStatusLabel(status) }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dates -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Important Dates</h2>
+        
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">
+              Commitment Date <span class="text-destructive">*</span>
+            </label>
+            <input
+              type="date"
+              formControlName="commitmentDate"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Closing Date</label>
+            <input
+              type="date"
+              formControlName="closingDate"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">First Payment Date</label>
+            <input
+              type="date"
+              formControlName="firstPaymentDate"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Final Payment Date</label>
+            <input
+              type="date"
+              formControlName="finalPaymentDate"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Maturity Date</label>
+            <input
+              type="date"
+              formControlName="maturityDate"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- SAFE / Convertible Note Terms -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">SAFE / Convertible Note Terms</h2>
+        
+        <div class="grid gap-4 md:grid-cols-3">
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Valuation Cap</label>
+            <input
+              type="number"
+              formControlName="valuationCap"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="5000000"
+              min="0"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Discount Rate (%)</label>
+            <input
+              type="number"
+              formControlName="discountRate"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="20"
+              min="0"
+              max="100"
+              step="0.1"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Interest Rate (%)</label>
+            <input
+              type="number"
+              formControlName="interestRate"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="5"
+              min="0"
+              max="100"
+              step="0.1"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Investment Terms -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Investment Terms</h2>
+        
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Liquidation Preference Multiple</label>
+            <input
+              type="number"
+              formControlName="liquidationPreferenceMultiple"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="1.0"
+              min="0"
+              step="0.1"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Anti-Dilution Type</label>
+            <input
+              type="text"
+              formControlName="antiDilutionType"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="Weighted Average"
+            />
+          </div>
+
+          <div class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              formControlName="hasBoardSeat"
+              id="hasBoardSeat"
+              class="size-4 rounded border-input text-primary focus:ring-2 focus:ring-ring"
+            />
+            <label for="hasBoardSeat" class="text-sm font-medium text-foreground">Board Seat</label>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              formControlName="hasVetoRights"
+              id="hasVetoRights"
+              class="size-4 rounded border-input text-primary focus:ring-2 focus:ring-ring"
+            />
+            <label for="hasVetoRights" class="text-sm font-medium text-foreground">Veto Rights</label>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              formControlName="hasInformationRights"
+              id="hasInformationRights"
+              class="size-4 rounded border-input text-primary focus:ring-2 focus:ring-ring"
+            />
+            <label for="hasInformationRights" class="text-sm font-medium text-foreground">Information Rights</label>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              formControlName="isParticipating"
+              id="isParticipating"
+              class="size-4 rounded border-input text-primary focus:ring-2 focus:ring-ring"
+            />
+            <label for="isParticipating" class="text-sm font-medium text-foreground">Participating Preferred</label>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              formControlName="hasAntiDilution"
+              id="hasAntiDilution"
+              class="size-4 rounded border-input text-primary focus:ring-2 focus:ring-ring"
+            />
+            <label for="hasAntiDilution" class="text-sm font-medium text-foreground">Anti-Dilution Protection</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Documentation -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Documentation</h2>
+        
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Term Sheet URL</label>
+            <input
+              type="url"
+              formControlName="termSheetUrl"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="https://..."
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Agreement URL</label>
+            <input
+              type="url"
+              formControlName="agreementUrl"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="https://..."
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Share Certificate URL</label>
+            <input
+              type="url"
+              formControlName="shareCertificateUrl"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="https://..."
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Share Certificate Number</label>
+            <input
+              type="number"
+              formControlName="shareCertificateNumber"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="12345"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Information -->
+      <div class="rounded-lg border border-border bg-card p-6">
+        <h2 class="mb-4 text-lg font-semibold text-foreground">Additional Information</h2>
+        
+        <div class="grid gap-4">
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Internal Reference</label>
+            <input
+              type="text"
+              formControlName="internalReference"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="INV-2024-001"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-foreground mb-2">Notes</label>
+            <textarea
+              formControlName="notes"
+              rows="4"
+              class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              placeholder="Additional notes about this investment..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex items-center justify-end gap-3">
+        <button
+          type="button"
+          (click)="onCancel()"
+          [disabled]="loading()"
+          class="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-50"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          [disabled]="loading() || investmentForm.invalid"
+          class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+        >
+          @if (loading()) {
+            <div class="size-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
+          }
+          {{ isEditMode() ? 'Update Investment' : 'Create Investment' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>
